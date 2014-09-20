@@ -1,0 +1,11 @@
+## Interface: 50400
+## Title: Random Fortune
+## Notes: Posts a random fortune at periodic intervals
+## Author: sistersally of hyjal
+## Version: @VERSION@
+## Description: Posts a random fortune at periodic intervals
+## SavedVariables: RF_fortunes RF_options
+## SavedVariablesPerCharacter:
+
+RF.lua
+RF.xml

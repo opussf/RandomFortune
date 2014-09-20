@@ -1,0 +1,927 @@
+
+RF_fortunes = {
+	{
+		["fortune"] = "A smile is your passport into the hearts of others.",
+		["lastPost"] = 1345273038,
+	}, -- [1]
+	{
+		["fortune"] = "Any job, big or small; do it right, or not at all.",
+		["lastPost"] = 1344664890,
+	}, -- [2]
+	{
+		["fortune"] = "A mentor is someone whose hindsight can become your foresight.",
+		["lastPost"] = 1346746169,
+	}, -- [3]
+	{
+		["fortune"] = "To make dreams real, first you have to have them.",
+		["lastPost"] = 1344144730,
+	}, -- [4]
+	{
+		["fortune"] = "Men do not fail... they give up trying.",
+		["lastPost"] = 1345183512,
+	}, -- [5]
+	{
+		["fortune"] = "Your energy returns and you get things done.",
+		["lastPost"] = 1345420923,
+	}, -- [6]
+	{
+		["fortune"] = "Be broke or be wealthy, but never accept mediocity.",
+		["lastPost"] = 1342321608,
+	}, -- [7]
+	{
+		["fortune"] = "It rubs the lotion on its skin, or it gets the hose again.",
+		["lastPost"] = 1345350007,
+	}, -- [8]
+	{
+		["fortune"] = "If you are still hungry, have another fortune cookie.",
+		["lastPost"] = 1342930243,
+	}, -- [9]
+	{
+		["fortune"] = "Shoot for the moon! If you miss you will still be amongst the stars.",
+		["lastPost"] = 1342991864,
+	}, -- [10]
+	{
+		["fortune"] = "Your skill will accomplish what the force of many cannot.",
+		["lastPost"] = 1344151930,
+	}, -- [11]
+	{
+		["fortune"] = "You need to live authentically, and you can't ignore that.",
+		["lastPost"] = 1345406049,
+	}, -- [12]
+	{
+		["fortune"] = "You will soon be surrounded by good friends and laughter.",
+		["lastPost"] = 1345342519,
+	}, -- [13]
+	{
+		["fortune"] = "Nothing in the world is accomplished without passion.",
+		["lastPost"] = 1344804698,
+	}, -- [14]
+	{
+		["fortune"] = "If a person who has caused you pain and suffering has brought you, reconsider that person's value in your life",
+		["lastPost"] = 1344415788,
+	}, -- [15]
+	{
+		["fortune"] = "Don't wait for your ship to come in, swim out to it.",
+		["lastPost"] = 1345954965,
+	}, -- [16]
+	{
+		["fortune"] = "Don't just spend time, invest it.",
+		["lastPost"] = 1345524416,
+	}, -- [17]
+	{
+		["fortune"] = "You will have good luck and overcome many hardships.",
+		["lastPost"] = 1346730792,
+	}, -- [18]
+	{
+		["fortune"] = "Without a fail group, one cannot fully appreciate a good group.",
+		["lastPost"] = 1338362596,
+	}, -- [19]
+	{
+		["fortune"] = "Cooperate with those who have both know how and integrith.",
+		["lastPost"] = 1346909615,
+	}, -- [20]
+	{
+		["fortune"] = "A bargain is something you don't need at a price you can't resist.",
+		["lastPost"] = 1342303293,
+	}, -- [21]
+	{
+		["fortune"] = "Your emotional currents are flowing powerfully now.",
+		["lastPost"] = 1346911415,
+	}, -- [22]
+	{
+		["fortune"] = "Change your thoughts and you change the world.",
+		["lastPost"] = 1346819257,
+	}, -- [23]
+	{
+		["fortune"] = "Working hard will make you live a happy life.",
+		["lastPost"] = 1342244807,
+	}, -- [24]
+	{
+		["fortune"] = "Working out the kinks today will make for a better tomorrow.",
+		["lastPost"] = 1345346407,
+	}, -- [25]
+	{
+		["fortune"] = "Eat something you never tried before.",
+		["lastPost"] = 1344148330,
+	}, -- [26]
+	{
+		["fortune"] = "Live each day well and wisely.",
+		["lastPost"] = 1344918650,
+	}, -- [27]
+	{
+		["fortune"] = "Stop searching forever. Happiness is just next to you.",
+		["lastPost"] = 1346003757,
+	}, -- [28]
+	{
+		["fortune"] = "All comes at the proper time to him who knows how to wait.",
+		["lastPost"] = 1341769685,
+	}, -- [29]
+	{
+		["fortune"] = "You may be disappointed if you fail, but you are doomed if you don't try.",
+		["lastPost"] = 1346726548,
+	}, -- [30]
+	{
+		["fortune"] = "The greatest precept is continual awareness.",
+		["lastPost"] = 1346716516,
+	}, -- [31]
+	{
+		["fortune"] = "Do not upset the penguin today.",
+		["lastPost"] = 1345419123,
+	}, -- [32]
+	{
+		["fortune"] = "Old friends, old wines and old gold are best.",
+		["lastPost"] = 1341814916,
+	}, -- [33]
+	{
+		["fortune"] = "Your life becomes more and more of an adventure!",
+		["lastPost"] = 1345934214,
+	}, -- [34]
+	{
+		["fortune"] = "When fire and water go to war, water always wins.",
+		["lastPost"] = 1346741714,
+	}, -- [35]
+	{
+		["fortune"] = "You can't go down the right path with out first discovering the path to go down.",
+		["lastPost"] = 1345692897,
+	}, -- [36]
+	{
+		["fortune"] = "Better be the head of a chicken than the tail of an ox.",
+		["lastPost"] = 1341166656,
+	}, -- [37]
+	{
+		["fortune"] = "Others enjoy your company.",
+		["lastPost"] = 1345428375,
+	}, -- [38]
+	{
+		["fortune"] = "You are cautious in showing your true self to others.",
+		["lastPost"] = 1345424773,
+	}, -- [39]
+	{
+		["fortune"] = "Today is the tomorrow we worried about yesterday.",
+		["lastPost"] = 1346739914,
+	}, -- [40]
+	{
+		["fortune"] = "Over self-confidence is equal to being blind.",
+		["lastPost"] = 1339733262,
+	}, -- [41]
+	{
+		["fortune"] = "It is bad form to kill your partner in a sporting duel.",
+		["lastPost"] = 1344317476,
+	}, -- [42]
+	{
+		["fortune"] = "There is a zombie on your lawn.",
+		["lastPost"] = 1345960365,
+	}, -- [43]
+	{
+		["fortune"] = "Never shoot yourself in the foot while it's still in your mouth.",
+		["lastPost"] = 1344822523,
+	}, -- [44]
+	{
+		["fortune"] = "Never argue with an idiot. They will only bring you down to their level and then beat you with experience.",
+		["lastPost"] = 1343278056,
+	}, -- [45]
+	{
+		["fortune"] = "Never date someone crazier than yourself.",
+		["lastPost"] = 1345404249,
+	}, -- [46]
+	{
+		["fortune"] = "Children and hot fluids should be kept apart.",
+		["lastPost"] = 1344572992,
+	}, -- [47]
+	{
+		["fortune"] = "You will go on a journey happy long time.",
+		["lastPost"] = 1346822857,
+	}, -- [48]
+	{
+		["fortune"] = "I have doobie in my funk.",
+		["lastPost"] = 1344714845,
+	}, -- [49]
+	{
+		["fortune"] = "When you ask for trouble, you should not be surprised when it finds you.",
+		["lastPost"] = 1337849861,
+	}, -- [50]
+	{
+		["fortune"] = "If it ain't broken, don't fix it.",
+		["lastPost"] = 1344193560,
+	}, -- [51]
+	{
+		["fortune"] = "You have a keen sense of humor and love a good time.",
+		["lastPost"] = 1344315676,
+	}, -- [52]
+	{
+		["fortune"] = "You desire recognition and you will find it.",
+		["lastPost"] = 1345705160,
+	}, -- [53]
+	{
+		["fortune"] = "Destiny dressed you this morning my friend, and now Fear is trying to pull off your pants. If you give up, if you give in, you're gonna end up naked with Fear just standing there laughing at your dangling unmentionables!",
+		["lastPost"] = 1306786643,
+	}, -- [54]
+	{
+		["fortune"] = "Death is nature's way of saying: Start over.",
+		["lastPost"] = 1341091032,
+	}, -- [55]
+	{
+		["fortune"] = "A light heart carries you through all the hard times.",
+		["lastPost"] = 1345875133,
+	}, -- [56]
+	{
+		["fortune"] = "Failure is opportunity in disguise.",
+		["lastPost"] = 1343603393,
+	}, -- [57]
+	{
+		["fortune"] = "Dispel negativity through creative activities.",
+		["lastPost"] = 1345438909,
+	}, -- [58]
+	{
+		["fortune"] = "The future looks cataclysmic.",
+		["lastPost"] = 1346736314,
+	}, -- [59]
+	{
+		["fortune"] = "Epics are like children: none are so wonderful as your own.",
+		["lastPost"] = 1340169824,
+	}, -- [60]
+	{
+		["fortune"] = "A light heart carries you through bad Battlegrounds.",
+		["lastPost"] = 1338958934,
+	}, -- [61]
+	{
+		["fortune"] = "You will receive a gift from someone you hate.",
+		["lastPost"] = 1342296093,
+	}, -- [62]
+	{
+		["fortune"] = "You can't spell manslaughter without laughter.",
+		["lastPost"] = 1345787168,
+	}, -- [63]
+	{
+		["fortune"] = "He who expects a wipe will never be disappointed.",
+		["lastPost"] = 1344655191,
+	}, -- [64]
+	{
+		["fortune"] = "The path of the faceroller is not the path to wisdom.",
+		["lastPost"] = 1346907815,
+	}, -- [65]
+	{
+		["fortune"] = "It's not what you know but what you USE of what you know that counts.",
+		["lastPost"] = 1345956765,
+	}, -- [66]
+	{
+		["fortune"] = "It's up to you to make the next move.",
+		["lastPost"] = 1346732592,
+	}, -- [67]
+	{
+		["fortune"] = "If you can't excel with talent, triumph with effort.",
+		["lastPost"] = 1344729099,
+	}, -- [68]
+	{
+		["fortune"] = "If you care enough for a result, you will most certainly attain it.",
+		["lastPost"] = 1346712916,
+	}, -- [69]
+	{
+		["fortune"] = "The quotes that you do not understand, are not meant for you.",
+		["lastPost"] = 1344808298,
+	}, -- [70]
+	{
+		["fortune"] = "Go confidently in the direction of your dreams.",
+		["lastPost"] = 1346012152,
+	}, -- [71]
+	{
+		["fortune"] = "Help, I'm prisoner in a Chinese bakery!!!",
+		["lastPost"] = 1339312309,
+	}, -- [72]
+	{
+		["fortune"] = "A golden egg of opportunity falls into your lap this month.",
+		["lastPost"] = 1344734499,
+	}, -- [73]
+	{
+		["fortune"] = "Love will find a way through paths where wolves fear to prey.",
+		["lastPost"] = 1345962165,
+	}, -- [74]
+	{
+		["fortune"] = "It's about time I got out of that cookie.",
+		["lastPost"] = 1346738114,
+	}, -- [75]
+	{
+		["fortune"] = "Failure is still feedback, and feedback is the breakfast of champions.",
+		["lastPost"] = 1346816496,
+	}, -- [76]
+	{
+		["fortune"] = "A rainbow is not achieved before the rain.",
+		["lastPost"] = 1345318861,
+	}, -- [77]
+	{
+		["fortune"] = "Affirm it, visualize it, believe it, and it will actualize itself.",
+		["lastPost"] = 1343522983,
+	}, -- [78]
+	{
+		["fortune"] = "Life is hard; it's harder if you're stupid. - John Wayne",
+		["lastPost"] = 1344319276,
+	}, -- [79]
+	{
+		["fortune"] = "Keep a green tree in your heart, and one day the singing bird will come.",
+		["lastPost"] = 1342395530,
+	}, -- [80]
+	{
+		["fortune"] = "If you look in the right places, you can find some good offerings.",
+		["lastPost"] = 1336104525,
+	}, -- [81]
+	{
+		["fortune"] = "If your cookie is in 3 pieces, the answer is no.",
+		["lastPost"] = 1341807716,
+	}, -- [82]
+	{
+		["fortune"] = "The sun will shine tomorrow.",
+		["lastPost"] = 1344489789,
+	}, -- [83]
+	{
+		["fortune"] = "When life gives you lemons, pay for repair costs.",
+		["lastPost"] = 1337491572,
+	}, -- [84]
+	{
+		["fortune"] = "The road to Blackrock Mountain is paved with good intentions.",
+		["lastPost"] = 1342928443,
+	}, -- [85]
+	{
+		["fortune"] = "Your outlook look bright, unless you run into Deathwing.",
+		["lastPost"] = 1344216265,
+	}, -- [86]
+	{
+		["fortune"] = "You will live a long, happy life with many resurrections along the way.",
+		["lastPost"] = 1344920450,
+	}, -- [87]
+	{
+		["fortune"] = "You will give someone a piece of your mind, which you can ill afford.",
+		["lastPost"] = 1345529816,
+	}, -- [88]
+	{
+		["fortune"] = "Now is the time to make circles with mints. Do not make haste any longer.",
+		["lastPost"] = 1342762027,
+	}, -- [89]
+	{
+		["fortune"] = "Experience, honor points and faction reputation are in the days ahead.",
+		["lastPost"] = 1345612860,
+	}, -- [90]
+	{
+		["fortune"] = "You'll never know until you loot.",
+		["lastPost"] = 1345176312,
+	}, -- [91]
+	{
+		["fortune"] = "Never stand in the shadow of dragons.",
+		["lastPost"] = 1345943214,
+	}, -- [92]
+	{
+		["fortune"] = "Never meddle in the affairs of dragons, for you are cruncy and tasty with ketchup.",
+		["lastPost"] = 1345788968,
+	}, -- [93]
+	{
+		["fortune"] = "You really should've looted that spider.",
+		["lastPost"] = 1344826123,
+	}, -- [94]
+	{
+		["fortune"] = "Your future is clouded with a purple rain.",
+		["lastPost"] = 1345413564,
+	}, -- [95]
+	{
+		["fortune"] = "Our greatest glory is not in never falling but in rising every time we fall.",
+		["lastPost"] = 1341100315,
+	}, -- [96]
+	{
+		["fortune"] = "It's over your head now. Time to get some professional help.",
+		["lastPost"] = 1345409831,
+	}, -- [97]
+	{
+		["fortune"] = "Today is a disastrous day. If you can't beat 'em, join 'em.",
+		["lastPost"] = 1345220221,
+	}, -- [98]
+	{
+		["fortune"] = "The ultimate test of a relationship is to disagree but to hold hands.",
+		["lastPost"] = 1346748382,
+	}, -- [99]
+	{
+		["fortune"] = "All that glitters is not gold. But you can sell it for gold most of the time.",
+		["lastPost"] = 1343599793,
+	}, -- [100]
+	{
+		["fortune"] = "The beginning of wisdom is to desire it. The end of wisdom is to theorycraft.",
+		["lastPost"] = 1337062034,
+	}, -- [101]
+	{
+		["fortune"] = "Your luck will soon be at a high point.",
+		["lastPost"] = 1346714716,
+	}, -- [102]
+	{
+		["fortune"] = "Your financial situation will soon be improving.",
+		["lastPost"] = 1344228558,
+	}, -- [103]
+	{
+		["fortune"] = "Your short term goal will soon be realized.",
+		["lastPost"] = 1346826457,
+	}, -- [104]
+	{
+		["fortune"] = "A friend asks for your time. A guild asks for your money.",
+		["lastPost"] = 1339302532,
+	}, -- [105]
+	{
+		["fortune"] = "Mistakes are the portals of discovery.",
+		["lastPost"] = 1342591824,
+	}, -- [106]
+	{
+		["fortune"] = "Listen to life, and you will hear the voice of life crying.",
+		["lastPost"] = 1343537211,
+	}, -- [107]
+	{
+		["fortune"] = "Kindness only comes in whole.",
+		["lastPost"] = 1341726761,
+	}, -- [108]
+	{
+		["fortune"] = "Mediocrity is self-inflicted. Genius is self-bestowed.",
+		["lastPost"] = 1345322461,
+	}, -- [109]
+	{
+		["fortune"] = "It's not the years in your life, but the life in your years that count.",
+		["lastPost"] = 1345271238,
+	}, -- [110]
+	{
+		["fortune"] = "If you don't stand for something, you'll fall for anything.",
+		["lastPost"] = 1346019352,
+	}, -- [111]
+	{
+		["fortune"] = "The Chuck Norris boss fight has 3 phases. 1. The pull phase. 2. The \"Oh crap I'm retarded\" phase, and 3. The roundhouse-kick to the face phase.",
+		["lastPost"] = 0,
+	}, -- [112]
+	{
+		["fortune"] = "Chuck Norris got his spectral tiger mount by beating up middle school students and stealing thier cards.",
+		["lastPost"] = 1344801098,
+	}, -- [113]
+	{
+		["fortune"] = "I spent the time prepare the song, while the song is not being sung.",
+		["lastPost"] = 1342297893,
+	}, -- [114]
+	{
+		["fortune"] = "I don't lie, the truth just keeps changing.",
+		["lastPost"] = 1345351807,
+	}, -- [115]
+	{
+		["fortune"] = "It is not the strong but the responsive that survive.",
+		["lastPost"] = 1346712364,
+	}, -- [116]
+	{
+		["fortune"] = "There is no fear any man can put into me, that my mother can't.",
+		["lastPost"] = 1337840861,
+	}, -- [117]
+	{
+		["fortune"] = "You ought to get out of those wet clothes... and into a dry martini",
+		["lastPost"] = 1342937443,
+	}, -- [118]
+	{
+		["fortune"] = "I love a martini - but two at the most. Three I'm under the table; four I'm under the host.",
+		["lastPost"] = 1341978175,
+	}, -- [119]
+	{
+		["fortune"] = "Happy Best Luck.",
+		["lastPost"] = 1344191760,
+	}, -- [120]
+	{
+		["fortune"] = "Go for it. You never know whom you might run into.",
+		["lastPost"] = 1345179912,
+	}, -- [121]
+	{
+		["fortune"] = "Failure is a dress rehearsal for success.",
+		["lastPost"] = 1344802898,
+	}, -- [122]
+	{
+		["fortune"] = "Every truly great accomplishment is at first impossible.",
+		["lastPost"] = 1346743514,
+	}, -- [123]
+	{
+		["fortune"] = "Happiness depends upon ourselves.",
+		["lastPost"] = 1346821057,
+	}, -- [124]
+	{
+		["fortune"] = "Don't build your happiness on other's sorrow.",
+		["lastPost"] = 1341987203,
+	}, -- [125]
+	{
+		["fortune"] = "One who promises to go on a blind date is bound on pickup.",
+		["lastPost"] = 1345417164,
+	}, -- [126]
+	{
+		["fortune"] = "I did not say it was safe, I said it was fun.",
+		["lastPost"] = 1345338919,
+	}, -- [127]
+	{
+		["fortune"] = "Some cause happiness wherever they go; others whenever they go.",
+		["lastPost"] = 1342164388,
+	}, -- [128]
+	{
+		["fortune"] = "My doctor told me to stop having intimate dinners for four unless there are three other people.",
+		["lastPost"] = 1346724748,
+	}, -- [129]
+	{
+		["fortune"] = "Make haste slowly.",
+		["lastPost"] = 1345694697,
+	}, -- [130]
+	{
+		["fortune"] = "Courtesy pays.",
+		["lastPost"] = 1344404234,
+	}, -- [131]
+	{
+		["fortune"] = "No one is standing in your way anymore, time to moving forward.",
+		["lastPost"] = 1345433509,
+	}, -- [132]
+	{
+		["fortune"] = "Anybody who goes to bed the same day they got up is a quitter.",
+		["lastPost"] = 1341111291,
+	}, -- [133]
+	{
+		["fortune"] = "Focus on your long-term goal. Success is soon yours!",
+		["lastPost"] = 1341168456,
+	}, -- [134]
+	{
+		["fortune"] = "Before you diagnose yourself with depression or low self-esteem, first make sure that you are not, in fact, simply surrounded by assholes.",
+		["lastPost"] = 0,
+	}, -- [135]
+	{
+		["fortune"] = "You outdistance all competitors.",
+		["lastPost"] = 1343367564,
+	}, -- [136]
+	{
+		["fortune"] = "Accept the next proposition you hear.",
+		["lastPost"] = 1343282886,
+	}, -- [137]
+	{
+		["fortune"] = "To one who waits, a moment seems a year.",
+		["lastPost"] = 1339385816,
+	}, -- [138]
+	{
+		["fortune"] = "Love is a roller coaster, it has its ups and downs.",
+		["lastPost"] = 1345614660,
+	}, -- [139]
+	{
+		["fortune"] = "He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.",
+		["lastPost"] = 1344396913,
+	}, -- [140]
+	{
+		["fortune"] = "Happier days are definitely ahead for you. Struggle has ended.",
+		["lastPost"] = 1342939243,
+	}, -- [141]
+	{
+		["fortune"] = "Remember three months from this date. Good things are in store for you.",
+		["lastPost"] = 1344402434,
+	}, -- [142]
+	{
+		["fortune"] = "The early bird gets the worm, but the second mouse gets the cheese.",
+		["lastPost"] = 1340986247,
+	}, -- [143]
+	{
+		["fortune"] = "You could make a name for yourself in the field of medicine.",
+		["lastPost"] = 1343964937,
+	}, -- [144]
+	{
+		["fortune"] = "Never cut what you can untie.",
+		["lastPost"] = 1345006494,
+	}, -- [145]
+	{
+		["fortune"] = "The wise are aware of their treasure, while fools follow their vanity.",
+		["lastPost"] = 1346001957,
+	}, -- [146]
+	{
+		["fortune"] = "Never trust a troll. Or a rogue. Expecially a troll rogue.",
+		["lastPost"] = 1345089700,
+	}, -- [147]
+	{
+		["fortune"] = "Bend the rod while it is still hot.",
+		["lastPost"] = 1345939614,
+	}, -- [148]
+	{
+		["fortune"] = "Do not mistake temptation for opportunity.",
+		["lastPost"] = 1343885975,
+	}, -- [149]
+	{
+		["fortune"] = "Most the time, it works all of the time!",
+		["lastPost"] = 1345526216,
+	}, -- [150]
+	{
+		["fortune"] = "Reality is so much more interesting than living happily ever after.",
+		["lastPost"] = 1345355407,
+	}, -- [151]
+	{
+		["fortune"] = "School boy who play with school girl during wrong period get caught red handed.",
+		["lastPost"] = 1342990064,
+	}, -- [152]
+	{
+		["fortune"] = "Good things take a long time, bad things happen in the blink of on eye.",
+		["lastPost"] = 1345437109,
+	}, -- [153]
+	{
+		["fortune"] = "So many rabbits.",
+		["lastPost"] = 1346721916,
+	}, -- [154]
+	{
+		["fortune"] = "Living is like licking honey off of a thorn.",
+		["lastPost"] = 1338967934,
+	}, -- [155]
+	{
+		["fortune"] = "You have a good eye for spotting hypocrisy.",
+		["lastPost"] = 1343970342,
+	}, -- [156]
+	{
+		["fortune"] = "Happiness measures a person's real worth.",
+		["lastPost"] = 1346824657,
+	}, -- [157]
+	{
+		["fortune"] = "Experience is reflective like a still pool.",
+		["lastPost"] = 1345269438,
+	}, -- [158]
+	{
+		["fortune"] = "Eagles may soar, but weasels don't get sucked into jet engines.",
+		["lastPost"] = 1342844389,
+	}, -- [159]
+	{
+		["fortune"] = "You have an infinite number of lives, and you will need them.",
+		["lastPost"] = 1345415364,
+	}, -- [160]
+	{
+		["fortune"] = "When your mother told you not to be a slut, she spoke from experience.",
+		["lastPost"] = 1342915841,
+	}, -- [161]
+	{
+		["fortune"] = "Confidence is at a high.",
+		["lastPost"] = 1346718316,
+	}, -- [162]
+	{
+		["fortune"] = "Your windsome smile will be your sure protection.",
+		["lastPost"] = 1346728992,
+	}, -- [163]
+	{
+		["fortune"] = "Great thoughts come from the heart.",
+		["lastPost"] = 1342849129,
+	}, -- [164]
+	{
+		["fortune"] = "He who hurries cannot walk with dignity.",
+		["lastPost"] = 1344150130,
+	}, -- [165]
+	{
+		["fortune"] = "Do what you can with what you have, where you are.",
+		["lastPost"] = 1343542657,
+	}, -- [166]
+	{
+		["fortune"] = "Never argue with a fool.",
+		["lastPost"] = 1343798183,
+	}, -- [167]
+	{
+		["fortune"] = "No man is without enemies.",
+		["lastPost"] = 1346015752,
+	}, -- [168]
+	{
+		["fortune"] = "Express yourself: Don't hold back!",
+		["lastPost"] = 1345340719,
+	}, -- [169]
+	{
+		["fortune"] = "Reason should direct and appetite obey.",
+		["lastPost"] = 1345178112,
+	}, -- [170]
+	{
+		["fortune"] = "Use your enemy's hand to catch a snake.",
+		["lastPost"] = 1344142930,
+	}, -- [171]
+	{
+		["fortune"] = "I've enjoyed just about as much of this as I can stand.",
+		["lastPost"] = 1343369364,
+	}, -- [172]
+	{
+		["fortune"] = "You don't love a woman because she is beautiful, but she is beautiful because you love her.",
+		["lastPost"] = 1339272947,
+	}, -- [173]
+	{
+		["fortune"] = "There is nothing like the razor sharp tongue of a good friend to cut through the lies we tell ourselves.",
+		["lastPost"] = 1345941414,
+	}, -- [174]
+	{
+		["fortune"] = "Do not go where the path may lead, go instead where there is no path and leave a trail.",
+		["lastPost"] = 1346005557,
+	}, -- [175]
+	{
+		["fortune"] = "Girls are always running through my mind. They don't dare walk.",
+		["lastPost"] = 1346013952,
+	}, -- [176]
+	{
+		["fortune"] = "I have failed many times, and that's why I am a success.",
+		["lastPost"] = 1345435309,
+	}, -- [177]
+	{
+		["fortune"] = "When the going gets weird, the weird turn pro.",
+		["lastPost"] = 1345952552,
+	}, -- [178]
+	{
+		["fortune"] = "Of all the things I've lost, I miss my mind the most.",
+		["lastPost"] = 1346008552,
+	}, -- [179]
+	{
+		["fortune"] = "Women who seek to be equal with men lack ambition.",
+		["lastPost"] = 1342894315,
+	}, -- [180]
+	{
+		["fortune"] = "Honesty is the key to a relationship. If you can fake that, you're in.",
+		["lastPost"] = 1345426573,
+	}, -- [181]
+	{
+		["fortune"] = "Sometimes I think war is God's way of teaching us geography.",
+		["lastPost"] = 1344732699,
+	}, -- [182]
+	{
+		["fortune"] = "When I read about the evils of drinking, I gave up reading.",
+		["lastPost"] = 1338960734,
+	}, -- [183]
+	{
+		["fortune"] = "Anyone who attempts to generate random numbers by deterministic means is, of course, living in a state of sin.",
+		["lastPost"] = 1345790768,
+	}, -- [184]
+	{
+		["fortune"] = "Random violence is incredibly infectious.",
+		["lastPost"] = 1346913905,
+	}, -- [185]
+	{
+		["fortune"] = "Your instinct, rather than precision stabbing, is more about just random bludgeoning.",
+		["lastPost"] = 1344141130,
+	}, -- [186]
+	{
+		["fortune"] = "Me fail english? That unpossible.",
+		["lastPost"] = 1344663090,
+	}, -- [187]
+	{
+		["fortune"] = "None are more hopelessly enslaved than those who falsely believe they are free.",
+		["lastPost"] = 1345440709,
+	}, -- [188]
+	{
+		["fortune"] = "Always remember you are unique, just like everyone else.",
+		["lastPost"] = 1344827923,
+	}, -- [189]
+	{
+		["fortune"] = "Never take life seriously, nobody gets out alive anyway.",
+		["lastPost"] = 0,
+	}, -- [190]
+	{
+		["fortune"] = "A world without string is chaos.",
+		["lastPost"] = 1344108411,
+	}, -- [191]
+	{
+		["fortune"] = "A man can be happy with any woman as long as he does not love her",
+		["lastPost"] = 0,
+	}, -- [192]
+	{
+		["fortune"] = "Who, being loved, is poor?",
+		["lastPost"] = 1344567592,
+	}, -- [193]
+	{
+		["fortune"] = "Experience is the name every one gives to their mistakes.",
+		["lastPost"] = 1345337119,
+	}, -- [194]
+	{
+		["fortune"] = "Everything popular is wrong.",
+		["lastPost"] = 1345958565,
+	}, -- [195]
+	{
+		["fortune"] = "What is a cynic? A man who knows the price of everything and the value of nothing.",
+		["lastPost"] = 1346734514,
+	}, -- [196]
+	{
+		["fortune"] = "A man who does not think for himself does not think at all.",
+		["lastPost"] = 1338713710,
+	}, -- [197]
+	{
+		["fortune"] = "Nothing is so aggravating than calmness.",
+		["lastPost"] = 1345091559,
+	}, -- [198]
+	{
+		["fortune"] = "If you are not too long, I will wait here for you all my life.",
+		["lastPost"] = 1344236353,
+	}, -- [199]
+	{
+		["fortune"] = "The heart was made to be broken",
+		["lastPost"] = 1345320661,
+	}, -- [200]
+	{
+		["fortune"] = "True independence and freedom can only exist in doing what's right.",
+		["lastPost"] = 1342411239,
+	}, -- [201]
+	{
+		["fortune"] = "It is even better to act quickly and err than to hesitate until the time of action is past.",
+		["lastPost"] = 1345522616,
+	}, -- [202]
+	{
+		["fortune"] = "To secure peace is to prepare for war.",
+		["lastPost"] = 1342402730,
+	}, -- [203]
+	{
+		["fortune"] = "The backbone of surprise is fusing speed with secrecy",
+		["lastPost"] = 1343966742,
+	}, -- [204]
+	{
+		["fortune"] = "Principles and rules are intended to provide a thinking man with a frame of reference.",
+		["lastPost"] = 1344104811,
+	}, -- [205]
+	{
+		["fortune"] = "If you done it, it ain't bragging.",
+		["lastPost"] = 1345348207,
+	}, -- [206]
+	{
+		["fortune"] = "Their drills are bloodless battles, and their battles bloody drills.",
+		["lastPost"] = 1343711169,
+	}, -- [207]
+	{
+		["fortune"] = "The best times of your life have not yet been lived.",
+		["lastPost"] = 1343106517,
+	}, -- [208]
+	{
+		["fortune"] = "Friendship is love with understanding.",
+		["lastPost"] = 1341286519,
+	}, -- [209]
+	{
+		["fortune"] = "You have an ambitious nature and will make a name for yourself.",
+		["lastPost"] = 1342672333,
+	}, -- [210]
+	{
+		["fortune"] = "Use your charm and personality to obtain your wishes.",
+		["lastPost"] = 1341818516,
+	}, -- [211]
+	{
+		["fortune"] = "Cultivation to the mind is as necessary as food to the body.",
+		["lastPost"] = 1344203836,
+	}, -- [212]
+	{
+		["fortune"] = "Cut through organizational impediments and get some real work done.",
+		["lastPost"] = 1343534995,
+	}, -- [213]
+	{
+		["fortune"] = "Don't be hasty; prosperity will knock on your door soon.",
+		["lastPost"] = 1342988264,
+	}, -- [214]
+	{
+		["fortune"] = "New people will bring you new realizations, especially of big issues.",
+		["lastPost"] = 1343707569,
+	}, -- [215]
+	{
+		["fortune"] = "In great attempts it is glorious even to fail.",
+		["lastPost"] = 1343887775,
+	}, -- [216]
+	{
+		["fortune"] = "Don't be hasty; prosperity will knock on your door soon.",
+		["lastPost"] = 1345353607,
+	}, -- [217]
+	{
+		["fortune"] = "Hard work without talent is a shame, but talent without hard work is a tragedy.",
+		["lastPost"] = 1345950752,
+	}, -- [218]
+	{
+		["fortune"] = "Let the sun shine on your soul.",
+		["lastPost"] = 1342311253,
+	}, -- [219]
+	{
+		["fortune"] = "Finish your works on hand. Don't be greedy.",
+		["lastPost"] = 1341549055,
+	}, -- [220]
+	{
+		["fortune"] = "He who enjoys doing and enjoys what he has done is happy.",
+		["lastPost"] = 0,
+	}, -- [221]
+	{
+		["fortune"] = "Facts are cheap, information is plentiful, knowledge is precious.",
+		["lastPost"] = 1345181712,
+	}, -- [222]
+	{
+		["fortune"] = "Action expresses priorities.",
+		["lastPost"] = 1346720116,
+	}, -- [223]
+	{
+		["fortune"] = "Life always gets harder near the summit.",
+		["lastPost"] = 0,
+	}, -- [224]
+	{
+		["fortune"] = "Knowing is not enough, we must apply. Willing is not enough, we must DO.",
+		["lastPost"] = 1344491589,
+	}, -- [225]
+	{
+		["fortune"] = "Those who seek will find.",
+		["lastPost"] = 0,
+	}, -- [226]
+	{
+		["fortune"] = "Desire, like the atom, is explosive with creative force.",
+		["lastPost"] = 0,
+	}, -- [227]
+	{
+		["fortune"] = "Many successes will accompany you this year.",
+		["lastPost"] = 0,
+	}, -- [228]
+	{
+		["fortune"] = "The future looks misty.",
+		["lastPost"] = 0,
+	}, -- [229]
+}
+RF_options = {
+	["enabled"] = true,
+	["emote"] = true,
+	["lotto"] = true,
+	["lastPost"] = 1346913905,
+	["delay"] = 1800,
+	["battleNet"] = true,
+}
