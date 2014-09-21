@@ -133,9 +133,10 @@ RF.CommandList = {
 	},
 	["delay"] = {
 		["func"] = function(param)
-				print( "param: "..(param or "nil").." ("..#param..") "..type(param) )
-				if (param) and (param ~= "") and (param*1 > 0) then
-					RF_options.delay = param*60;
+				param = tonumber(param)
+				--print( "param: "..(param or "nil").." ("..#param..") "..type(param) )
+				if param and param>0 then
+					RF_options.delay = param * 60;
 					RF.Print("Delay set to "..SecondsToTime(RF_options.delay));
 				end
 			end,
@@ -237,14 +238,11 @@ function RF.PostFortune()
 	if tableSize > 0 then
 		RF.oldestPost = time() - (RF_options.delay * tableSize);
 		tryLimit = 6;
-		repeat
+		repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
 			fortuneIdx = random(tableSize);
-			--RF.Print(date("%X %x",RF_fortunes[fortuneIdx].lastPost).." <=? "..date("%X %x",RF.oldestPost));
 			tryLimit = tryLimit - 1;
 		until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
-		--RF.Print(tableSize..":"..fortuneIdx);
 		local lottoNumbers = RF.MakeLuckyNumber();
-		--RF.Print("Length of message: "..string.len(RF_fortunes[fortuneIdx].fortune).."+"..string.len(lottoNumbers));
 		if RF_options.lotto then
 			RF.GuildPrint(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers));
 		else
