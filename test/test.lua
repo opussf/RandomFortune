@@ -26,7 +26,7 @@ end
 function test.testMakeLuckyNumber()
 	-- random is not
 	local ln = RF.MakeLuckyNumber()
-	assertEquals( "(1-7-38-23-27-11)", ln )
+	assertTrue( ln ~= nil )
 end
 function test.testNoFortunesDoesNotCrash()
 	RF_fortunes = {}
@@ -71,7 +71,6 @@ function test.testCommandWorks_delay_validDelay()
 	RF.Command( "delay 1") -- one is the smallest allowed value
 	assertEquals( 60, RF_options.delay, "Should be set to 60 seconds" )
 end
-
 function test.testCommandWorks_disable_disables()
 	RF.Command( "disable" )
 	assertIsNil( RF_options.enabled )
@@ -86,9 +85,6 @@ function test.testCommandWorks_now()
 	RF.Command( "now" )
 	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
 end
-
-
-
 
 
 test.run()
