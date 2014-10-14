@@ -8,7 +8,7 @@ addonData = {
 
 require "wowTest"
 
-test.outFileName = "../target/testOut.xml"
+test.outFileName = "testOut.xml"
 
 RFFrame = CreateFrame()
 
