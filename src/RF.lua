@@ -94,6 +94,11 @@ function RF.PrintStatus()
 	else
 		RF.Print("Do not say fortunes");
 	end
+	if RF_options.guild then
+		RF.Print("Say in guild")
+	else
+		RF.Print("Do not say in guild")
+	end
 	if RF_options.party and RF_options.say then
 		RF.Print("Prefer to say in party");
 	end

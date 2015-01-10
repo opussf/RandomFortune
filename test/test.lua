@@ -85,6 +85,8 @@ function test.testCommandWorks_now()
 	RF.Command( "now" )
 	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
 end
+function test.testGuild_ignoreSingle()
+end
 
 
 test.run()
