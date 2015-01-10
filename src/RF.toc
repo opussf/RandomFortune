@@ -1,7 +1,7 @@
 ## Interface: @INTERFACE@
 ## Title: Random Fortune
 ## Notes: Posts a random fortune at periodic intervals @VERSION@
-## Author: sistersally of hyjal
+## Author: opussf
 ## Version: @VERSION@
 ## Description: Posts a random fortune at periodic intervals
 ## SavedVariables: RF_fortunes RF_options
