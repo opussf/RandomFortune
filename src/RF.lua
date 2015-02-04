@@ -70,9 +70,9 @@ function RF.SayPartyRaid( msg )
 	--if RF_options.
 	SendChatMessage( msg, chat );
 end
-function RF.PrintStatus()
+function RF.PrintStatus( index )
 	RF.Print(RF_MSG_ADDONNAME.." status");
-	RF.Print("There are ".. #RF_fortunes .." fortunes.");
+	RF.Print(#RF_fortunes .." fortune"..(#RF_fortunes == 1 and " is " or "s are ").."known.");
 	if RF_options.enabled then
 		RF.Print("Enabled, fortunes every "..SecondsToTime(RF_options.delay));
 		RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay));
@@ -96,6 +96,9 @@ function RF.PrintStatus()
 	end
 	if RF_options.party and RF_options.say then
 		RF.Print("Prefer to say in party");
+	end
+	if (index and index>0) then -- print status for a specific fortune
+
 	end
 end
 function RF.PrintHelp()
@@ -212,16 +215,28 @@ function RF.Find( search )
 	-- Looks for fortunes that contain 'seach'
 	-- Returns numberOfFortunesFound
 	search = search and string.upper(search) or ""
+	local outFormat = string.format("[%%%ii] %%s", max(math.ceil(math.log10(#RF_fortunes)), 1))
+
 	-- string.find( Haystack, needle )
 	local numFound = 0
 	for i, fData in pairs(RF_fortunes) do
 		if strfind( string.upper(fData.fortune), search ) then
-			RF.Print(string.format("[% 3i] %s", i, fData.fortune ))
+			RF.Print(string.format(outFormat, i, fData.fortune ))
 			numFound = numFound + 1
 		end
 	end
 	if numFound and numFound>0 then
 		return numFound
+	end
+end
+function RF.Delete( index )
+	-- Delete RF_fortunes[index]
+	-- TODO: design a system that this marks the Fortune for deletion, disabling it, delete on reload.
+	-- TODO: enable a way to see fortunes about to be deleted, and recover them.
+	index = tonumber(index)
+	if index and index>0 and index<=#RF_fortunes then
+		local fortune = table.remove( RF_fortunes, index ) -- use the table.remove to remove a value
+		RF.Print(COLOR_RED.."REMOVING: "..COLOR_END..fortune.fortune)
 	end
 end
 
@@ -264,7 +279,7 @@ RF.CommandList = {
 	},
 	["status"] = {
 		["func"] = RF.PrintStatus,
-		["help"] = {"", "Show status"},
+		["help"] = {"<index>", "Show general status. Or info on <index> fortune."},
 	},
 	["now"] = {
 		["func"] = RF.PostFortune,
@@ -301,6 +316,10 @@ RF.CommandList = {
 	["find"] = {
 		["func"] = RF.Find,
 		["help"] = {"search", "Find a known fortune containing <search>"},
+	},
+	["rm"] = {
+		["func"] = RF.Delete,
+		["help"] = {"index", "Delete the fortune at <index>"},
 	},
 }
 
