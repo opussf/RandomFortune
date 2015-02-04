@@ -337,6 +337,12 @@ RF.CommandList = {
 		["func"] = RF.Delete,
 		["help"] = {"index", "Delete the fortune at <index>"},
 	},
+	["list"] = {
+		["func"] = function()
+				RF.Find();  -- pass no parameters for the list command
+			end,
+		["help"] = {"", "List all fortunes."},
+	},
 }
 
 function RF.OptionsOnLoad(frame)
