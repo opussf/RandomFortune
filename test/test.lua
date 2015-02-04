@@ -85,6 +85,22 @@ function test.testCommandWorks_now()
 	RF.Command( "now" )
 	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
 end
+function test.testCommandWorks_find()
+	RF.Command( "find" )
+end
+function test.testFind_noSearch()
+	-- This should list them all
+	local result = RF.Find()
+	assertEquals( #RF_fortunes, result )
+end
+function test.testFind_find()
+	local result = RF.Find( "sm" )
+	assertEquals( 1, result )
+end
+function test.testCommandWorks_find_noFind()
+	local result = RF.Find( "life" )
+	assertIsNil( result )
+end
 
 
 test.run()
