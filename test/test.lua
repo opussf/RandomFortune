@@ -28,7 +28,7 @@ function test.testMakeLuckyNumber()
 	local ln = RF.MakeLuckyNumber()
 	assertTrue( ln ~= nil )
 end
-function test.testNoFortunesDoesNotCrash()
+function test.testZeroFortunes_nowDoesNotCrash()
 	RF_fortunes = {}
 	RF_options["lastPost"] = 0
 	RF.Command( "now" )
@@ -101,6 +101,33 @@ function test.testCommandWorks_find_noFind()
 	local result = RF.Find( "life" )
 	assertIsNil( result )
 end
+function test.testFind_findTwo()
+	RF.Command("add Coffee is black gold.")
+	local result = RF.Find( "i" )
+	assertEquals( 2, result )
+end
+function test.testFind_findMany()
+	RF.Command("add A")
+	RF.Command("add B")
+	RF.Command("add C")
+	RF.Command("add D")
+	RF.Command("add E")
+	RF.Command("add F")
+	RF.Command("add G")
+	RF.Command("add H")
+	RF.Command("add I")
+	RF.Command("add J")
+	RF.Command("add K")
+	RF.Command("add L")
+	local result = RF.Find( )
+	assertEquals( 13, result )
+end
+function test.testFind_zeroFortunes()
+	RF_fortunes = {}
+	local result = RF.Find()
+	assertIsNil( result )
+end
+
 
 
 test.run()
