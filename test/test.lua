@@ -160,5 +160,8 @@ function test.testStatus_fortuneIndexGiven_zeroFortunes()
 	RF_fortunes = {}
 	RF.Command( "status 3")
 end
+function test.testList_commandWorks()
+	RF.Command( "list" )
+end
 
 test.run()
