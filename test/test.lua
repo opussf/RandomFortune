@@ -127,7 +127,22 @@ function test.testFind_zeroFortunes()
 	local result = RF.Find()
 	assertIsNil( result )
 end
-
-
+function test.testDelete_deleteOnlyFortune()
+	RF.Command( "rm 1" )
+	assertEquals( 0, #RF_fortunes )
+end
+function test.testDelete_deleteIndexOutOfRange_ZeroFortunes()
+	RF_fortunes = {}
+	RF.Command( "rm 1")
+end
+function test.testDelete_deleteIndexOutOfRange_ZeroIndex()
+	RF.Command( "rm 0" )
+	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
+end
+function test.testDelete_noIndexGiven()
+	-- this should do nothing
+	RF.Command( "rm" )
+	assertEquals( 1, #RF_fortunes )
+end
 
 test.run()
