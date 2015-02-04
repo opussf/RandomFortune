@@ -131,11 +131,11 @@ function test.testDelete_deleteOnlyFortune()
 	RF.Command( "rm 1" )
 	assertEquals( 0, #RF_fortunes )
 end
-function test.testDelete_deleteIndexOutOfRange_ZeroFortunes()
+function test.testDelete_deleteIndexOutOfRange_zeroFortunes()
 	RF_fortunes = {}
 	RF.Command( "rm 1")
 end
-function test.testDelete_deleteIndexOutOfRange_ZeroIndex()
+function test.testDelete_deleteIndexOutOfRange_zeroIndex()
 	RF.Command( "rm 0" )
 	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
 end
@@ -143,6 +143,22 @@ function test.testDelete_noIndexGiven()
 	-- this should do nothing
 	RF.Command( "rm" )
 	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
+end
+function test.testStatus_noOptions()
+	RF.Command( "status" )
+end
+function test.testStatus_fortuneIndexGiven()
+	RF.Command( "status 1" )
+end
+function test.testStatus_fortuneIndexGiven_outOfRange_Low()
+	RF.Command( "status 0" )
+end
+function test.testStatus_fortuneIndexGiven_outOfRange_High()
+	RF.Command( "status 10")
+end
+function test.testStatus_fortuneIndexGiven_zeroFortunes()
+	RF_fortunes = {}
+	RF.Command( "status 3")
 end
 
 test.run()
