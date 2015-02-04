@@ -5,6 +5,8 @@ This addon will post a random fortune to guild about once an hour.
 http://www.fortunecookiemessage.com/
 
 Revision History
+0.5     Find, List, Delete (rm) commands to edit fortune list.
+        Status now takes an index and shows info on that fortune.
 0.4     Options to say / use party/raid
         Options pane
 0.3     BNSetCustomMessage
@@ -13,7 +15,7 @@ Revision History
 
 Known Bugs:
 Bug# - ver	- Desc
-0001 - 0.03 - Crashed WoW Client if it tried to post a fortune when none was 
+0001 - 0.03 - Crashed WoW Client if it tried to post a fortune when none was
               in the age range.  Fixed for build #26.
 
 
@@ -37,4 +39,4 @@ ToDo:
 --- S * * * *    <--- post hourly on the start minute (when you first login)
 --- S/30 * * * * <--- post every 30 minutes based on start minute (rougly how it works now)
 --- L * * * *    <--- post hourly on the minute of the last update (changed by forcing an update)
---- 
+---

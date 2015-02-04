@@ -231,9 +231,9 @@ function RF.Find( search )
 	-- Looks for fortunes that contain 'seach'
 	-- Returns numberOfFortunesFound
 	search = search and string.upper(search) or ""
+	-- create format string with correct size to list all fortunes if all are returned.  %% is resolved to %
 	local outFormat = string.format("[%%%ii] %%s", max(math.ceil(math.log10(#RF_fortunes)), 1))
 
-	-- string.find( Haystack, needle )
 	local numFound = 0
 	for i, fData in pairs(RF_fortunes) do
 		if strfind( string.upper(fData.fortune), search ) then
