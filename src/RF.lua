@@ -71,34 +71,50 @@ function RF.SayPartyRaid( msg )
 	SendChatMessage( msg, chat );
 end
 function RF.PrintStatus( index )
-	RF.Print(RF_MSG_ADDONNAME.." status");
-	RF.Print(#RF_fortunes .." fortune"..(#RF_fortunes == 1 and " is " or "s are ").."known.");
-	if RF_options.enabled then
-		RF.Print("Enabled, fortunes every "..SecondsToTime(RF_options.delay));
-		RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay));
+	index = index and tonumber(index) or nil
+	if (index) then -- index given, only show staus for specific fortune
+		if (index>0 and index<=#RF_fortunes) then -- fortune index in valid range
+			RF.Print(RF_fortunes[index].fortune)
+			if RF_fortunes[index].lastPost > 0 then  -- it has been posted
+				RF.Print("Last posted: "..date("%x %X", RF_fortunes[index].lastPost))
+			else
+				RF.Print("Has not been posted yet.")
+			end
+		else
+			RF.Print("Fortune index '"..index.."' is invalid.")
+			if #RF_fortunes > 0 then
+				RF.Print("Valid range is 1 to "..#RF_fortunes)
+			else
+				RF.Print("There are no known fortunes.")
+			end
+		end
 	else
-		RF.Print(RF_MSG_ADDONNAME.." is disabled.");
-	end
-	if RF_options.lotto then
-		RF.Print("Lotto numbers are appended");
-	else
-		RF.Print("No Lotto numbers");
-	end
-	if RF_options.battleNet then
-		RF.Print("Fortunes to BattleNet status");
-	else
-		RF.Print("No BattleNet status updates");
-	end
-	if RF_options.say then
-		RF.Print("Say fortunes");
-	else
-		RF.Print("Do not say fortunes");
-	end
-	if RF_options.party and RF_options.say then
-		RF.Print("Prefer to say in party");
-	end
-	if (index and index>0) then -- print status for a specific fortune
-
+		RF.Print(RF_MSG_ADDONNAME.." status");
+		RF.Print(#RF_fortunes .." fortune"..(#RF_fortunes == 1 and " is " or "s are ").."known.");
+		if RF_options.enabled then
+			RF.Print("Enabled, fortunes every "..SecondsToTime(RF_options.delay));
+			RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay));
+		else
+			RF.Print(RF_MSG_ADDONNAME.." is disabled.");
+		end
+		if RF_options.lotto then
+			RF.Print("Lotto numbers are appended");
+		else
+			RF.Print("No Lotto numbers");
+		end
+		if RF_options.battleNet then
+			RF.Print("Fortunes to BattleNet status");
+		else
+			RF.Print("No BattleNet status updates");
+		end
+		if RF_options.say then
+			RF.Print("Say fortunes");
+		else
+			RF.Print("Do not say fortunes");
+		end
+		if RF_options.party and RF_options.say then
+			RF.Print("Prefer to say in party");
+		end
 	end
 end
 function RF.PrintHelp()
