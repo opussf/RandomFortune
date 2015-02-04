@@ -142,7 +142,7 @@ end
 function test.testDelete_noIndexGiven()
 	-- this should do nothing
 	RF.Command( "rm" )
-	assertEquals( 1, #RF_fortunes )
+	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
 end
 
 test.run()
