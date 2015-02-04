@@ -247,7 +247,7 @@ function RF.Find( search )
 end
 function RF.Delete( index )
 	-- Delete RF_fortunes[index]
-	-- TODO: design a system that this marks the Fortune for deletion, disabling it, delete on reload.
+	-- TODO: design a system that this marks the Fortune for deletion, disabling it, delete on reload, or delete after time period
 	-- TODO: enable a way to see fortunes about to be deleted, and recover them.
 	index = tonumber(index)
 	if index and index>0 and index<=#RF_fortunes then
