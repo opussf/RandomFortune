@@ -5,6 +5,7 @@ This addon will post a random fortune to guild about once an hour.
 http://www.fortunecookiemessage.com/
 
 Revision History
+0.6     Now takes an optional numeric parameter to post a specific fortune
 0.5     Find, List, Delete (rm) commands to edit fortune list.
         Status now takes an index and shows info on that fortune.
 0.4     Options to say / use party/raid

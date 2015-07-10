@@ -176,33 +176,40 @@ function RF.ShouldPostNow()
 		return true;
 	end
 end
-function RF.PostFortune()
-	tableSize = #RF_fortunes;
+function RF.PostFortune( indexIn )
+	indexIn = tonumber(indexIn)
+	--RF.Print("indexIn: "..(indexIn or "nil"))
+	tableSize = #RF_fortunes
+	local fortuneIdx = 1
 	if tableSize > 0 then
-		RF.oldestPost = time() - (RF_options.delay * tableSize);
-		tryLimit = 6;
-		repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
-			fortuneIdx = random(tableSize);
-			tryLimit = tryLimit - 1;
-		until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
-		local lottoNumbers = RF.MakeLuckyNumber();
-		if RF_options.lotto then
-			RF.GuildPrint(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers));
+		RF.oldestPost = time() - (RF_options.delay * tableSize)
+		if indexIn and indexIn > 0 and indexIn <= tableSize then
+			fortuneIdx = indexIn
 		else
-			RF.GuildPrint(RF_fortunes[fortuneIdx].fortune);
+			tryLimit = 6
+			repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
+				fortuneIdx = random(tableSize)
+				tryLimit = tryLimit - 1
+			until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
+		end
+		local lottoNumbers = RF.MakeLuckyNumber()
+		if RF_options.lotto then
+			RF.GuildPrint(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers))
+		else
+			RF.GuildPrint(RF_fortunes[fortuneIdx].fortune)
 		end
 		if (RF_options.battleNet and string.len(RF_fortunes[fortuneIdx].fortune) < 127) then
-			BNSetCustomMessage(RF_fortunes[fortuneIdx].fortune);
+			BNSetCustomMessage(RF_fortunes[fortuneIdx].fortune)
 		end
 		if RF_options.say then
 			if RF_options.lotto then
-				RF.SayPartyRaid(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers));
+				RF.SayPartyRaid(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers))
 			else
-				RF.SayPartyRaid(RF_fortunes[fortuneIdx].fortune);
+				RF.SayPartyRaid(RF_fortunes[fortuneIdx].fortune)
 			end
 		end
-		RF_options.lastPost = time();
-		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost;
+		RF_options.lastPost = time()
+		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost
 	end
 end
 function RF.AddFortune( fortune )
@@ -291,7 +298,7 @@ RF.CommandList = {
 					RF.Print("Delay set to "..SecondsToTime(RF_options.delay));
 				end
 			end,
-		["help"] = {"#", "Set the depaly to # minutes"},
+		["help"] = {"#", "Set the delay to # minutes"},
 	},
 	["status"] = {
 		["func"] = RF.PrintStatus,
@@ -299,7 +306,7 @@ RF.CommandList = {
 	},
 	["now"] = {
 		["func"] = RF.PostFortune,
-		["help"] = {"", "Print fortune now"},
+		["help"] = {"[number]", "Print fortune now. [number] optionally posts "},
 	},
 	["lotto"] = {
 		["func"] = function()

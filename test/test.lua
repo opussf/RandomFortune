@@ -163,5 +163,25 @@ end
 function test.testList_commandWorks()
 	RF.Command( "list" )
 end
+function test.testNow_withTextParamter()
+	RF_options["lastPost"] = 0
+	RF.Command( "now Hello" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
+function test.testNow_withNumberParameter()
+	RF_options["lastPost"] = 0
+	RF.Command( "now 1" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
+function test.testNow_withNumberParameter_tooSmall()
+	RF_options["lastPost"] = 0
+	RF.Command( "now 0" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
+function test.testNow_withNumberParameter_tooLarge()
+	RF_options["lastPost"] = 0
+	RF.Command( "now 5" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
 
 test.run()
