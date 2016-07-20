@@ -70,37 +70,51 @@ function RF.SayPartyRaid( msg )
 	--if RF_options.
 	SendChatMessage( msg, chat );
 end
-function RF.PrintStatus()
-	RF.Print(RF_MSG_ADDONNAME.." status");
-	RF.Print("There are ".. #RF_fortunes .." fortunes.");
-	if RF_options.enabled then
-		RF.Print("Enabled, fortunes every "..SecondsToTime(RF_options.delay));
-		RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay));
+function RF.PrintStatus( index )
+	index = index and tonumber(index) or nil
+	if (index) then -- index given, only show staus for specific fortune
+		if (index>0 and index<=#RF_fortunes) then -- fortune index in valid range
+			RF.Print(RF_fortunes[index].fortune)
+			if RF_fortunes[index].lastPost > 0 then  -- it has been posted
+				RF.Print("Last posted: "..date("%x %X", RF_fortunes[index].lastPost))
+			else
+				RF.Print("Has not been posted yet.")
+			end
+		else
+			RF.Print("Fortune index '"..index.."' is invalid.")
+			if #RF_fortunes > 0 then
+				RF.Print("Valid range is 1 to "..#RF_fortunes)
+			else
+				RF.Print("There are no known fortunes.")
+			end
+		end
 	else
-		RF.Print(RF_MSG_ADDONNAME.." is disabled.");
-	end
-	if RF_options.lotto then
-		RF.Print("Lotto numbers are appended");
-	else
-		RF.Print("No Lotto numbers");
-	end
-	if RF_options.battleNet then
-		RF.Print("Fortunes to BattleNet status");
-	else
-		RF.Print("No BattleNet status updates");
-	end
-	if RF_options.say then
-		RF.Print("Say fortunes");
-	else
-		RF.Print("Do not say fortunes");
-	end
-	if RF_options.guild then
-		RF.Print("Say in guild")
-	else
-		RF.Print("Do not say in guild")
-	end
-	if RF_options.party and RF_options.say then
-		RF.Print("Prefer to say in party");
+		RF.Print(RF_MSG_ADDONNAME.." status");
+		RF.Print(#RF_fortunes .." fortune"..(#RF_fortunes == 1 and " is " or "s are ").."known.");
+		if RF_options.enabled then
+			RF.Print("Enabled, fortunes every "..SecondsToTime(RF_options.delay));
+			RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay));
+		else
+			RF.Print(RF_MSG_ADDONNAME.." is disabled.");
+		end
+		if RF_options.lotto then
+			RF.Print("Lotto numbers are appended");
+		else
+			RF.Print("No Lotto numbers");
+		end
+		if RF_options.battleNet then
+			RF.Print("Fortunes to BattleNet status");
+		else
+			RF.Print("No BattleNet status updates");
+		end
+		if RF_options.say then
+			RF.Print("Say fortunes");
+		else
+			RF.Print("Do not say fortunes");
+		end
+		if RF_options.party and RF_options.say then
+			RF.Print("Prefer to say in party");
+		end
 	end
 end
 function RF.PrintHelp()
@@ -110,82 +124,6 @@ function RF.PrintHelp()
 			SLASH_RF1, cmd, info.help[1], info.help[2]));
 	end
 end
-
-RF.CommandList = {
-	["help"] = {
-		["func"] = RF.PrintHelp,
-		["help"] = {"","Print this help."},
-	},
-	["add"] = {
-		["func"] = function(param)
-				RF.AddFortune(param);
-			end,
-		["help"] = {"fortune","Adds fortune to the list of fortunes."},
-	},
-	["disable"] = {
-		["func"] = function()
-				RF_options.enabled = nil;
-				RF.Print("Disabled");
-			end,
-		["help"] = {"", "Disable output"},
-	},
-	["enable"] = {
-		["func"] = function()
-				RF_options.enabled = true;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Enable periodic publishing"},
-	},
-	["delay"] = {
-		["func"] = function(param)
-				param = tonumber(param)
-				--print( "param: "..(param or "nil").." ("..#param..") "..type(param) )
-				if param and param>0 then
-					RF_options.delay = param * 60;
-					RF.Print("Delay set to "..SecondsToTime(RF_options.delay));
-				end
-			end,
-		["help"] = {"#", "Set the depaly to # minutes"},
-	},
-	["status"] = {
-		["func"] = RF.PrintStatus,
-		["help"] = {"", "Show status"},
-	},
-	["now"] = {
-		["func"] = function()
-				RF.PostFortune();
-			end,
-		["help"] = {"", "Print fortune now"},
-	},
-	["lotto"] = {
-		["func"] = function()
-				RF_options.lotto = not RF_options.lotto;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle showing lotto numbers"},
-	},
-	["bn"] = {
-		["func"] = function()
-				RF_options.battleNet = not RF_options.battleNet;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle setting BattleNet status"},
-	},
-	["say"] = {
-		["func"] = function()
-				RF_options.say = not RF_options.say;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle posting to say channel"},
-	},
-	["party"] = {
-		["func"] = function()
-				RF_options.party = not RF_options.party;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle posting to party if in party"},
-	},
-}
 
 function RF.Command(msg)
 	local cmd, param = RF.ParseCmd(msg);
@@ -238,33 +176,40 @@ function RF.ShouldPostNow()
 		return true;
 	end
 end
-function RF.PostFortune()
-	tableSize = #RF_fortunes;
+function RF.PostFortune( indexIn )
+	indexIn = tonumber(indexIn)
+	--RF.Print("indexIn: "..(indexIn or "nil"))
+	tableSize = #RF_fortunes
+	local fortuneIdx = 1
 	if tableSize > 0 then
-		RF.oldestPost = time() - (RF_options.delay * tableSize);
-		tryLimit = 6;
-		repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
-			fortuneIdx = random(tableSize);
-			tryLimit = tryLimit - 1;
-		until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
-		local lottoNumbers = RF.MakeLuckyNumber();
-		if RF_options.lotto then
-			RF.GuildPrint(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers));
+		RF.oldestPost = time() - (RF_options.delay * tableSize)
+		if indexIn and indexIn > 0 and indexIn <= tableSize then
+			fortuneIdx = indexIn
 		else
-			RF.GuildPrint(RF_fortunes[fortuneIdx].fortune);
+			tryLimit = 6
+			repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
+				fortuneIdx = random(tableSize)
+				tryLimit = tryLimit - 1
+			until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
+		end
+		local lottoNumbers = RF.MakeLuckyNumber()
+		if RF_options.lotto then
+			RF.GuildPrint(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers))
+		else
+			RF.GuildPrint(RF_fortunes[fortuneIdx].fortune)
 		end
 		if (RF_options.battleNet and string.len(RF_fortunes[fortuneIdx].fortune) < 127) then
-			BNSetCustomMessage(RF_fortunes[fortuneIdx].fortune);
+			BNSetCustomMessage(RF_fortunes[fortuneIdx].fortune)
 		end
 		if RF_options.say then
 			if RF_options.lotto then
-				RF.SayPartyRaid(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers));
+				RF.SayPartyRaid(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers))
 			else
-				RF.SayPartyRaid(RF_fortunes[fortuneIdx].fortune);
+				RF.SayPartyRaid(RF_fortunes[fortuneIdx].fortune)
 			end
 		end
-		RF_options.lastPost = time();
-		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost;
+		RF_options.lastPost = time()
+		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost
 	end
 end
 function RF.AddFortune( fortune )
@@ -289,6 +234,124 @@ function RF.MakeLuckyNumber()
 	end
 	return "("..table.concat( luckyNumbers, "-" )..")";
 end
+function RF.Find( search )
+	-- Looks for fortunes that contain 'seach'
+	-- Returns numberOfFortunesFound
+	search = search and string.upper(search) or ""
+	-- create format string with correct size to list all fortunes if all are returned.  %% is resolved to %
+	local outFormat = string.format("[%%%ii] %%s", max(math.ceil(math.log10(#RF_fortunes)), 1))
+
+	local numFound = 0
+	for i, fData in pairs(RF_fortunes) do
+		if strfind( string.upper(fData.fortune), search ) then
+			RF.Print(string.format(outFormat, i, fData.fortune ))
+			numFound = numFound + 1
+		end
+	end
+	if numFound and numFound>0 then
+		return numFound
+	end
+end
+function RF.Delete( index )
+	-- Delete RF_fortunes[index]
+	-- TODO: design a system that this marks the Fortune for deletion, disabling it, delete on reload, or delete after time period
+	-- TODO: enable a way to see fortunes about to be deleted, and recover them.
+	index = tonumber(index)
+	if index and index>0 and index<=#RF_fortunes then
+		local fortune = table.remove( RF_fortunes, index ) -- use the table.remove to remove a value
+		RF.Print(COLOR_RED.."REMOVING: "..COLOR_END..fortune.fortune)
+	end
+end
+
+-- CommandList needs to be defined at the end since there are references to functions that need to have been defined.
+RF.CommandList = {
+	["help"] = {
+		["func"] = RF.PrintHelp,
+		["help"] = {"","Print this help."},
+	},
+	["add"] = {
+		["func"] = function(param)
+				RF.AddFortune(param);
+			end,
+		["help"] = {"fortune","Adds fortune to the list of fortunes."},
+	},
+	["disable"] = {
+		["func"] = function()
+				RF_options.enabled = nil;
+				RF.Print("Disabled");
+			end,
+		["help"] = {"", "Disable output"},
+	},
+	["enable"] = {
+		["func"] = function()
+				RF_options.enabled = true;
+				RF.PrintStatus();
+			end,
+		["help"] = {"", "Enable periodic publishing"},
+	},
+	["delay"] = {
+		["func"] = function(param)
+				param = tonumber(param)
+				--print( "param: "..(param or "nil").." ("..#param..") "..type(param) )
+				if param and param>0 then
+					RF_options.delay = param * 60;
+					RF.Print("Delay set to "..SecondsToTime(RF_options.delay));
+				end
+			end,
+		["help"] = {"#", "Set the delay to # minutes"},
+	},
+	["status"] = {
+		["func"] = RF.PrintStatus,
+		["help"] = {"<index>", "Show general status. Or info on <index> fortune."},
+	},
+	["now"] = {
+		["func"] = RF.PostFortune,
+		["help"] = {"[number]", "Print fortune now. [number] optionally posts "},
+	},
+	["lotto"] = {
+		["func"] = function()
+				RF_options.lotto = not RF_options.lotto;
+				RF.PrintStatus();
+			end,
+		["help"] = {"", "Toggle showing lotto numbers"},
+	},
+	["bn"] = {
+		["func"] = function()
+				RF_options.battleNet = not RF_options.battleNet;
+				RF.PrintStatus();
+			end,
+		["help"] = {"", "Toggle setting BattleNet status"},
+	},
+	["say"] = {
+		["func"] = function()
+				RF_options.say = not RF_options.say;
+				RF.PrintStatus();
+			end,
+		["help"] = {"", "Toggle posting to say channel"},
+	},
+	["party"] = {
+		["func"] = function()
+				RF_options.party = not RF_options.party;
+				RF.PrintStatus();
+			end,
+		["help"] = {"", "Toggle posting to party if in party"},
+	},
+	["find"] = {
+		["func"] = RF.Find,
+		["help"] = {"search", "Find a known fortune containing <search>"},
+	},
+	["rm"] = {
+		["func"] = RF.Delete,
+		["help"] = {"index", "Delete the fortune at <index>"},
+	},
+	["list"] = {
+		["func"] = function()
+				RF.Find();  -- pass no parameters for the list command
+			end,
+		["help"] = {"", "List all fortunes."},
+	},
+}
+
 function RF.OptionsOnLoad(frame)
 	frame.name = "Random Fortune";
 	RFOptionsFrame_Title:SetText("Random Fortune "..RF_MSG_VERSION);

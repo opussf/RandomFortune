@@ -28,7 +28,7 @@ function test.testMakeLuckyNumber()
 	local ln = RF.MakeLuckyNumber()
 	assertTrue( ln ~= nil )
 end
-function test.testNoFortunesDoesNotCrash()
+function test.testZeroFortunes_nowDoesNotCrash()
 	RF_fortunes = {}
 	RF_options["lastPost"] = 0
 	RF.Command( "now" )
@@ -87,6 +87,103 @@ function test.testCommandWorks_now()
 end
 function test.testGuild_ignoreSingle()
 end
-
+function test.testCommandWorks_find()
+	RF.Command( "find" )
+end
+function test.testFind_noSearch()
+	-- This should list them all
+	local result = RF.Find()
+	assertEquals( #RF_fortunes, result )
+end
+function test.testFind_find()
+	local result = RF.Find( "sm" )
+	assertEquals( 1, result )
+end
+function test.testCommandWorks_find_noFind()
+	local result = RF.Find( "life" )
+	assertIsNil( result )
+end
+function test.testFind_findTwo()
+	RF.Command("add Coffee is black gold.")
+	local result = RF.Find( "i" )
+	assertEquals( 2, result )
+end
+function test.testFind_findMany()
+	RF.Command("add A")
+	RF.Command("add B")
+	RF.Command("add C")
+	RF.Command("add D")
+	RF.Command("add E")
+	RF.Command("add F")
+	RF.Command("add G")
+	RF.Command("add H")
+	RF.Command("add I")
+	RF.Command("add J")
+	RF.Command("add K")
+	RF.Command("add L")
+	local result = RF.Find( )
+	assertEquals( 13, result )
+end
+function test.testFind_zeroFortunes()
+	RF_fortunes = {}
+	local result = RF.Find()
+	assertIsNil( result )
+end
+function test.testDelete_deleteOnlyFortune()
+	RF.Command( "rm 1" )
+	assertEquals( 0, #RF_fortunes )
+end
+function test.testDelete_deleteIndexOutOfRange_zeroFortunes()
+	RF_fortunes = {}
+	RF.Command( "rm 1")
+end
+function test.testDelete_deleteIndexOutOfRange_zeroIndex()
+	RF.Command( "rm 0" )
+	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
+end
+function test.testDelete_noIndexGiven()
+	-- this should do nothing
+	RF.Command( "rm" )
+	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
+end
+function test.testStatus_noOptions()
+	RF.Command( "status" )
+end
+function test.testStatus_fortuneIndexGiven()
+	RF.Command( "status 1" )
+end
+function test.testStatus_fortuneIndexGiven_outOfRange_Low()
+	RF.Command( "status 0" )
+end
+function test.testStatus_fortuneIndexGiven_outOfRange_High()
+	RF.Command( "status 10")
+end
+function test.testStatus_fortuneIndexGiven_zeroFortunes()
+	RF_fortunes = {}
+	RF.Command( "status 3")
+end
+function test.testList_commandWorks()
+	RF.Command( "list" )
+end
+function test.testNow_withTextParamter()
+	RF_options["lastPost"] = 0
+	RF.Command( "now Hello" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
+function test.testNow_withNumberParameter()
+	RF_options["lastPost"] = 0
+	RF.Command( "now 1" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
+function test.testNow_withNumberParameter_tooSmall()
+	RF_options["lastPost"] = 0
+	RF.Command( "now 0" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
+function test.testNow_withNumberParameter_tooLarge()
+	RF_options["lastPost"] = 0
+	RF.Command( "now 5" )
+	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
+end
 
 test.run()
