@@ -21,7 +21,7 @@ if FileExists( dataFile ) then
 	for _,fortuneStruct in pairs(RF_fortunes) do
 		fortune = string.gsub( fortuneStruct.fortune, '\\', '\\\\')
 		fortune = string.gsub( fortuneStruct.fortune, '\"', '\\\"')
-		table.insert( fortunes, string.format('\t{ "lastPost": "%i", "fortune": "%s" }', fortuneStruct.lastPost, fortune ) )
+		table.insert( fortunes, string.format('\t{ "lastPost": %.0f, "fortune": "%s" }', fortuneStruct.lastPost * 1000, fortune ) )
 	end
 
 	strOut = strOut .. table.concat( fortunes, ",\n" )
