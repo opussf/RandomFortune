@@ -70,6 +70,20 @@
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "lotto" )</PostClick>
 				</Scripts>
 			</CheckButton>
+			<CheckButton name="$parent_GuildEnableBox" inherits="RFOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_LottoBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self.tooltip = "Post to Guild"</OnLoad>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "Post to Guild" )</OnShow>
+					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "guild" )</PostClick>
+				</Scripts>
+			</CheckButton>
 
 			<!--
 					<Slider name="$parent_DelaySlider" inherits="OptionsSliderTemplate" minValue="1" maxValue="10" valueStep="1">
