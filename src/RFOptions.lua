@@ -74,7 +74,11 @@ function RF.OptionsPanel_Reset()
 end
 function RF.OptionsPanel_Refresh()
 	RF.Print( "OptionsPanel_Refresh" )
-	RFOptionsFrame_EnableBox:SetChecked( RF_options["enable"] )
+	RFOptionsFrame_EnableBox:SetChecked( RF_options["enabled"] )
+	-- slider
+	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options["lotto"] )
+	RFOptionsFrame_GuildEnableBox:SetChecked( RF_options["guild"] )
+	RFOptionsFrame_BNEnableBox:SetChecked( RF_options["battleNet"] )
 
 end
 

@@ -72,7 +72,7 @@
 			</CheckButton>
 			<CheckButton name="$parent_GuildEnableBox" inherits="RFOptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_LottoBox">
+					<Anchor point="TOPLEFT" relativeTo="$parent_LottoEnableBox">
 						<Offset>
 							<AbsDimension x="0" y="-30"/>
 						</Offset>
@@ -84,7 +84,20 @@
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "guild" )</PostClick>
 				</Scripts>
 			</CheckButton>
-
+			<CheckButton name="$parent_BNEnableBox" inherits="RFOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_GuildEnableBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self.tooltip = "Post to BattleNet Status"</OnLoad>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "battleNet", "Post to BN" )</OnShow>
+					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "battleNet" )</PostClick>
+				</Scripts>
+			</CheckButton>
 			<!--
 					<Slider name="$parent_DelaySlider" inherits="OptionsSliderTemplate" minValue="1" maxValue="10" valueStep="1">
 				<Size x="220" y="16"/>
@@ -107,31 +120,8 @@
 					</OnValueChanged>
 				</Scripts>
 			</Slider>
-			<CheckButton name="$parent_GuildEnableBox" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_EnableBox">
-						<Offset>
-							<AbsDimension x="0" y="-30"></AbsDimension>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnLoad> getglobal(self:GetName().."Text"):SetText("Post to Guild chat"); </OnLoad>
-				</Scripts>
-			</CheckButton>
-			<CheckButton name="$parent_BNEnableBox" inherits="OptionsCheckButtonTemplate">
-					text="Post to BattleNet status">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_GuildEnableBox">
-						<Offset>
-							<AbsDimension x="0" y="-30"></AbsDimension>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnLoad> getglobal(self:GetName().."Text"):SetText("Post to BattleNet status"); </OnLoad>
-				</Scripts>
-			</CheckButton>
+
+
 			<CheckButton name="$parent_SayEnableBox" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_LottoEnableBox">
