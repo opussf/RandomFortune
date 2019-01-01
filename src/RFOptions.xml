@@ -44,7 +44,7 @@
 				</Scripts>
 			</CheckButton>
 			<Slider name="$parent_DelaySlider" inherits="OptionsSlidertemplate" minValue="1" maxValue="60" valueStep="1">
-				<Size x="300" y="16"/>
+				<Size x="220" y="16"/>
 				<Anchors point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
 					<Offset><AbsDimension x="-20" y="-100"/></Offset>
 				</Anchors>
@@ -98,6 +98,20 @@
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "battleNet" )</PostClick>
 				</Scripts>
 			</CheckButton>
+			<CheckButton name="$parent_SayEnableBox" inherits="RFOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_BNEnableBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"></AbsDimension>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self.tooltip = "Post to Say channel"</OnLoad>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "say", "Post to Say channel" )</OnShow>
+					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "say" )</PostClick>
+				</Scripts>
+			</CheckButton>
 			<!--
 					<Slider name="$parent_DelaySlider" inherits="OptionsSliderTemplate" minValue="1" maxValue="10" valueStep="1">
 				<Size x="220" y="16"/>
@@ -120,44 +134,6 @@
 					</OnValueChanged>
 				</Scripts>
 			</Slider>
-
-
-			<CheckButton name="$parent_SayEnableBox" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_LottoEnableBox">
-						<Offset>
-							<AbsDimension x="0" y="-30"></AbsDimension>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnLoad> getglobal(self:GetName().."Text"):SetText("Send fortune to Say channel"); </OnLoad>
-				</Scripts>
-			</CheckButton>
-			<CheckButton name="$parent_PartyEnableBox" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_SayEnableBox">
-						<Offset>
-							<AbsDimension x="30" y="-30"></AbsDimension>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnLoad> getglobal(self:GetName().."Text"):SetText("Use Party if in party");</OnLoad>
-				</Scripts>
-			</CheckButton>
-			<CheckButton name="$parent_InstanceEnableBox" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_PartyEnableBox">
-						<Offset>
-							<AbsDimension x="30" y="-30"></AbsDimension>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnLoad> getglobal(self:GetName().."Text"):SetText("Use Instance if in instance"); </OnLoad>
-				</Scripts>
-			</CheckButton>
 
 		-->
 		</Frames>

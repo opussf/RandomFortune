@@ -1,11 +1,11 @@
 -- options
 
 RF.defaultOptions = {
-	["lastPost"] = 0;
-	["enabled"] = true;
-	["delay"] = 1800;
-	["lotto"] = true;
-	["guild"] = true;
+	["lastPost"] = 0
+	["enabled"] = true
+	["delay"] = 1800
+	["lotto"] = true
+	["guild"] = true
 }
 RF_options = {}
 function RF.UpdateOptions()
@@ -25,28 +25,6 @@ function RF.OptionsPanel_OnLoad( frame )
 	InterfaceOptions_AddCategory( frame )
 	InterfaceAddOnsList_Update()
 	RF.UpdateOptions()
-end
-function RF.OptionsPanel_CheckButton_OnShow( self, option, text )
-	RF.Print( text..": OnShow" )
-	getglobal( self:GetName().."Text"):SetText( text )
-end
-function RF.OptionsPanel_CheckButton_PostClick( self, option )
-	if RF.oldValues then
-		RF.oldValues[option] = RF.oldValues[option] or RF_options[option]
-	else
-		RF.oldValues = { [option] = RF_options[option] }
-	end
-	RF_options[option] = self:GetChecked()
-end
-
-function RF.OptionsSetOptions()
-	RFOptionsFrame_EnableBox:SetChecked(RF_options.enabled);
-	RFOptionsFrame_GuildEnableBox:SetChecked(RF_options.guild);
-	RFOptionsFrame_BNEnableBox:SetChecked(RF_options.battleNet);
-	RFOptionsFrame_LottoEnableBox:SetChecked(RF_options.lotto);
-	RFOptionsFrame_SayEnableBox:SetChecked(RF_options.say);
-	RFOptionsFrame_PartyEnableBox:SetChecked(RF_options.party);
-	RFOptionsFrame_InstanceEnableBox:SetChecked(RF_options.instance);
 end
 function RF.OptionsPanel_Okay()
 	-- Data was recorded, clear the temp
@@ -74,12 +52,25 @@ function RF.OptionsPanel_Reset()
 end
 function RF.OptionsPanel_Refresh()
 	RF.Print( "OptionsPanel_Refresh" )
-	RFOptionsFrame_EnableBox:SetChecked( RF_options["enabled"] )
+	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
 	-- slider
-	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options["lotto"] )
-	RFOptionsFrame_GuildEnableBox:SetChecked( RF_options["guild"] )
-	RFOptionsFrame_BNEnableBox:SetChecked( RF_options["battleNet"] )
-
+	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
+	RFOptionsFrame_GuildEnableBox:SetChecked( RF_options.guild )
+	RFOptionsFrame_BNEnableBox:SetChecked( RF_options.battleNet )
+	RFOptionsFrame_SayEnableBox:SetChecked( RF_options.say )
+end
+--------
+function RF.OptionsPanel_CheckButton_OnShow( self, option, text )
+	RF.Print( text..": OnShow" )
+	getglobal( self:GetName().."Text"):SetText( text )
+end
+function RF.OptionsPanel_CheckButton_PostClick( self, option )
+	if RF.oldValues then
+		RF.oldValues[option] = RF.oldValues[option] or RF_options[option]
+	else
+		RF.oldValues = { [option] = RF_options[option] }
+	end
+	RF_options[option] = self:GetChecked()
 end
 
 --[[
@@ -108,22 +99,6 @@ function MeToo.OptionsPanel_Refresh()
 	MeTooOptionsFrame_CompanionFailureEmoteToTarget:SetChecked( MeToo_options["companionFailure_useTarget"] )
 end
 
------------------
-
----------------
-function MeToo.OptionsPanel_EditBox_OnLoad( self, option )
-	--MeToo.Print( "EditBox_OnLoad( "..self:GetName()..", "..option.." )" )
-	self:SetAutoFocus( false )
-end
-function MeToo.OptionsPanel_EditBox_TextChanged( self, option )
-	--MeToo.Print( "TextChanged: "..option.." >"..self:GetText() )
-	if MeToo.oldValues then
-		MeToo.oldValues[option] = MeToo.oldValues[option] or MeToo_options[option]
-	else
-		MeToo.oldValues = { [option] = MeToo_options[option] }
-	end
-	MeToo_options[option] = self:GetText()
-end
 
 
 ]]
