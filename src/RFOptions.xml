@@ -66,7 +66,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Append Lotto Numbers"</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "lotto", "Append Lotto Numbers" )</OnLoad>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "lotto", "Append Lotto Numbers" )</OnShow>
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "lotto" )</PostClick>
 				</Scripts>
 			</CheckButton>
