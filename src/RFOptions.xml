@@ -1,0 +1,168 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<CheckButton name="RFOptionsCheckButtonTemplate" inherits="InterfaceOptionsCheckButtonTemplate" virtual="true">
+		<Scripts>
+			<OnEnter>
+				GameTooltip:SetOwner(self, "ANCHOR_LEFT");
+				GameTooltip:SetText(self.tooltip);
+			</OnEnter>
+			<OnLeave>GameTooltip:Hide();</OnLeave>
+		</Scripts>
+	</CheckButton>
+
+	<Frame name="RFOptionsFrame">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Title" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="16" y="-16"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_SubTitle" inherits="GameFontHighlightSmall"
+						text="Posts a random Fortune Cookie style wisdom">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_Title" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="$parent_EnableBox" inherits="RFOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent">
+						<Offset><AbsDimension x="20" y="-100"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self.tooltip = "Enable Timed Posting";</OnLoad>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "enabled", "Timed Posts Enabled" );</OnShow>
+					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "enabled" );</PostClick>
+				</Scripts>
+			</CheckButton>
+			<Slider name="$parent_DelaySlider" inherits="OptionsSlidertemplate" minValue="1" maxValue="60" valueStep="1">
+				<Size x="300" y="16"/>
+				<Anchors point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+					<Offset><AbsDimension x="-20" y="-100"/></Offset>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal( self:GetName().."Text" ):SetText( "DelayTime ()" );
+						getglobal( self:GetName().."High" ):SetText( "60" );
+						getglobal( self:GetName().."Low" ):SetText( "Off" );
+					</OnLoad>
+				</Scripts>
+			</Slider>
+			<CheckButton name="$parent_LottoEnableBox" inherits="RFOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_EnableBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>self.tooltip = "Append Lotto Numbers"</OnLoad>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "lotto", "Append Lotto Numbers" )</OnLoad>
+					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "lotto" )</PostClick>
+				</Scripts>
+			</CheckButton>
+
+			<!--
+					<Slider name="$parent_DelaySlider" inherits="OptionsSliderTemplate" minValue="1" maxValue="10" valueStep="1">
+				<Size x="220" y="16"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="-20" y="-100"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName().."Text"):SetText("DelayTime ()");
+						getglobal(self:GetName().."High"):SetText("Off");
+						getglobal(self:GetName().."Low"):SetText("1 Day");
+					</OnLoad>
+					<OnValueChanged>
+						if not Rested.oldVal then Rested.oldVal = Rested_options.maxCutOff; end
+						v = (self:GetValue()==10 and "Off") or self:GetValue();
+						getglobal(self:GetName().."Text"):SetText("DelaysTime ("..v..")");
+						Rested_options.maxCutOff = self:GetValue();
+					</OnValueChanged>
+				</Scripts>
+			</Slider>
+			<CheckButton name="$parent_GuildEnableBox" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_EnableBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"></AbsDimension>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> getglobal(self:GetName().."Text"):SetText("Post to Guild chat"); </OnLoad>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parent_BNEnableBox" inherits="OptionsCheckButtonTemplate">
+					text="Post to BattleNet status">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_GuildEnableBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"></AbsDimension>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> getglobal(self:GetName().."Text"):SetText("Post to BattleNet status"); </OnLoad>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parent_SayEnableBox" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_LottoEnableBox">
+						<Offset>
+							<AbsDimension x="0" y="-30"></AbsDimension>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> getglobal(self:GetName().."Text"):SetText("Send fortune to Say channel"); </OnLoad>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parent_PartyEnableBox" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_SayEnableBox">
+						<Offset>
+							<AbsDimension x="30" y="-30"></AbsDimension>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> getglobal(self:GetName().."Text"):SetText("Use Party if in party");</OnLoad>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parent_InstanceEnableBox" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_PartyEnableBox">
+						<Offset>
+							<AbsDimension x="30" y="-30"></AbsDimension>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> getglobal(self:GetName().."Text"):SetText("Use Instance if in instance"); </OnLoad>
+				</Scripts>
+			</CheckButton>
+
+		-->
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				RF.OptionsPanel_OnLoad( self )
+			</OnLoad>
+		</Scripts>
+
+	</Frame>
+
+</Ui>

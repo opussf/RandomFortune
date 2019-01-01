@@ -8,3 +8,5 @@
 ## SavedVariablesPerCharacter:
 RF.lua
 RF.xml
+RFOptions.lua
+RFOptions.xml
