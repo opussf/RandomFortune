@@ -47,11 +47,11 @@ function RF.OptionsPanel_Default()
 end
 function RF.OptionsPanel_Reset()
 	-- Called from Addon_loaded
-	RF.Print( "Reset" )
+	--RF.Print( "Reset" )
 	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Refresh()
-	RF.Print( "OptionsPanel_Refresh" )
+	--RF.Print( "OptionsPanel_Refresh" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
 	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
@@ -61,7 +61,7 @@ function RF.OptionsPanel_Refresh()
 end
 --------
 function RF.OptionsPanel_CheckButton_OnShow( self, option, text )
-	RF.Print( text..": OnShow" )
+	--RF.Print( text..": OnShow" )
 	getglobal( self:GetName().."Text"):SetText( text )
 end
 function RF.OptionsPanel_CheckButton_PostClick( self, option )
@@ -72,21 +72,7 @@ function RF.OptionsPanel_CheckButton_PostClick( self, option )
 	end
 	RF_options[option] = self:GetChecked()
 end
-RF.sliderControl = {
-	["minute(s)"] = { ["min"]=1, ["max"]=60, ["mul"]=60 },
-	["hour(s)"]   = { ["min"]=1, ["max"]=24, ["mul"]=3600 },
-	["days(s)"]   = { ["min"]=1, ["max"]=7,  ["mul"]=86400 },
-	["week(s)"]   = { ["min"]=1, ["max"]=52, ["mul"]=86400*7 }
-}
 
-
-1 - 60     (60 -  3600)     minutes
-1 - 1440   (60 - 86400)	   hours
-1 -
-
-
-
-1 - 120 minutes
 
 
 function RF.OptionsPanel_Slider_OnValueChanged( self, option )
@@ -96,7 +82,7 @@ function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 		RF.oldValues = { [option] = RF_options[option] }
 	end
 	local min, max = self:GetMinMaxValues()
-	local v = self:GetValue()
+	local v = math.floor( self:GetValue() * 60 )
 	RF.Print( min.."<"..math.floor( self:GetValue() ).."<"..max )
 
 	--[[
