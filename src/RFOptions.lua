@@ -1,11 +1,11 @@
 -- options
 
 RF.defaultOptions = {
-	["lastPost"] = 0
-	["enabled"] = true
-	["delay"] = 1800
-	["lotto"] = true
-	["guild"] = true
+	["lastPost"] = 0,
+	["enabled"] = true,
+	["delay"] = 1800,
+	["lotto"] = true,
+	["guild"] = true,
 }
 RF_options = {}
 function RF.UpdateOptions()
@@ -53,7 +53,7 @@ end
 function RF.OptionsPanel_Refresh()
 	RF.Print( "OptionsPanel_Refresh" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
-	-- slider
+	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
 	RFOptionsFrame_GuildEnableBox:SetChecked( RF_options.guild )
 	RFOptionsFrame_BNEnableBox:SetChecked( RF_options.battleNet )
@@ -71,6 +71,40 @@ function RF.OptionsPanel_CheckButton_PostClick( self, option )
 		RF.oldValues = { [option] = RF_options[option] }
 	end
 	RF_options[option] = self:GetChecked()
+end
+RF.sliderControl = {
+	["minute(s)"] = { ["min"]=1, ["max"]=60, ["mul"]=60 },
+	["hour(s)"]   = { ["min"]=1, ["max"]=24, ["mul"]=3600 },
+	["days(s)"]   = { ["min"]=1, ["max"]=7,  ["mul"]=86400 },
+	["week(s)"]   = { ["min"]=1, ["max"]=52, ["mul"]=86400*7 }
+}
+
+
+1 - 60     (60 -  3600)     minutes
+1 - 1440   (60 - 86400)	   hours
+1 -
+
+
+
+1 - 120 minutes
+
+
+function RF.OptionsPanel_Slider_OnValueChanged( self, option )
+	if RF.oldValues then
+		RF.oldValues[option] = RF.oldValues[option] or RF_options[option]
+	else
+		RF.oldValues = { [option] = RF_options[option] }
+	end
+	local min, max = self:GetMinMaxValues()
+	local v = self:GetValue()
+	RF.Print( min.."<"..math.floor( self:GetValue() ).."<"..max )
+
+	--[[
+						if not Rested.oldVal then Rested.oldVal = Rested_options.maxCutOff; end
+						v = (self:GetValue()==10 and "Off") or self:GetValue();
+						getglobal(self:GetName().."Text"):SetText("DelaysTime ("..v..")");
+						Rested_options.maxCutOff = self:GetValue();
+	]]
 end
 
 --[[
