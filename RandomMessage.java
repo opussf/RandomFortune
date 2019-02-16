@@ -9,9 +9,9 @@ import java.util.*;
  * @see <b>the King</b>
  */
 public class RandomMessage {
-	
+
 	private Vector<String> messages = new Vector<String>();
-	
+
 	private void init() {
 		messages.add("Yo momma so stupid, I said refund, she thought I said retard");
 		messages.add("Yo momma so big, she is still be considered a planet");
@@ -88,7 +88,7 @@ public class RandomMessage {
 		messages.add("If vegetarians eat only vegetables, what do humanitarians eat?");
 		messages.add("Mauve is just pink trying to be purple.  - James Whistler");
 		messages.add("Bad code!  Sit.  Stay.");
-		
+
 	}
 
 	/**
