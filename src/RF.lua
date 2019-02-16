@@ -14,14 +14,7 @@ COLOR_GOLD = "|cffcfb52b";
 COLOR_NEON_BLUE = "|cff4d4dff";
 COLOR_END = "|r";
 
--- options
-RF_options = {
-	["lastPost"] = 0;
-	["enabled"] = true;
-	["delay"] = 1200;
-	["lotto"] = true;
-	["guild"] = true;
-}
+
 
 -- seed data
 RF_fortunes = {
@@ -162,9 +155,9 @@ function RF.ADDON_LOADED()
 	RF.Print("There are "..count.." / "..#RF_fortunes.." that can be posted.")
 end
 function RF.VARIABLES_LOADED()
-	RFFrame:UnregisterEvent("VARIABLES_LOADED");
-	RF.Print("Variables Loaded");
-	RF.OptionsSetOptions();
+	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
+	RF.Print( "Variables Loaded" )
+	RF.UpdateOptions()
 end
 function RF.OnUpdate(arg1)
 	if (RF_options.enabled and RF.ShouldPostNow()) then
@@ -352,48 +345,4 @@ RF.CommandList = {
 	},
 }
 
-function RF.OptionsOnLoad(frame)
-	frame.name = "Random Fortune";
-	RFOptionsFrame_Title:SetText("Random Fortune "..RF_MSG_VERSION);
-	frame.okay = RF.OptionsOkay;
-	frame.cancel = RF.OptionsCancel;
-
-	InterfaceOptions_AddCategory(frame);
-end
-function RF.OptionsSetOptions()
-	RFOptionsFrame_EnableBox:SetChecked(RF_options.enabled);
-	RFOptionsFrame_GuildEnableBox:SetChecked(RF_options.guild);
-	RFOptionsFrame_BNEnableBox:SetChecked(RF_options.battleNet);
-	RFOptionsFrame_LottoEnableBox:SetChecked(RF_options.lotto);
-	RFOptionsFrame_SayEnableBox:SetChecked(RF_options.say);
-	RFOptionsFrame_PartyEnableBox:SetChecked(RF_options.party);
-	RFOptionsFrame_InstanceEnableBox:SetChecked(RF_options.instance);
-end
-function RF.OptionsOkay()
-	RF_options.enabled = RFOptionsFrame_EnableBox:GetChecked();
-	RF_options.guild = RFOptionsFrame_GuildEnableBox:GetChecked();
-	RF_options.battleNet = RFOptionsFrame_BNEnableBox:GetChecked();
-	RF_options.lotto = RFOptionsFrame_LottoEnableBox:GetChecked();
-	RF_options.say = RFOptionsFrame_SayEnableBox:GetChecked();
-	RF_options.party = RFOptionsFrame_PartyEnableBox:GetChecked();
-	RF_options.instance = RFOptionsFrame_IntanceEnableBox:GetChecked();
-end
-function RF.OptionsCancel()
-	RF.OptionsSetOptions();
-end
-
-
---[[
-        Rested_options.maxCutOff = RestedOptionsFrame_NagTimeSlider:GetValue();
-        Rested.oldVal = nil;
-end
-function Rested.OptionsPanel_Cancel()
-        Rested_options.maxCutOff = Rested.oldVal or Rested_options.maxCutOff;
-        Rested.OptionsPanel_Reset();
-        Rested.oldVal = nil;
-end
-function Rested.OptionsPanel_Default()
-        Rested_options.maxCutOff = 7;
-        RestedOptionsFrame_NagTimeSlider:SetValue(Rested_options.maxCutOff);
-]]--
 
