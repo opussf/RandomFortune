@@ -260,7 +260,7 @@ function RF.List( listType, num )
 	-- listType = "first", "last", "unposted"
 	num = tonumber( num )
 	num = num or 1
-	print( "RF.List( "..listType..", "..( num or "nil" ).." )" )
+	-- print( "RF.List( "..listType..", "..( num or "nil" ).." )" )
 
 	local timeStamps = {}
 	for i, fData in pairs( RF_fortunes ) do
@@ -278,10 +278,10 @@ function RF.List( listType, num )
 			break
 		end
 	end
-	print( "numNotPosted: ".. numNotPosted )
+	-- print( "numNotPosted: ".. numNotPosted )
 	if listType == "first" then
 		for i = numNotPosted + 1, numNotPosted + 1 + num - 1 do
-			print( "i:"..i.." index:"..timeStamps[i][2] )
+			-- print( "i:"..i.." index:"..timeStamps[i][2] )
 			print( string.format( outFormat, date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
 		end
 	elseif listType == "last" then
