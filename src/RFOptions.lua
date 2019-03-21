@@ -1,11 +1,9 @@
 -- options
-
 RF.defaultOptions = {
 	["lastPost"] = 0,
 	["enabled"] = true,
 	["delay"] = 1800,
 	["lotto"] = true,
-	["guild"] = true,
 }
 RF_options = {}
 function RF.UpdateOptions()
@@ -51,11 +49,16 @@ function RF.OptionsPanel_Reset()
 	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Refresh()
-	--RF.Print( "OptionsPanel_Refresh" )
+	RF.Print( "OptionsPanel_Refresh" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
 	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
-	RFOptionsFrame_GuildEnableBox:SetChecked( RF_options.guild )
+
+	-- GuildEnableBox
+	local guildEnabled, guildTestStr = RF.IsGuildPostable()
+	RFOptionsFrame_GuildEnableBox:SetText( "Post to this guild ("..guildTestStr..")" )
+	RFOptionsFrame_GuildEnableBox:SetChecked( guildEnabled )
+
 	RFOptionsFrame_BNEnableBox:SetChecked( RF_options.battleNet )
 	RFOptionsFrame_SayEnableBox:SetChecked( RF_options.say )
 end
@@ -72,8 +75,20 @@ function RF.OptionsPanel_CheckButton_PostClick( self, option )
 	end
 	RF_options[option] = self:GetChecked()
 end
+function RF.OptionsPanel_Guild_PostClick( self )
+	if not RF_options.guildBlackList then
+		RF_options.guildBlackList = {}
+	end
 
-
+	if( IsInGuild() ) then
+		local guildEnabled, guildTestStr = RF.IsGuildPostable()
+		if RF_options.guildBlackList[guildTestStr] then
+			RF_options.guildBlackList[guildBlackList] = nil
+		else
+			RF_options.guildBlackList[guildBlackList] = true
+		end
+	end
+end
 
 function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	if RF.oldValues then
