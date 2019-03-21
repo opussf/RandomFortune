@@ -107,8 +107,8 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to Guild"</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "Post to Guild" )</OnShow>
-					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "guild" )</PostClick>
+					<!--<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "Post to Guild" )</OnShow>-->
+					<PostClick>RF.OptionsPanel_Guild_PostClick( self )</PostClick>
 				</Scripts>
 			</CheckButton>
 			<CheckButton name="$parent_BNEnableBox" inherits="RFOptionsCheckButtonTemplate">

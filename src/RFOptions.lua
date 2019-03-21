@@ -1,11 +1,9 @@
 -- options
-
 RF.defaultOptions = {
 	["lastPost"] = 0,
 	["enabled"] = true,
 	["delay"] = 1800,
 	["lotto"] = true,
-	["guild"] = true,
 }
 RF_options = {}
 function RF.UpdateOptions()
@@ -14,6 +12,7 @@ function RF.UpdateOptions()
 	end
 end
 function RF.OptionsPanel_OnLoad( frame )
+	--print( "RF.OptionsPanel_OnLoad" )
 	frame.name = "Random Fortune"
 	RFOptionsFrame_Title:SetText( "Random Fortune "..RF_MSG_VERSION )
 
@@ -25,6 +24,7 @@ function RF.OptionsPanel_OnLoad( frame )
 	InterfaceOptions_AddCategory( frame )
 	InterfaceAddOnsList_Update()
 	RF.UpdateOptions()
+	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Okay()
 	-- Data was recorded, clear the temp
@@ -32,6 +32,7 @@ function RF.OptionsPanel_Okay()
 end
 function RF.OptionsPanel_Cancel()
 	-- reset to temp and update the UI
+	--print( "OptionsPanel_Cancel" )
 	if RF.oldValues then
 		for k,v in pairs( RF.oldValues ) do
 			RF_options[k] = val
@@ -55,7 +56,12 @@ function RF.OptionsPanel_Refresh()
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
 	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
-	RFOptionsFrame_GuildEnableBox:SetChecked( RF_options.guild )
+
+	-- GuildEnableBox
+	local guildEnabled, guildTestStr = RF.IsGuildPostable()
+	RFOptionsFrame_GuildEnableBoxText:SetText( "Post to this guild ("..guildTestStr..")" )
+	RFOptionsFrame_GuildEnableBox:SetChecked( guildEnabled )
+
 	RFOptionsFrame_BNEnableBox:SetChecked( RF_options.battleNet )
 	RFOptionsFrame_SayEnableBox:SetChecked( RF_options.say )
 end
@@ -72,8 +78,20 @@ function RF.OptionsPanel_CheckButton_PostClick( self, option )
 	end
 	RF_options[option] = self:GetChecked()
 end
+function RF.OptionsPanel_Guild_PostClick( self )
+	if not RF_options.guildBlackList then
+		RF_options.guildBlackList = {}
+	end
 
-
+	if( IsInGuild() ) then
+		local guildEnabled, guildTestStr = RF.IsGuildPostable()
+		if RF_options.guildBlackList[guildTestStr] then
+			RF_options.guildBlackList[guildTestStr] = nil
+		else
+			RF_options.guildBlackList[guildTestStr] = true
+		end
+	end
+end
 
 function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	if RF.oldValues then

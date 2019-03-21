@@ -43,11 +43,20 @@ function RF.Print( msg, showName)
 	end
 	DEFAULT_CHAT_FRAME:AddMessage( msg );
 end
+function RF.IsGuildPostable()
+	-- return true if posting to this guild chat is allowed
+	if( IsInGuild() ) then
+		local guildTestStr = ( GetRealmName() or "none" ).."-"..(  GetGuildInfo( "player" ) or "none" )
+		--print( guildTestStr )
+		if not RF_options.guildBlackList or not RF_options.guildBlackList[guildTestStr] then
+			return true, guildTestStr
+		end
+		return false, guildTestStr
+	end
+end
 function RF.GuildPrint( msg )
-	if (IsInGuild() and RF_options.guild) then
-		SendChatMessage( msg, "GUILD" );
---	else
---		RF.Print( COLOR_RED.."RF.GuildPrint: "..COLOR_END..msg, false );
+	if RF.IsGuildPostable() then
+		SendChatMessage( msg, "GUILD" )
 	end
 end
 function RF.SayPartyRaid( msg )
@@ -157,7 +166,7 @@ function RF.ADDON_LOADED()
 end
 function RF.VARIABLES_LOADED()
 	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
-	RF.Print( "Variables Loaded" )
+	--RF.Print( "Variables Loaded" )
 	RF.UpdateOptions()
 end
 function RF.OnUpdate(arg1)
