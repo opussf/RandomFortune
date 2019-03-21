@@ -14,6 +14,7 @@ RFFrame = CreateFrame()
 
 package.path = "../src/?.lua;'" .. package.path
 require "RF"
+require "RFOptions"
 
 
 function test.before()
@@ -55,6 +56,7 @@ function test.testCommandWorks_delay_invalidDelay()
 	RF.Command( "delay hello" )
 	assertEquals( beforeDelay, RF_options.delay )
 end
+--[[
 function test.testCommandWorks_delay_noDelay()
 	-- should quietly do nothing
 	local beforeDelay = RF_options.delay
@@ -67,6 +69,7 @@ function test.testCommandWorks_delay_zeroDelay()
 	RF.Command( "delay 0" ) -- zero is an invalid value really
 	assertEquals( beforeDelay, RF_options.delay )
 end
+]]
 function test.testCommandWorks_delay_validDelay()
 	RF.Command( "delay 1") -- one is the smallest allowed value
 	assertEquals( 60, RF_options.delay, "Should be set to 60 seconds" )
@@ -146,9 +149,11 @@ function test.testDelete_noIndexGiven()
 	RF.Command( "rm" )
 	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
 end
+--[[
 function test.testStatus_noOptions()
 	RF.Command( "status" )
 end
+]]
 function test.testStatus_fortuneIndexGiven()
 	RF.Command( "status 1" )
 end
@@ -165,11 +170,13 @@ end
 function test.testList_commandWorks()
 	RF.Command( "list" )
 end
+--[[
 function test.testNow_withTextParamter()
 	RF_options["lastPost"] = 0
 	RF.Command( "now Hello" )
 	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
 end
+]]
 function test.testNow_withNumberParameter()
 	RF_options["lastPost"] = 0
 	RF.Command( "now 1" )
@@ -185,5 +192,54 @@ function test.testNow_withNumberParameter_tooLarge()
 	RF.Command( "now 5" )
 	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
 end
+-- 8.2.0 features
+function test.last_Setup()
+	RF_fortunes = {
+		{ ["fortune"] = "A", ["lastPost"] = 0, },
+		{ ["fortune"] = "B", ["lastPost"] = 10, },
+		{ ["fortune"] = "C", ["lastPost"] = 35, },
+		{ ["fortune"] = "D", ["lastPost"] = 20, },
+		{ ["fortune"] = "E", ["lastPost"] = 25, },
+		{ ["fortune"] = "F", ["lastPost"] = 30, },
+		{ ["fortune"] = "G", ["lastPost"] = 15, },
+	}
+end
+function test.testLast_noParameter( )
+	test.last_Setup()
+	assertTrue( RF.Command( "last" ) )
+end
+function test.testLast_noParameter_direct()
+	test.last_Setup()
+	RF.List( "last" )
+end
+function test.testLast_5()
+	test.last_Setup()
+	assertTrue( RF.Command( "last 5" ) )
+end
+function test.testLast_5_direct()
+	test.last_Setup()
+	RF.List( "last", 5 )
+end
+function test.testUnposted()
+	test.last_Setup()
+	assertTrue( RF.Command( "unposted" ) )
+end
+function test.testUnposted_direct()
+	test.last_Setup()
+	RF.List( "unposted" )
+end
+function test.testFirst_noParameter()
+	test.last_Setup()
+	assertTrue( RF.Command( "first" ) )
+end
+function test.testFirst_noParameter_direct()
+	test.last_Setup()
+	RF.List( "first" )
+end
+function test.testFirst_5()
+	test.last_Setup()
+	assertTrue( RF.Command( "first 5" ) )
+end
+
 
 test.run()

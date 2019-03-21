@@ -14,14 +14,7 @@ COLOR_GOLD = "|cffcfb52b";
 COLOR_NEON_BLUE = "|cff4d4dff";
 COLOR_END = "|r";
 
--- options
-RF_options = {
-	["lastPost"] = 0;
-	["enabled"] = true;
-	["delay"] = 1200;
-	["lotto"] = true;
-	["guild"] = true;
-}
+
 
 -- seed data
 RF_fortunes = {
@@ -130,7 +123,8 @@ function RF.Command(msg)
 	cmd = string.lower(cmd);
 	local cmdFunc = RF.CommandList[cmd];
 	if cmdFunc then
-		cmdFunc.func(param);
+		cmdFunc.func(param)
+		return 1
 	else
 		InterfaceOptionsFrame_OpenToCategory("Random Fortune");
 		--RF.Print("Use '/rf help' for a list of commands.");
@@ -162,9 +156,9 @@ function RF.ADDON_LOADED()
 	RF.Print("There are "..count.." / "..#RF_fortunes.." that can be posted.")
 end
 function RF.VARIABLES_LOADED()
-	RFFrame:UnregisterEvent("VARIABLES_LOADED");
-	RF.Print("Variables Loaded");
-	RF.OptionsSetOptions();
+	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
+	RF.Print( "Variables Loaded" )
+	RF.UpdateOptions()
 end
 function RF.OnUpdate(arg1)
 	if (RF_options.enabled and RF.ShouldPostNow()) then
@@ -235,7 +229,7 @@ function RF.MakeLuckyNumber()
 	return "("..table.concat( luckyNumbers, "-" )..")";
 end
 function RF.Find( search )
-	-- Looks for fortunes that contain 'seach'
+	-- Looks for fortunes that contain 'search'
 	-- Returns numberOfFortunesFound
 	search = search and string.upper(search) or ""
 	-- create format string with correct size to list all fortunes if all are returned.  %% is resolved to %
@@ -260,6 +254,44 @@ function RF.Delete( index )
 	if index and index>0 and index<=#RF_fortunes then
 		local fortune = table.remove( RF_fortunes, index ) -- use the table.remove to remove a value
 		RF.Print(COLOR_RED.."REMOVING: "..COLOR_END..fortune.fortune)
+	end
+end
+function RF.List( listType, num )
+	-- listType = "first", "last", "unposted"
+	num = tonumber( num )
+	num = num or 1
+	-- print( "RF.List( "..listType..", "..( num or "nil" ).." )" )
+
+	local timeStamps = {}
+	for i, fData in pairs( RF_fortunes ) do
+		table.insert( timeStamps, { fData.lastPost, i } )
+	end
+	table.sort( timeStamps, function( a, b ) if a[1] < b[1] then return true; end; end )
+
+	local outFormat = string.format( "%%s [%%%ii] %%s", max( math.ceil( math.log10( #RF_fortunes ) ), 1 ) )
+	-- count the number not posted
+	local numNotPosted = 0
+	for i in ipairs( timeStamps ) do
+		if timeStamps[i][1] == 0 then
+			numNotPosted = numNotPosted + 1
+		else
+			break
+		end
+	end
+	-- print( "numNotPosted: ".. numNotPosted )
+	if listType == "first" then
+		for i = numNotPosted + 1, numNotPosted + 1 + num - 1 do
+			-- print( "i:"..i.." index:"..timeStamps[i][2] )
+			print( string.format( outFormat, date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
+		end
+	elseif listType == "last" then
+		for i = #timeStamps, #timeStamps - num + 1, -1 do
+			print( string.format( outFormat, date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
+		end
+	elseif listType == "unposted" then
+		for i = 1, numNotPosted do
+			print( string.format( outFormat, date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
+		end
 	end
 end
 
@@ -350,50 +382,17 @@ RF.CommandList = {
 			end,
 		["help"] = {"", "List all fortunes."},
 	},
+	["last"] = {
+		["func"] = function( num ) RF.List( "last", num ); end,
+		["help"] = {"number", "List the last <number> of posted fortunes."},
+	},
+	["first"] = {
+		["func"] = function( num ) RF.List( "first", num ); end,
+		["help"] = { "number", "List the first <number> of posted fortunes." },
+	},
+	["unposted"] = {
+		["func"] = function() RF.List( "unposted" ); end,
+		["help"] = {"", "List the unposted fortunes." },
+	},
 }
-
-function RF.OptionsOnLoad(frame)
-	frame.name = "Random Fortune";
-	RFOptionsFrame_Title:SetText("Random Fortune "..RF_MSG_VERSION);
-	frame.okay = RF.OptionsOkay;
-	frame.cancel = RF.OptionsCancel;
-
-	InterfaceOptions_AddCategory(frame);
-end
-function RF.OptionsSetOptions()
-	RFOptionsFrame_EnableBox:SetChecked(RF_options.enabled);
-	RFOptionsFrame_GuildEnableBox:SetChecked(RF_options.guild);
-	RFOptionsFrame_BNEnableBox:SetChecked(RF_options.battleNet);
-	RFOptionsFrame_LottoEnableBox:SetChecked(RF_options.lotto);
-	RFOptionsFrame_SayEnableBox:SetChecked(RF_options.say);
-	RFOptionsFrame_PartyEnableBox:SetChecked(RF_options.party);
-	RFOptionsFrame_InstanceEnableBox:SetChecked(RF_options.instance);
-end
-function RF.OptionsOkay()
-	RF_options.enabled = RFOptionsFrame_EnableBox:GetChecked();
-	RF_options.guild = RFOptionsFrame_GuildEnableBox:GetChecked();
-	RF_options.battleNet = RFOptionsFrame_BNEnableBox:GetChecked();
-	RF_options.lotto = RFOptionsFrame_LottoEnableBox:GetChecked();
-	RF_options.say = RFOptionsFrame_SayEnableBox:GetChecked();
-	RF_options.party = RFOptionsFrame_PartyEnableBox:GetChecked();
-	RF_options.instance = RFOptionsFrame_IntanceEnableBox:GetChecked();
-end
-function RF.OptionsCancel()
-	RF.OptionsSetOptions();
-end
-
-
---[[
-        Rested_options.maxCutOff = RestedOptionsFrame_NagTimeSlider:GetValue();
-        Rested.oldVal = nil;
-end
-function Rested.OptionsPanel_Cancel()
-        Rested_options.maxCutOff = Rested.oldVal or Rested_options.maxCutOff;
-        Rested.OptionsPanel_Reset();
-        Rested.oldVal = nil;
-end
-function Rested.OptionsPanel_Default()
-        Rested_options.maxCutOff = 7;
-        RestedOptionsFrame_NagTimeSlider:SetValue(Rested_options.maxCutOff);
-]]--
 
