@@ -107,7 +107,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to Guild"</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "Post to Guild" )</OnShow>
+					<!--<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "Post to Guild" )</OnShow>-->
 					<PostClick>RF.OptionsPanel_Guild_PostClick( self )</PostClick>
 				</Scripts>
 			</CheckButton>

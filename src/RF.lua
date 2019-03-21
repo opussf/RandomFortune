@@ -46,7 +46,8 @@ end
 function RF.IsGuildPostable()
 	-- return true if posting to this guild chat is allowed
 	if( IsInGuild() ) then
-		local guildTestStr = GetRealmName().."-"..GetGuildInfo( "player" )
+		local guildTestStr = ( GetRealmName() or "none" ).."-"..(  GetGuildInfo( "player" ) or "none" )
+		--print( guildTestStr )
 		if not RF_options.guildBlackList or not RF_options.guildBlackList[guildTestStr] then
 			return true, guildTestStr
 		end
@@ -165,7 +166,7 @@ function RF.ADDON_LOADED()
 end
 function RF.VARIABLES_LOADED()
 	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
-	RF.Print( "Variables Loaded" )
+	--RF.Print( "Variables Loaded" )
 	RF.UpdateOptions()
 end
 function RF.OnUpdate(arg1)

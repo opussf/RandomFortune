@@ -12,6 +12,7 @@ function RF.UpdateOptions()
 	end
 end
 function RF.OptionsPanel_OnLoad( frame )
+	--print( "RF.OptionsPanel_OnLoad" )
 	frame.name = "Random Fortune"
 	RFOptionsFrame_Title:SetText( "Random Fortune "..RF_MSG_VERSION )
 
@@ -23,6 +24,7 @@ function RF.OptionsPanel_OnLoad( frame )
 	InterfaceOptions_AddCategory( frame )
 	InterfaceAddOnsList_Update()
 	RF.UpdateOptions()
+	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Okay()
 	-- Data was recorded, clear the temp
@@ -30,6 +32,7 @@ function RF.OptionsPanel_Okay()
 end
 function RF.OptionsPanel_Cancel()
 	-- reset to temp and update the UI
+	--print( "OptionsPanel_Cancel" )
 	if RF.oldValues then
 		for k,v in pairs( RF.oldValues ) do
 			RF_options[k] = val
@@ -49,14 +52,14 @@ function RF.OptionsPanel_Reset()
 	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Refresh()
-	RF.Print( "OptionsPanel_Refresh" )
+	--RF.Print( "OptionsPanel_Refresh" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
 	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
 
 	-- GuildEnableBox
 	local guildEnabled, guildTestStr = RF.IsGuildPostable()
-	RFOptionsFrame_GuildEnableBox:SetText( "Post to this guild ("..guildTestStr..")" )
+	RFOptionsFrame_GuildEnableBoxText:SetText( "Post to this guild ("..guildTestStr..")" )
 	RFOptionsFrame_GuildEnableBox:SetChecked( guildEnabled )
 
 	RFOptionsFrame_BNEnableBox:SetChecked( RF_options.battleNet )
@@ -83,9 +86,9 @@ function RF.OptionsPanel_Guild_PostClick( self )
 	if( IsInGuild() ) then
 		local guildEnabled, guildTestStr = RF.IsGuildPostable()
 		if RF_options.guildBlackList[guildTestStr] then
-			RF_options.guildBlackList[guildBlackList] = nil
+			RF_options.guildBlackList[guildTestStr] = nil
 		else
-			RF_options.guildBlackList[guildBlackList] = true
+			RF_options.guildBlackList[guildTestStr] = true
 		end
 	end
 end
