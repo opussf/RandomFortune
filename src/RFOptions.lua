@@ -59,7 +59,7 @@ function RF.OptionsPanel_Refresh()
 
 	-- GuildEnableBox
 	local guildEnabled, guildTestStr = RF.IsGuildPostable()
-	RFOptionsFrame_GuildEnableBoxText:SetText( "Post to this guild ("..guildTestStr..")" )
+	RFOptionsFrame_GuildEnableBoxText:SetText( "Post to this guild ("..( guildTestStr or "N/A" )..")" )
 	RFOptionsFrame_GuildEnableBox:SetChecked( guildEnabled )
 
 	RFOptionsFrame_BNEnableBox:SetChecked( RF_options.battleNet )
@@ -102,6 +102,7 @@ function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	local min, max = self:GetMinMaxValues()
 	local v = math.floor( self:GetValue() * 60 )
 	RF.Print( min.."<"..math.floor( self:GetValue() ).."<"..max )
+	RF_options[option] = v
 
 	--[[
 						if not Rested.oldVal then Rested.oldVal = Rested_options.maxCutOff; end
