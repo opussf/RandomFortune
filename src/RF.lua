@@ -117,6 +117,11 @@ function RF.PrintStatus( index )
 		if RF_options.party and RF_options.say then
 			RF.Print("Prefer to say in party");
 		end
+		if RF.IsGuildPostable() then
+			RF.Print( "Print to this guild." )
+		else
+			RF.Print( "No not post to this guild." )
+		end
 	end
 end
 function RF.PrintHelp()
