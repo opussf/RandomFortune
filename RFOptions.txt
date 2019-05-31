@@ -1,0 +1,40 @@
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                  Posts a random Fortune Cookie style wisdom                     │
+│                                                                                 │
+│                             ### fortunes known.                                 │
+│                                                                                 │
+│                                                                                 │
+│                                              Last Post: %x %X                   │
+│  ┌──┐                                                    ┌───────────────┐      │
+│  │  │ Timed Posts Enabled                    Delay Time: │               │      │
+│  └──┘                                                    └───────────────┘      │
+│  ┌──┐                                        Next Post: %x %X                   │
+│  │  │ Append Lotto Numbers                                                      │
+│  └──┘                                                                           │
+│  ┌──┐                                                                           │
+│  │  │ Post to Guild <guild name>                                                │
+│  └──┘                                                                           │
+│  ┌──┐                                                                           │
+│  │  │ Post to BattleNet Status                                                  │
+│  └──┘                                                                           │
+│  ┌──┐                                                                           │
+│  │  │ Post to Say channel                                                       │
+│  └──┘                                                                           │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
