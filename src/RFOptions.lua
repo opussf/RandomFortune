@@ -104,40 +104,5 @@ function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	RF.Print( min.."<"..math.floor( self:GetValue() ).."<"..max )
 	RF_options[option] = v
 
-	--[[
-						if not Rested.oldVal then Rested.oldVal = Rested_options.maxCutOff; end
-						v = (self:GetValue()==10 and "Off") or self:GetValue();
-						getglobal(self:GetName().."Text"):SetText("DelaysTime ("..v..")");
-						Rested_options.maxCutOff = self:GetValue();
-	]]
+
 end
-
---[[
-
-function MeToo.OptionsPanel_Refresh()
-	-- set the drop down values here...  Maybe more?
-	--MeToo.Print( "OptionsPanel_Refresh" )
-	MeTooOptionsFrame_MountSuccessDoEmote:SetChecked( MeToo_options["mountSuccess_doEmote"] )
-	MeTooOptionsFrame_MountSuccessEmoteEditBox:SetText( MeToo_options["mountSuccess_emote"] )
-	MeTooOptionsFrame_MountSuccessEmoteEditBox:SetCursorPosition(0)
-	MeTooOptionsFrame_MountSuccessEmoteToTarget:SetChecked( MeToo_options["mountSuccess_useTarget"] )
-
-	MeTooOptionsFrame_MountFailureDoEmote:SetChecked( MeToo_options["mountFailure_doEmote"] )
-	MeTooOptionsFrame_MountFailureEmoteEditBox:SetText( MeToo_options["mountFailure_emote"] )
-	MeTooOptionsFrame_MountFailureEmoteEditBox:SetCursorPosition(0)
-	MeTooOptionsFrame_MountFailureEmoteToTarget:SetChecked( MeToo_options["mountFailure_useTarget"] )
-
-	MeTooOptionsFrame_CompanionSuccessDoEmote:SetChecked( MeToo_options["companionSuccess_doEmote"] )
-	MeTooOptionsFrame_CompanionSuccessEmoteEditBox:SetText( MeToo_options["companionSuccess_emote"] )
-	MeTooOptionsFrame_CompanionSuccessEmoteEditBox:SetCursorPosition(0)
-	MeTooOptionsFrame_CompanionSuccessEmoteToTarget:SetChecked( MeToo_options["companionSuccess_useTarget"] )
-
-	MeTooOptionsFrame_CompanionFailureDoEmote:SetChecked( MeToo_options["companionFailure_doEmote"] )
-	MeTooOptionsFrame_CompanionFailureEmoteEditBox:SetText( MeToo_options["companionFailure_emote"] )
-	MeTooOptionsFrame_CompanionFailureEmoteEditBox:SetCursorPosition(0)
-	MeTooOptionsFrame_CompanionFailureEmoteToTarget:SetChecked( MeToo_options["companionFailure_useTarget"] )
-end
-
-
-
-]]

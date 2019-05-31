@@ -59,30 +59,6 @@
 					<OnValueChanged>RF.OptionsPanel_Slider_OnValueChanged( self, "delay" )</OnValueChanged>
 				</Scripts>
 			</Slider>
-						<!--
-			<Slider name="$parent_DelaySlider" inherits="OptionsSliderTemplate" minValue="1" maxValue="10" valueStep="1">
-				<Size x="220" y="16"/>
-				<Anchors>
-					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="-20" y="-100"/></Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText("DelayTime ()");
-						getglobal(self:GetName().."High"):SetText("Off");
-						getglobal(self:GetName().."Low"):SetText("1 Day");
-					</OnLoad>
-					<OnValueChanged>
-						if not Rested.oldVal then Rested.oldVal = Rested_options.maxCutOff; end
-						v = (self:GetValue()==10 and "Off") or self:GetValue();
-						getglobal(self:GetName().."Text"):SetText("DelaysTime ("..v..")");
-						Rested_options.maxCutOff = self:GetValue();
-					</OnValueChanged>
-				</Scripts>
-			</Slider>
-
-		-->
 			<CheckButton name="$parent_LottoEnableBox" inherits="RFOptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_EnableBox">
