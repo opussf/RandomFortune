@@ -5,20 +5,20 @@
 │                             ### fortunes known.                                 │
 │                                                                                 │
 │                                                                                 │
-│                                              Last Post: %x %X                   │
+│                                              Next Post: %x %X                   │
 │  ┌──┐                                                    ┌───────────────┐      │
 │  │  │ Timed Posts Enabled                    Delay Time: │               │      │
 │  └──┘                                                    └───────────────┘      │
-│  ┌──┐                                        Next Post: %x %X                   │
-│  │  │ Append Lotto Numbers                                                      │
-│  └──┘                                                                           │
-│  ┌──┐                                                                           │
-│  │  │ Post to Guild <guild name>                                                │
-│  └──┘                                                                           │
-│  ┌──┐                                                                           │
-│  │  │ Post to BattleNet Status                                                  │
-│  └──┘                                                                           │
-│  ┌──┐                                                                           │
+│  ┌──┐                                        Last Post: %x %X                   │
+│  │  │ Append Lotto Numbers                     ┌──────────────────────────────┐ │
+│  └──┘                                          │                              │ │
+│  ┌──┐                                          │                              │ │
+│  │  │ Post to Guild <guild name>               │                              │ │
+│  └──┘                                          │                              │ │
+│  ┌──┐                                          │                              │ │
+│  │  │ Post to BattleNet Status                 │                              │ │
+│  └──┘                                          │                              │ │
+│  ┌──┐                                          └──────────────────────────────┘ │
 │  │  │ Post to Say channel                                                       │
 │  └──┘                                                                           │
 │                                                                                 │
