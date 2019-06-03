@@ -103,6 +103,49 @@ function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	local v = math.floor( self:GetValue() * 60 )
 	RF.Print( min.."<"..math.floor( self:GetValue() ).."<"..max )
 	RF_options[option] = v
-
-
 end
+
+RF.timeMultipliers = { [" "] = 1, ["s"] = 1, ["m"] = 60, ["h"] = 3600, ["d"] = 86400, ["w"] = 604800 }
+RF.timeMultiplierOrder = { "w", "d", "h", "m", "s" }
+function RF.TextToSeconds( textIn )
+	-- convert a string to seconds
+	-- the string is in the format of <number><unit>.....
+	-- returns seconds
+	local seconds, current = 0, 0
+	for i = 1, string.len( textIn ) do
+		local char = string.lower( strsub( textIn, i, i ) )
+		local multiplier = RF.timeMultipliers[char]
+		if multiplier then
+			current = current * multiplier
+			seconds = seconds + current
+			current = 0
+		elseif char == tostring( tonumber( char ) ) then
+			current = current * 10
+			current = current + tonumber( char )
+		end
+		--print( char..": "..seconds.." + ("..current.." * "..(multiplier or "")..")" )
+	end
+	seconds = seconds + current
+	return seconds
+end
+function RF.SecondsToText( secIn )
+	-- convert seconds to a string
+	secIn = tonumber( secIn )
+	outStr = ""
+	for _,m in pairs( RF.timeMultiplierOrder ) do
+		local multiplier = RF.timeMultipliers[m]
+		if multiplier <= secIn then
+			--print( multiplier.." <=? "..secIn )
+			v = math.floor( secIn / multiplier )
+			secIn = secIn - ( v * multiplier )
+			outStr = string.format( "%s%s%i%s",
+					outStr, (string.len(outStr) > 1 and " " or ""), v, m )
+			--print( "-->"..outStr.."<--" )
+		end
+	end
+	return outStr
+end
+
+
+
+
