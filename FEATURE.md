@@ -3,13 +3,16 @@
 ## Options
 Move the options to the options panel.
 
+### Delay
 Make the delay field display and take a string with  #<unit> #<unit> format.
 30m 5s   would be valid
-1d
-1h
-1w
 
+5s30m would also be valid, but would convert to 30m 5s when used.
 
+No unit would default to number of seconds, but would still expand to the formatted number when used.
+
+### Commands
+``/rf status`` and ``/rf`` will now open the options panel.
 
 
 ## Guild
