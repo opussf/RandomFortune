@@ -14,7 +14,7 @@ end
 function RF.OptionsPanel_OnLoad( frame )
 	--print( "RF.OptionsPanel_OnLoad" )
 	frame.name = "Random Fortune"
-	RFOptionsFrame_Title:SetText( "Random Fortune "..RF_MSG_VERSION )
+	RFOptionsFrame_Title:SetText( RF_MSG_ADDONNAME.." "..RF_MSG_VERSION )
 
 	frame.okay = RF.OptionsPanel_Okay
 	frame.cancel = RF.OptionsPanel_Cancel
@@ -24,7 +24,6 @@ function RF.OptionsPanel_OnLoad( frame )
 	InterfaceOptions_AddCategory( frame )
 	InterfaceAddOnsList_Update()
 	RF.UpdateOptions()
-	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Okay()
 	-- Data was recorded, clear the temp
