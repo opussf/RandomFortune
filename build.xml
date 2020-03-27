@@ -112,6 +112,9 @@
 	<target name="wow" depends="test" description="copy files to currnet wow install">
 		<property name="addon.dir" location="/Applications/World of Warcraft/Interface/Addons/${ant.project.name}"/>
 		<mkdir dir="${addon.dir}"/>
+		<delete>
+			<fileset dir="${addon.dir}" includes="*.toc"/>
+		</delete>
 		<copy todir="${addon.dir}" filtering="true">
 			<fileset dir="src">
 				<include name="*.lua"/>
