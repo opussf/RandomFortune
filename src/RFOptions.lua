@@ -8,7 +8,7 @@ RF.defaultOptions = {
 RF_options = {}
 function RF.UpdateOptions()
 	for k,v in pairs( RF.defaultOptions ) do
-		RF_options[k] = RF_options[k] or v
+		RF_options[k] = ( RF_options[k] == nil and v or RF_options[k] )
 	end
 end
 function RF.OptionsPanel_OnLoad( frame )
@@ -34,7 +34,7 @@ function RF.OptionsPanel_Cancel()
 	--print( "OptionsPanel_Cancel" )
 	if RF.oldValues then
 		for k,v in pairs( RF.oldValues ) do
-			RF_options[k] = val
+			RF_options[k] = v
 		end
 	end
 	RF.oldValues = nil
