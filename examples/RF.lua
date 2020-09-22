@@ -2788,6 +2788,7 @@ RF_fortunes = {
 		["fortune"] = "Let him that would move the world first move himself.",
 		["lastPost"] = 1559105473,
 	}, -- [697]
+
 }
 RF_options = {
 	["enabled"] = true,
