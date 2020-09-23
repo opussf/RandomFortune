@@ -7,12 +7,19 @@ RF.defaultOptions = {
 }
 RF_options = {}
 function RF.UpdateOptions()
+	RF.Print( "UpdateOptions()" )
 	for k,v in pairs( RF.defaultOptions ) do
 		RF_options[k] = ( RF_options[k] == nil and v or RF_options[k] )
 	end
+	RF.OptionsPanel_Refresh()
+end
+function RF.OptionsPanel_Reset()
+	-- Called from Addon_loaded
+	RF.Print( "OptionsPanel_Reset()" )
+	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_OnLoad( frame )
-	--print( "RF.OptionsPanel_OnLoad" )
+	print( "RF.OptionsPanel_OnLoad()" )
 	frame.name = "Random Fortune"
 	RFOptionsFrame_Title:SetText( RF_MSG_ADDONNAME.." "..RF_MSG_VERSION )
 
@@ -45,15 +52,11 @@ function RF.OptionsPanel_Default()
 		RF_options[k] = v
 	end
 end
-function RF.OptionsPanel_Reset()
-	-- Called from Addon_loaded
-	--RF.Print( "Reset" )
-	RF.OptionsPanel_Refresh()
-end
+
 function RF.OptionsPanel_Refresh()
-	--RF.Print( "OptionsPanel_Refresh" )
+	RF.Print( "OptionsPanel_Refresh()" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
-	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
+	RFOptionsFrame_DelaySlider:SetValue( tonumber(RF_options.delay)/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
 
 	-- GuildEnableBox
@@ -66,7 +69,7 @@ function RF.OptionsPanel_Refresh()
 end
 --------
 function RF.OptionsPanel_CheckButton_OnShow( self, option, text )
-	--RF.Print( text..": OnShow" )
+	RF.Print( text..": OnShow" )
 	getglobal( self:GetName().."Text"):SetText( text )
 end
 function RF.OptionsPanel_CheckButton_PostClick( self, option )
@@ -91,7 +94,6 @@ function RF.OptionsPanel_Guild_PostClick( self )
 		end
 	end
 end
-
 function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	if RF.oldValues then
 		RF.oldValues[option] = RF.oldValues[option] or RF_options[option]

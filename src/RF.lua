@@ -1,6 +1,7 @@
-RF_MSG_VERSION = GetAddOnMetadata("RF","Version");
-RF_MSG_ADDONNAME = GetAddOnMetadata("RF","Title");
-RF_MSG_AUTHOR = GetAddOnMetadata("RF", "Author");
+RF_SLUG, RF = ...
+RF_MSG_VERSION = GetAddOnMetadata( RF_SLUG, "Version" )
+RF_MSG_ADDONNAME = GetAddOnMetadata( RF_SLUG, "Title" )
+RF_MSG_AUTHOR = GetAddOnMetadata( RF_SLUG, "Author" )
 
 -- Colours
 COLOR_RED = "|cffff0000";
@@ -14,8 +15,6 @@ COLOR_GOLD = "|cffcfb52b";
 COLOR_NEON_BLUE = "|cff4d4dff";
 COLOR_END = "|r";
 
-
-
 -- seed data
 RF_fortunes = {
 	[1] = {
@@ -23,8 +22,6 @@ RF_fortunes = {
 		["lastPost"] = 0,
 	},
 }
-
-RF = {};
 
 -- onload event handler
 function RF.OnLoad()
@@ -70,7 +67,7 @@ function RF.SayPartyRaid( msg )
 		end
 	end
 	--if RF_options.
-	SendChatMessage( msg, chat );
+	--SendChatMessage( msg, chat )
 end
 function RF.PrintStatus( index )
 	index = index and tonumber(index) or nil
@@ -171,7 +168,7 @@ function RF.ADDON_LOADED()
 end
 function RF.VARIABLES_LOADED()
 	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
-	--RF.Print( "Variables Loaded" )
+	RF.Print( "Variables Loaded" )
 	RF.UpdateOptions()
 end
 function RF.OnUpdate(arg1)
