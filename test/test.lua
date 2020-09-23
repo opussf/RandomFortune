@@ -1,21 +1,12 @@
 #!/usr/bin/env lua
 
-addonData = {
-	["Version"] = "1.0",
-	["Title"] = "Random Fortune",
-	["Author"] = "Me",
-}
-
 require "wowTest"
 
 test.outFileName = "testOut.xml"
 
 RFFrame = CreateFrame()
 
-package.path = "../src/?.lua;'" .. package.path
-require "RF"
-require "RFOptions"
-
+ParseTOC( "../src/RF.toc" )
 
 function test.before()
 	RF.OnLoad()
