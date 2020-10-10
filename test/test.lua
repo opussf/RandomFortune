@@ -245,7 +245,6 @@ function test.test_SendChatMessage_ReplaceToken()
 	RF.SendChatMessage( "{rf}" )
 	print( chatLog[#chatLog].msg )
 	assertEquals( "Smile!", chatLog[#chatLog].msg )
-	--assertEquals( "Yarp", chatLog[#chatLog].chatType )
 end
 function test.test_SendChatMessage_noToken()
 	RF.SendChatMessage( "The animals are lose." )
@@ -259,6 +258,10 @@ end
 function test.test_SendChatMessage_textAndToken()
 	RF.SendChatMessage( "Wisdom: {RF}" )
 	assertEquals( "Wisdom: Smile!", chatLog[#chatLog].msg )
+end
+function test.test_BNSendWhiper_ReplaceToken()
+	RF.BNSendWhisper( 1, "{rf}" )
+	assertEquals( "Smile!", chatLog[#chatLog].msg )
 end
 
 
