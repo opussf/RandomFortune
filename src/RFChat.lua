@@ -24,7 +24,7 @@ function RF.SendChatMessage( msgIn, system, language, channel )
 	RF.OriginalSendChatMessage( RF.ReplaceMessage( msgIn ), system, language, channel )
 end
 function RF.BNSendWhisper( id, msgIn )
-	RF.OriginalBNSendWhisper( id. RF.ReplaceMessage( msgIn ) )
+	RF.OriginalBNSendWhisper( id, RF.ReplaceMessage( msgIn ) )
 end
 
 --[[
