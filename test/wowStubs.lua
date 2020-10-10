@@ -19,8 +19,6 @@ chatLog = {
 -- [1] = { ["msg"] = "ChatOutput", ["channel"] = "where", [<other parameters>] = <values> }
 }
 
-
-
 local itemDB = {
 }
 

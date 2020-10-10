@@ -10,3 +10,4 @@ RF.lua
 RF.xml
 RFOptions.lua
 RFOptions.xml
+RFChat.lua

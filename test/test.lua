@@ -7,14 +7,26 @@ test.outFileName = "testOut.xml"
 RFFrame = CreateFrame()
 
 ParseTOC( "../src/RF.toc" )
+<<<<<<< HEAD
+=======
+
+OriginalSendChatMessage = SendChatMessage
+OriginalBNSendWhisper = BNSendWhisper
+>>>>>>> develop
 
 function test.before()
 	RF.OnLoad()
 	RF_fortunes = { { ["fortune"] = "Smile!", ["lastPost"] = 0, } }
 	RF_options.enabled = true -- default to on
+<<<<<<< HEAD
 	RF_options.delay = 30
+=======
+	RF.VARIABLES_LOADED()
+>>>>>>> develop
 end
 function test.after()
+	SendChatMessage = OriginalSendChatMessage
+	BNSendWhisper = OriginalBNSendWhisper
 end
 function test.testMakeLuckyNumber()
 	-- random is not
@@ -266,7 +278,6 @@ function test.testTimeOptionTextToSeconds_Mixed_HourMinSec()
 	assertEquals( 5430, RF.TextToSeconds( "1h30m30" ) )
 	assertEquals( 5430, RF.TextToSeconds( "30s 30m 1h" ) )
 end
-
 function test.testTimeOptionSecondsToTime_1Week()
 	assertEquals( "1w", RF.SecondsToText( 604800 ) )
 end
@@ -299,6 +310,37 @@ function test.testTimeOptionTextToSeconds_badChars()
 end
 function test.testTimeOptionTextToSecondsToText_01()
 	assertEquals( "1h 30m 30s", RF.SecondsToText( RF.TextToSeconds( "30s 90m" ) ) )
+end
+------------------
+-- Chat
+------------------
+function test.test_SendChatMessage_ReplaceToken()
+	-- Normal {RF}
+	RF.SendChatMessage( "{rf}" )
+	print( chatLog[#chatLog].msg )
+	assertEquals( "Smile!", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_noToken()
+	RF.SendChatMessage( "The animals are lose." )
+	assertEquals( "The animals are lose.", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_SpecificFortune()
+	RF.Command( "add SAB" )
+	RF.SendChatMessage( "{Rf#2}" )
+	assertEquals( "SAB", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_SpecificFortune_noIndex()
+	RF.Command( "add SAB" )
+	RF.SendChatMessage( "{Rf#700}" )
+	assertEquals( "SAB", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_textAndToken()
+	RF.SendChatMessage( "Wisdom: {RF}" )
+	assertEquals( "Wisdom: Smile!", chatLog[#chatLog].msg )
+end
+function test.test_BNSendWhiper_ReplaceToken()
+	RF.BNSendWhisper( 1, "{rf}" )
+	assertEquals( "Smile!", chatLog[#chatLog].msg )
 end
 
 test.run()

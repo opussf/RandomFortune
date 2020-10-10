@@ -14,6 +14,8 @@ No unit would default to number of seconds, but would still expand to the format
 ### Commands
 ``/rf status`` and ``/rf`` will now open the options panel.
 
+## ChatInterface
+Allow {RF} and {RF#nnnn} tokens to be expanded to random fortunes in chat.
 
 ## Guild
 Gives an option to black list a guild on a realm.

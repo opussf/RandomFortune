@@ -14,6 +14,6 @@ for n in $(seq -f "%05g" 9999 1) ; do
 		done
 	else
 		#ls -alt $reportFile
-		sleep 1
+		sleep 5
 	fi
 done
