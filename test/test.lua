@@ -255,6 +255,11 @@ function test.test_SendChatMessage_SpecificFortune()
 	RF.SendChatMessage( "{Rf#2}" )
 	assertEquals( "SAB", chatLog[#chatLog].msg )
 end
+function test.test_SendChatMessage_SpecificFortune_noIndex()
+	RF.Command( "add SAB" )
+	RF.SendChatMessage( "{Rf#700}" )
+	assertEquals( "SAB", chatLog[#chatLog].msg )
+end
 function test.test_SendChatMessage_textAndToken()
 	RF.SendChatMessage( "Wisdom: {RF}" )
 	assertEquals( "Wisdom: Smile!", chatLog[#chatLog].msg )
