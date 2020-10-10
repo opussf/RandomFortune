@@ -1,28 +1,25 @@
 #!/usr/bin/env lua
 
-addonData = {
-	["Version"] = "1.0",
-	["Title"] = "Random Fortune",
-	["Author"] = "Me",
-}
-
 require "wowTest"
 
 test.outFileName = "testOut.xml"
 
 RFFrame = CreateFrame()
 
-package.path = "../src/?.lua;'" .. package.path
-require "RF"
-require "RFOptions"
+ParseTOC( "../src/RF.toc" )
 
+OriginalSendChatMessage = SendChatMessage
+OriginalBNSendWhisper = BNSendWhisper
 
 function test.before()
 	RF.OnLoad()
 	RF_fortunes = { { ["fortune"] = "Smile!", ["lastPost"] = 0, } }
 	RF_options.enabled = true -- default to on
+	RF.VARIABLES_LOADED()
 end
 function test.after()
+	SendChatMessage = OriginalSendChatMessage
+	BNSendWhisper = OriginalBNSendWhisper
 end
 function test.testMakeLuckyNumber()
 	-- random is not
@@ -239,6 +236,37 @@ end
 function test.testFirst_5()
 	test.last_Setup()
 	assertTrue( RF.Command( "first 5" ) )
+end
+------------------
+-- Chat
+------------------
+function test.test_SendChatMessage_ReplaceToken()
+	-- Normal {RF}
+	RF.SendChatMessage( "{rf}" )
+	print( chatLog[#chatLog].msg )
+	assertEquals( "Smile!", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_noToken()
+	RF.SendChatMessage( "The animals are lose." )
+	assertEquals( "The animals are lose.", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_SpecificFortune()
+	RF.Command( "add SAB" )
+	RF.SendChatMessage( "{Rf#2}" )
+	assertEquals( "SAB", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_SpecificFortune_noIndex()
+	RF.Command( "add SAB" )
+	RF.SendChatMessage( "{Rf#700}" )
+	assertEquals( "SAB", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_textAndToken()
+	RF.SendChatMessage( "Wisdom: {RF}" )
+	assertEquals( "Wisdom: Smile!", chatLog[#chatLog].msg )
+end
+function test.test_BNSendWhiper_ReplaceToken()
+	RF.BNSendWhisper( 1, "{rf}" )
+	assertEquals( "Smile!", chatLog[#chatLog].msg )
 end
 
 
