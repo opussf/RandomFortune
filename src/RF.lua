@@ -1,6 +1,7 @@
-RF_MSG_VERSION = GetAddOnMetadata("RF","Version");
-RF_MSG_ADDONNAME = GetAddOnMetadata("RF","Title");
-RF_MSG_AUTHOR = GetAddOnMetadata("RF", "Author");
+RF_SLUG, RF = ...
+RF_MSG_VERSION = GetAddOnMetadata( RF_SLUG, "Version" )
+RF_MSG_ADDONNAME = GetAddOnMetadata( RF_SLUG, "Title" )
+RF_MSG_AUTHOR = GetAddOnMetadata( RF_SLUG, "Author" )
 
 -- Colours
 COLOR_RED = "|cffff0000";
@@ -14,8 +15,6 @@ COLOR_GOLD = "|cffcfb52b";
 COLOR_NEON_BLUE = "|cff4d4dff";
 COLOR_END = "|r";
 
-
-
 -- seed data
 RF_fortunes = {
 	[1] = {
@@ -23,8 +22,6 @@ RF_fortunes = {
 		["lastPost"] = 0,
 	},
 }
-
-RF = {};
 
 -- onload event handler
 function RF.OnLoad()
@@ -173,6 +170,7 @@ function RF.VARIABLES_LOADED()
 	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
 	--RF.Print( "Variables Loaded" )
 	RF.UpdateOptions()
+	RF.InitChat()
 end
 function RF.OnUpdate(arg1)
 	if (RF_options.enabled and RF.ShouldPostNow()) then
@@ -184,22 +182,31 @@ function RF.ShouldPostNow()
 		return true;
 	end
 end
-function RF.PostFortune( indexIn )
-	indexIn = tonumber(indexIn)
-	--RF.Print("indexIn: "..(indexIn or "nil"))
+function RF.GetFortune( indexIn )
+	indexIn = tonumber( indexIn )
 	tableSize = #RF_fortunes
 	local fortuneIdx = 1
+	local fortuneStr = nil
 	if tableSize > 0 then
 		RF.oldestPost = time() - (RF_options.delay * tableSize)
 		if indexIn and indexIn > 0 and indexIn <= tableSize then
 			fortuneIdx = indexIn
 		else
-			tryLimit = 6
+			local tryLimit = 6
 			repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
 				fortuneIdx = random(tableSize)
 				tryLimit = tryLimit - 1
 			until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
 		end
+		RF_options.lastPost = time()
+		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost
+		fortuneStr = RF_fortunes[fortuneIdx].fortune
+	end
+	return fortuneStr, fortuneIdx
+end
+function RF.PostFortune( indexIn )
+	local fortuneStr, fortuneIdx = RF.GetFortune( indexIn )
+	if fortuneStr then
 		local lottoNumbers = RF.MakeLuckyNumber()
 		if RF_options.lotto then
 			RF.GuildPrint(string.format("%s %s", RF_fortunes[fortuneIdx].fortune, lottoNumbers))
@@ -216,8 +223,6 @@ function RF.PostFortune( indexIn )
 				RF.SayPartyRaid(RF_fortunes[fortuneIdx].fortune)
 			end
 		end
-		RF_options.lastPost = time()
-		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost
 	end
 end
 function RF.AddFortune( fortune )
