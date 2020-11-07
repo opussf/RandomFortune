@@ -7,22 +7,17 @@ test.outFileName = "testOut.xml"
 RFFrame = CreateFrame()
 
 ParseTOC( "../src/RF.toc" )
-<<<<<<< HEAD
-=======
 
 OriginalSendChatMessage = SendChatMessage
 OriginalBNSendWhisper = BNSendWhisper
->>>>>>> develop
 
 function test.before()
 	RF.OnLoad()
 	RF_fortunes = { { ["fortune"] = "Smile!", ["lastPost"] = 0, } }
 	RF_options.enabled = true -- default to on
-<<<<<<< HEAD
 	RF_options.delay = 30
-=======
 	RF.VARIABLES_LOADED()
->>>>>>> develop
+	RF.ADDON_LOADED()
 end
 function test.after()
 	SendChatMessage = OriginalSendChatMessage
@@ -321,17 +316,32 @@ function test.test_SendChatMessage_ReplaceToken()
 	assertEquals( "Smile!", chatLog[#chatLog].msg )
 end
 function test.test_SendChatMessage_noToken()
+	-- affirm that it does not replace when it should not
 	RF.SendChatMessage( "The animals are lose." )
 	assertEquals( "The animals are lose.", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_noToken_02()
+	-- affirm that it does not replace when it should not
+	RF.SendChatMessage( "The animals are lose. {circle}" )
+	assertEquals( "The animals are lose. {circle}", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_noToken_03()
+	-- badly formed
+	RF.SendChatMessage( "{rf)" )
+	assertEquals( "{rf)", chatLog[#chatLog].msg )
 end
 function test.test_SendChatMessage_SpecificFortune()
 	RF.Command( "add SAB" )
 	RF.SendChatMessage( "{Rf#2}" )
 	assertEquals( "SAB", chatLog[#chatLog].msg )
 end
-function test.test_SendChatMessage_SpecificFortune_noIndex()
-	RF.Command( "add SAB" )
+function test.test_SendChatMessage_SpecificFortune_badIndex()
 	RF.SendChatMessage( "{Rf#700}" )
+	assertEquals( "Smile!", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_NoHash()
+	RF.Command( "add SAB" )
+	RF.SendChatMessage( "{Rf2}" )
 	assertEquals( "SAB", chatLog[#chatLog].msg )
 end
 function test.test_SendChatMessage_textAndToken()
@@ -341,6 +351,27 @@ end
 function test.test_BNSendWhiper_ReplaceToken()
 	RF.BNSendWhisper( 1, "{rf}" )
 	assertEquals( "Smile!", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_Lotto()
+	-- include lotto numbers
+	RF.SendChatMessage( "{rf#l}" )
+	assertEquals( 6, #chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_Lotto_SpecificFortune()
+	RF.Command( "add Legends are born in November" )
+	RF.SendChatMessage( "{rf#2#l}")
+end
+function test.test_SendChatMessage_Lotto_SpecificFortune_upper()
+	RF.Command( "add Legends are born in November" )
+	RF.SendChatMessage( "{RF#2#L}")
+end
+function test.test_SendChatMessage_Lotto_outOfOrder()
+	RF.Command( "add Legends are born in November" )
+	RF.SendChatMessage( "{RF#L#2}")
+end
+function test.test_SendChatMessage_Lotto_noHash()
+	RF.Command( "add Legends are born in November" )
+	RF.SendChatMessage( "{RF#2L}")
 end
 
 test.run()

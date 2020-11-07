@@ -16,6 +16,7 @@ No unit would default to number of seconds, but would still expand to the format
 
 ## ChatInterface
 Allow {RF} and {RF#nnnn} tokens to be expanded to random fortunes in chat.
+Expand to {RF#l} also posts lotto numbers.  {RF#nnn#l} for a specifc one
 
 ## Guild
 Gives an option to black list a guild on a realm.
