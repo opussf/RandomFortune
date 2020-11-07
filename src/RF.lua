@@ -29,8 +29,7 @@ function RF.OnLoad()
 	SLASH_RF1 = "/rf";
 	SlashCmdList["RF"] = function(msg) RF.Command(msg); end
 
-	RFFrame:RegisterEvent("ADDON_LOADED");
-	RFFrame:RegisterEvent("VARIABLES_LOADED");
+	RFFrame:RegisterEvent("ADDON_LOADED")
 end
 function RF.Print( msg, showName)
 	-- print to the chat frame
@@ -152,7 +151,10 @@ function RF.ParseCmd(msg)
 	end
 end
 function RF.ADDON_LOADED()
-	RFFrame:UnregisterEvent("ADDON_LOADED");
+	RFFrame:UnregisterEvent("ADDON_LOADED")
+	RF.Print( "Addon Loaded" )
+	RF.UpdateOptions()
+	RF.InitChat()
 	--RF_options.lastPost = time()+30 - RF_options.delay;
 	RF.Print("Random Fortune every "..SecondsToTime(RF_options.delay)..". Next at "..
 			date("%x %X",RF_options.lastPost+RF_options.delay));
@@ -165,12 +167,6 @@ function RF.ADDON_LOADED()
 		end
 	end
 	RF.Print("There are "..count.." / "..#RF_fortunes.." that can be posted.")
-end
-function RF.VARIABLES_LOADED()
-	RFFrame:UnregisterEvent( "VARIABLES_LOADED" )
-	--RF.Print( "Variables Loaded" )
-	RF.UpdateOptions()
-	RF.InitChat()
 end
 function RF.OnUpdate(arg1)
 	if (RF_options.enabled and RF.ShouldPostNow()) then
