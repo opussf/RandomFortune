@@ -8,13 +8,13 @@ function RF.InitChat()
 end
 function RF.ReplaceMessage( msgIn )
 	-- search for and replace {RF} or {RF#nnnn} with a Random Fortune
-	print( "msgIn: "..msgIn )
+	--print( "msgIn: "..msgIn )
 	msgNew = nil
 	local tokenStart, tokenEnd, fortuneIdx, useLotto = strfind( msgIn, "{[rR][fF][#]?(%d*)[#]?([lL]?)}" )
 	if tokenStart then
 		local fortuneStr, fortuneIdx = RF.GetFortune( fortuneIdx )
 
-		print( "useLotto: "..( useLotto and "yes" or "no" ).."->"..useLotto )
+		--print( "useLotto: "..( useLotto and "yes" or "no" ).."->"..useLotto )
 		--print( "tokenStart: "..tokenStart )
 		--print( "tokenEnd: "..tokenEnd )
 		--print( "index: "..index )

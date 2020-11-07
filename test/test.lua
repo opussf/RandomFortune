@@ -15,7 +15,7 @@ function test.before()
 	RF.OnLoad()
 	RF_fortunes = { { ["fortune"] = "Smile!", ["lastPost"] = 0, } }
 	RF_options.enabled = true -- default to on
-	RF.VARIABLES_LOADED()
+	RF.ADDON_LOADED()
 end
 function test.after()
 	SendChatMessage = OriginalSendChatMessage
@@ -286,7 +286,7 @@ end
 function test.test_SendChatMessage_Lotto()
 	-- include lotto numbers
 	RF.SendChatMessage( "{rf#l}" )
-	assertEquals( 7, #chatLog[#chatLog].msg )
+	assertEquals( 6, #chatLog[#chatLog].msg )
 end
 function test.test_SendChatMessage_Lotto_SpecificFortune()
 	RF.Command( "add Legends are born in November" )
