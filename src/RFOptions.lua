@@ -9,6 +9,7 @@ RF_options = {}
 function RF.UpdateOptions()
 	RF.Print( "UpdateOptions()" )
 	for k,v in pairs( RF.defaultOptions ) do
+		RF.Print( "k: "..k.." options: "..(RF_options[k] or "nil").." default: "..v )
 		RF_options[k] = ( RF_options[k] == nil and v or RF_options[k] )
 	end
 	RF.OptionsPanel_Refresh()
@@ -38,7 +39,7 @@ function RF.OptionsPanel_Okay()
 end
 function RF.OptionsPanel_Cancel()
 	-- reset to temp and update the UI
-	--print( "OptionsPanel_Cancel" )
+	print( "OptionsPanel_Cancel" )
 	if RF.oldValues then
 		for k,v in pairs( RF.oldValues ) do
 			RF_options[k] = v
