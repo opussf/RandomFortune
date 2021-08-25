@@ -9,7 +9,11 @@ RF_options = {}
 function RF.UpdateOptions()
 	RF.Print( "UpdateOptions()" )
 	for k,v in pairs( RF.defaultOptions ) do
-		RF.Print( "k: "..k.." options: "..(RF_options[k] or "nil").." default: "..v )
+
+		RF.Print( "k: "..k.." options: "..
+				( type(RF_options[k])=="boolean" and (
+					RF_options[k] and "true" or "false") or (RF_options[k] or "nil")).." default: "..
+				( type(v)=="boolean" and (v and "true" or "false") or (v or "nil") ) )
 		RF_options[k] = ( RF_options[k] == nil and v or RF_options[k] )
 	end
 	RF.OptionsPanel_Refresh()
