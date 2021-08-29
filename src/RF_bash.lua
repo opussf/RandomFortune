@@ -8,6 +8,9 @@
 strfind = string.find
 strsub = string.sub
 
+-- Seed the random generator
+math.randomseed( os.time() )
+
 function GetAddOnMetadata( )
 	return "@VERSION@"
 end
@@ -33,8 +36,6 @@ function DoFile( filename )
 	end
 end
 DoFile( settingsFile )
-
-print( "Random Fortunes (v"..GetAddOnMetadata()..")" )
 
 -- if the dataFile is known, load it.   Else, prompt the user until it is found.
 if dataFile then
@@ -87,6 +88,50 @@ function RF.Command(msg)
 	end
 end
 
+function RF.MakeLuckyNumber()
+	-- Returns a string of 6 'lucky' numbers'
+	local luckyNumbers = {};
+	local uniqueNumbers = {};
+	local i = 6;  -- choose 6 numbers
+	while i > 0 do
+		local r = math.random(49);
+		if not uniqueNumbers[r] then
+			table.insert( luckyNumbers, r );
+			uniqueNumbers[r] = true;
+			i = i - 1;
+		end
+	end
+	return "("..table.concat( luckyNumbers, "-" )..")";
+end
+function RF.GetFortune( indexIn )
+	indexIn = tonumber( indexIn )
+	tableSize = #RF_fortunes
+	local fortuneIdx = 1
+	local fortuneStr = nil
+	if tableSize > 0 then
+		RF.oldestPost = os.time() - (RF_options.delay * tableSize)
+		if indexIn and indexIn > 0 and indexIn <= tableSize then
+			fortuneIdx = indexIn
+		else
+			local tryLimit = 6
+			repeat  -- try to randomly find a fortune that has not been posted recently up to 6 times
+				fortuneIdx = math.random(tableSize)
+				tryLimit = tryLimit - 1
+			until (RF_fortunes[fortuneIdx].lastPost <= RF.oldestPost or tryLimit == 0)
+		end
+		RF_options.lastPost = os.time()
+		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost
+		fortuneStr = RF_fortunes[fortuneIdx].fortune
+	end
+	return fortuneStr, fortuneIdx
+end
+function RF.PostFortune( indexIn )
+	local fortuneStr, fortuneIdx = RF.GetFortune( indexIn )
+	if fortuneStr then
+		local lottoNumbers = RF_options.lotto and RF.MakeLuckyNumber() or ""
+		RF.Print( string.format( "%s %s", fortuneStr, lottoNumbers ) )
+	end
+end
 function RF.Find( search )
 	-- Looks for fortunes that contain 'search'
 	-- Returns numberOfFortunesFound
@@ -103,6 +148,60 @@ function RF.Find( search )
 	end
 	if numFound and numFound>0 then
 		return numFound
+	end
+end
+function RF.List( listType, num )
+	-- listType = "first", "last", "unposted"
+	num = tonumber( num )
+	num = num or 1
+	-- print( "RF.List( "..listType..", "..( num or "nil" ).." )" )
+
+	local timeStamps = {}
+	for i, fData in pairs( RF_fortunes ) do
+		table.insert( timeStamps, { fData.lastPost, i } )
+	end
+	table.sort( timeStamps, function( a, b ) if a[1] < b[1] then return true; end; end )
+
+	local outFormat = string.format( "%%s [%%%ii] %%s", math.max( math.ceil( math.log10( #RF_fortunes ) ), 1 ) )
+	-- count the number not posted
+	local numNotPosted = 0
+	for i in ipairs( timeStamps ) do
+		if timeStamps[i][1] == 0 then
+			numNotPosted = numNotPosted + 1
+		else
+			break
+		end
+	end
+	-- print( "numNotPosted: ".. numNotPosted )
+	if listType == "first" then
+		for i = numNotPosted + 1, numNotPosted + 1 + num - 1 do
+			-- print( "i:"..i.." index:"..timeStamps[i][2] )
+			print( string.format( outFormat, os.date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
+		end
+	elseif listType == "last" then
+		for i = #timeStamps, #timeStamps - num + 1, -1 do
+			print( string.format( outFormat, os.date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
+		end
+	elseif listType == "unposted" then
+		for i = 1, numNotPosted do
+			print( string.format( outFormat, os.date( "%x %X", timeStamps[i][1] ), timeStamps[i][2], RF_fortunes[timeStamps[i][2]].fortune ) )
+		end
+	end
+end
+function RF.AddFortune( fortune )
+	if (#fortune > 0) then
+		table.insert( RF_fortunes, {["fortune"] = fortune, ["lastPost"]=0} );
+		RF.Print("Added: "..fortune);
+	end
+end
+function RF.Delete( index )
+	-- Delete RF_fortunes[index]
+	-- TODO: design a system that this marks the Fortune for deletion, disabling it, delete on reload, or delete after time period
+	-- TODO: enable a way to see fortunes about to be deleted, and recover them.
+	index = tonumber(index)
+	if index and index>0 and index<=#RF_fortunes then
+		local fortune = table.remove( RF_fortunes, index ) -- use the table.remove to remove a value
+		RF.Print(COLOR_RED.."REMOVING: "..COLOR_END..fortune.fortune)
 	end
 end
 
@@ -128,19 +227,64 @@ RF.CommandList = {
 				RF.Find();  -- pass no parameters for the list command
 			end,
 		["help"] = {"", "List all fortunes."},
-	}
+	},
+	["find"] = {
+		["func"] = RF.Find,
+		["help"] = {"search", "Find a known fortune containing <search>"},
+	},
+	["now"] = {
+		["func"] = RF.PostFortune,
+		["help"] = {"[number]", "Print fortune now. [number] optionally posts "},
+	},
+	["add"] = {
+		["func"] = function(param)
+				RF.AddFortune(param);
+			end,
+		["help"] = {"fortune","Adds fortune to the list of fortunes."},
+	},
+	["rm"] = {
+		["func"] = RF.Delete,
+		["help"] = {"index", "Delete the fortune at <index>"},
+	},
+	["list"] = {
+		["func"] = function()
+				RF.Find();  -- pass no parameters for the list command
+			end,
+		["help"] = {"", "List all fortunes."},
+	},
+	["last"] = {
+		["func"] = function( num ) RF.List( "last", num ); end,
+		["help"] = {"number", "List the last <number> of posted fortunes."},
+	},
+	["first"] = {
+		["func"] = function( num ) RF.List( "first", num ); end,
+		["help"] = { "number", "List the first <number> of posted fortunes." },
+	},
+	["unposted"] = {
+		["func"] = function() RF.List( "unposted" ); end,
+		["help"] = {"", "List the unposted fortunes." },
+	},
 }
 
--- Start the program
-running = true
+if #arg > 0 then
+	-- Handle Command line
+	for n = 1, #arg do
+		RF.Command( arg[n] )
+	end
+else
+	print( "Random Fortunes (v"..GetAddOnMetadata()..")" )
+	running = true
+end
 
--- run the calc
+-- run the Command Loop
 while running do
 	io.write( "> " )
 	val = io.read("*line")
 	RF.Command( val )
 end
 
+
+-- Save output
 function EscapeStr( strIn )
 	-- This escapes a str
 	strIn = string.gsub( strIn, "\\", "\\\\" )
@@ -190,7 +334,3 @@ else
     WriteTable( file, RF_options )
     file:write( "}\n" )
 end
-
-
-
-
