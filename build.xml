@@ -66,6 +66,10 @@
 	<filter token="VERSION" value="${version.number}"/>
 	<filter token="INTERFACE" value="${INTERFACE}"/>
 
+	<patternset id="installFiles">
+		<include name="target/working/RF/rf"/>
+	</patternset>
+
 	<target name="clean" description="Cleans old builds">
 		<delete dir="target" verbose="true"/>
 	</target>
@@ -95,7 +99,6 @@
 		<zip 	destfile="${target.dir}/${project.zip}"
 				basedir="${working.dir}"
 				includes="${ant.project.name}/**"/>
-		<delete dir="${package.dir}" verbose="false"/>
 		<checksum file="${target.dir}/${project.zip}"
 				  property="zip.md5" />
 		<echo file="${target.dir}/${project.zip}.md5">${zip.md5} ${project.zip}${line.separator}</echo>
@@ -145,6 +148,17 @@
 		<exec executable="open">
 			<arg value="${addon.dir}"/>
 		</exec>
+	</target>
+
+	<target name="install" depends="package" description="copy file to system for local install" if="INSTALLLOC">
+		<copy	file="${package.dir}/RF_bash.lua" tofile="${package.dir}/rf" />
+		<chmod 	perm="ugo+x" dir="${package.dir}" includes="rf" />
+		<copy	todir="${INSTALLLOC}" verbose="true" flatten="true">
+			<fileset dir=".">
+				<patternset refid="installFiles"/>
+			</fileset>
+		</copy>
+		<chmod  perm="ugo+x" dir="${INSTALLLOC}" includes="rf" />
 	</target>
 
 </project>
