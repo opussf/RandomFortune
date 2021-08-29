@@ -15,10 +15,6 @@ function GetAddOnMetadata( )
 	return "@VERSION@"
 end
 
--- import the addon file
---package.path = "/usr/local/bin/?.lua;'" .. package.path
---require "c"
-
 -- find ~/.RF
 pathSeparator = string.sub( package.config, 1, 1 ) -- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
 settingsFilePath = {
@@ -87,7 +83,6 @@ function RF.Command(msg)
 		return 1
 	end
 end
-
 function RF.MakeLuckyNumber()
 	-- Returns a string of 6 'lucky' numbers'
 	local luckyNumbers = {};
@@ -282,7 +277,6 @@ while running do
 	val = io.read("*line")
 	RF.Command( val )
 end
-
 
 -- Save output
 function EscapeStr( strIn )
