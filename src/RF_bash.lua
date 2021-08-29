@@ -141,6 +141,13 @@ while running do
 	RF.Command( val )
 end
 
+function EscapeStr( strIn )
+	-- This escapes a str
+	strIn = string.gsub( strIn, "\\", "\\\\" )
+	strIn = string.gsub( strIn, "\"", "\\\"" )
+	return strIn
+end
+
 function WriteTable( file, tableIn, depth )
 	if not depth then depth = 1; end
 	for k, v in pairs( tableIn ) do
@@ -151,6 +158,8 @@ function WriteTable( file, tableIn, depth )
 			file:write( "{\n" )
 			WriteTable( file, v, depth+1 )
 			file:write( ("%s}"):format( string.rep("\t", depth) ) )
+		elseif ( type( v ) == "string" ) then
+			file:write( EscapeStr( v ) )
 		else
 			file:write( v )
 		end
@@ -167,14 +176,14 @@ else
 	io.close( file )
 end
 -- save RF.lua datafile
-file, err = io.open( "data.lua", "w" )
+file, err = io.open( dataFile, "w" )
 if err then
 	print( err )
 else
 	file:write( "RF_fortunes = {\n" )
     for i, fData in ipairs( RF_fortunes ) do
-    	file:write( "\t{\t[\"fortune\"] = \""..fData["fortune"].."\",\n" )
-    	file:write( "\t\t[\"lastPost\"] = "..fData["lastPost"]..", }, -- ["..i.."]\n" )
+    	file:write( "\t{\t[\"fortune\"] = \""..EscapeStr(fData["fortune"]).."\",\n" )
+    	file:write( "\t\t[\"lastPost\"] = "..fData["lastPost"].." }, -- ["..i.."]\n" )
     end
     file:write( "}\n" )
     file:write( "RF_options = {\n" )
