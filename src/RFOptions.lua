@@ -7,24 +7,25 @@ RF.defaultOptions = {
 }
 RF_options = {}
 function RF.UpdateOptions()
-	RF.Print( "UpdateOptions()" )
+	--RF.Print( "UpdateOptions()" )
 	for k,v in pairs( RF.defaultOptions ) do
-
+		--[[
 		RF.Print( "k: "..k.." options: "..
 				( type(RF_options[k])=="boolean" and (
 					RF_options[k] and "true" or "false") or (RF_options[k] or "nil")).." default: "..
 				( type(v)=="boolean" and (v and "true" or "false") or (v or "nil") ) )
+		]]
 		RF_options[k] = ( RF_options[k] == nil and v or RF_options[k] )
 	end
 	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Reset()
 	-- Called from Addon_loaded
-	RF.Print( "OptionsPanel_Reset()" )
+	-- RF.Print( "OptionsPanel_Reset()" )
 	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_OnLoad( frame )
-	print( "RF.OptionsPanel_OnLoad()" )
+	-- RF.Print( "RF.OptionsPanel_OnLoad()" )
 	frame.name = "Random Fortune"
 	RFOptionsFrame_Title:SetText( RF_MSG_ADDONNAME.." "..RF_MSG_VERSION )
 
@@ -43,7 +44,7 @@ function RF.OptionsPanel_Okay()
 end
 function RF.OptionsPanel_Cancel()
 	-- reset to temp and update the UI
-	print( "OptionsPanel_Cancel" )
+	-- RF.Print( "OptionsPanel_Cancel" )
 	if RF.oldValues then
 		for k,v in pairs( RF.oldValues ) do
 			RF_options[k] = v
