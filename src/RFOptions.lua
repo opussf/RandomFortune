@@ -60,7 +60,7 @@ function RF.OptionsPanel_Default()
 end
 
 function RF.OptionsPanel_Refresh()
-	RF.Print( "OptionsPanel_Refresh()" )
+	--RF.Print( "OptionsPanel_Refresh()" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
 	RFOptionsFrame_DelaySlider:SetValue( tonumber(RF_options.delay)/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
@@ -75,7 +75,7 @@ function RF.OptionsPanel_Refresh()
 end
 --------
 function RF.OptionsPanel_CheckButton_OnShow( self, option, text )
-	RF.Print( text..": OnShow" )
+	--RF.Print( text..": OnShow" )
 	getglobal( self:GetName().."Text"):SetText( text )
 end
 function RF.OptionsPanel_CheckButton_PostClick( self, option )
