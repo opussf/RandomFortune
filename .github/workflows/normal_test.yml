@@ -44,3 +44,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build with ant
         run: ant package
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: target/reports/*.xml
