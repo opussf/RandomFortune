@@ -409,6 +409,7 @@ FrameGameTooltip = {
 			_G[frameName.."TextLeft4"] = CreateFontString(frameName.."TextLeft4")
 		end,
 }
+
 Units = {
 	["player"] = {
 		["class"] = "Warlock",

@@ -72,22 +72,16 @@ public class RandomMessage {
 		messages.add("If you can't stand a little bloody nose, why don't you go back home and crawl under your bed. It's not safe out here. It's wonderous, with treasures to satiate appetites both subtle and gross. But it's not for the timid."); // Q, from Star Trek
 		messages.add("Many a small thing has been made large by the right kind of advertising. - Mark Twain");
 		messages.add("Let no man pull you low enough to hate him. - Martin Luther King ");
-		messages.add("He attacked everything in life with a mix of extraordinary genius and naive incompetence, and it was often difficult to tell which was which.");	// Douglas Adams
 		messages.add("Give a man a fire and he's warm for the day. But set fire to him and he's warm for the rest of his life.");
-		messages.add("'There's a door', 'Where does it go?', 'It stays where it is, I think.'");
+
 		messages.add("There are 10 types of people.  Those that understand binary and those that don't.");
-		messages.add("Geography is just physics slowed down, with a couple of trees stuck in it.");
 		messages.add("Everything I ever learned, I learned from Ron Jeremy and the family dog.");
-		messages.add("Lost: Cat.  If seen, call Schrödinger");
+
 		messages.add("What type of beans are werewolf's favorite?  Human Beings");
 		messages.add("If pest control technicians kill pests, what do quality control technicians do?");
 		messages.add("Basic dimensions: I have no tolerance for them.");
-		messages.add("Our goal is to remove 10 numerical goals by the end of the month");
-		messages.add("We have a support group now for dependent variables.");
-		messages.add("This termite walks into a bar and asks, \"Where's the bar tender?\"");
+
 		messages.add("If vegetarians eat only vegetables, what do humanitarians eat?");
-		messages.add("Mauve is just pink trying to be purple.  - James Whistler");
-		messages.add("Bad code!  Sit.  Stay.");
 		
 	}
 

@@ -7,14 +7,27 @@ RF.defaultOptions = {
 }
 RF_options = {}
 function RF.UpdateOptions()
+	--RF.Print( "UpdateOptions()" )
 	for k,v in pairs( RF.defaultOptions ) do
-		RF_options[k] = RF_options[k] or v
+		--[[
+		RF.Print( "k: "..k.." options: "..
+				( type(RF_options[k])=="boolean" and (
+					RF_options[k] and "true" or "false") or (RF_options[k] or "nil")).." default: "..
+				( type(v)=="boolean" and (v and "true" or "false") or (v or "nil") ) )
+		]]
+		RF_options[k] = ( RF_options[k] == nil and v or RF_options[k] )
 	end
+	RF.OptionsPanel_Refresh()
+end
+function RF.OptionsPanel_Reset()
+	-- Called from Addon_loaded
+	-- RF.Print( "OptionsPanel_Reset()" )
+	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_OnLoad( frame )
-	--print( "RF.OptionsPanel_OnLoad" )
+	-- RF.Print( "RF.OptionsPanel_OnLoad()" )
 	frame.name = "Random Fortune"
-	RFOptionsFrame_Title:SetText( "Random Fortune "..RF_MSG_VERSION )
+	RFOptionsFrame_Title:SetText( RF_MSG_ADDONNAME.." "..RF_MSG_VERSION )
 
 	frame.okay = RF.OptionsPanel_Okay
 	frame.cancel = RF.OptionsPanel_Cancel
@@ -24,7 +37,6 @@ function RF.OptionsPanel_OnLoad( frame )
 	InterfaceOptions_AddCategory( frame )
 	InterfaceAddOnsList_Update()
 	RF.UpdateOptions()
-	RF.OptionsPanel_Refresh()
 end
 function RF.OptionsPanel_Okay()
 	-- Data was recorded, clear the temp
@@ -32,10 +44,10 @@ function RF.OptionsPanel_Okay()
 end
 function RF.OptionsPanel_Cancel()
 	-- reset to temp and update the UI
-	--print( "OptionsPanel_Cancel" )
+	-- RF.Print( "OptionsPanel_Cancel" )
 	if RF.oldValues then
 		for k,v in pairs( RF.oldValues ) do
-			RF_options[k] = val
+			RF_options[k] = v
 		end
 	end
 	RF.oldValues = nil
@@ -46,15 +58,11 @@ function RF.OptionsPanel_Default()
 		RF_options[k] = v
 	end
 end
-function RF.OptionsPanel_Reset()
-	-- Called from Addon_loaded
-	--RF.Print( "Reset" )
-	RF.OptionsPanel_Refresh()
-end
+
 function RF.OptionsPanel_Refresh()
-	--RF.Print( "OptionsPanel_Refresh" )
+	--RF.Print( "OptionsPanel_Refresh()" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
-	RFOptionsFrame_DelaySlider:SetValue( RF_options.delay/60 )
+	RFOptionsFrame_DelaySlider:SetValue( tonumber(RF_options.delay)/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
 
 	-- GuildEnableBox
@@ -92,7 +100,6 @@ function RF.OptionsPanel_Guild_PostClick( self )
 		end
 	end
 end
-
 function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	if RF.oldValues then
 		RF.oldValues[option] = RF.oldValues[option] or RF_options[option]
@@ -103,6 +110,49 @@ function RF.OptionsPanel_Slider_OnValueChanged( self, option )
 	local v = math.floor( self:GetValue() * 60 )
 	RF.Print( min.."<"..math.floor( self:GetValue() ).."<"..max )
 	RF_options[option] = v
-
-
 end
+
+RF.timeMultipliers = { [" "] = 1, ["s"] = 1, ["m"] = 60, ["h"] = 3600, ["d"] = 86400, ["w"] = 604800 }
+RF.timeMultiplierOrder = { "w", "d", "h", "m", "s" }
+function RF.TextToSeconds( textIn )
+	-- convert a string to seconds
+	-- the string is in the format of <number><unit>.....
+	-- returns seconds
+	local seconds, current = 0, 0
+	for i = 1, string.len( textIn ) do
+		local char = string.lower( strsub( textIn, i, i ) )
+		local multiplier = RF.timeMultipliers[char]
+		if multiplier then
+			current = current * multiplier
+			seconds = seconds + current
+			current = 0
+		elseif char == tostring( tonumber( char ) ) then
+			current = current * 10
+			current = current + tonumber( char )
+		end
+		--print( char..": "..seconds.." + ("..current.." * "..(multiplier or "")..")" )
+	end
+	seconds = seconds + current
+	return seconds
+end
+function RF.SecondsToText( secIn )
+	-- convert seconds to a string
+	secIn = tonumber( secIn )
+	outStr = ""
+	for _,m in pairs( RF.timeMultiplierOrder ) do
+		local multiplier = RF.timeMultipliers[m]
+		if multiplier <= secIn then
+			--print( multiplier.." <=? "..secIn )
+			v = math.floor( secIn / multiplier )
+			secIn = secIn - ( v * multiplier )
+			outStr = string.format( "%s%s%i%s",
+					outStr, (string.len(outStr) > 1 and " " or ""), v, m )
+			--print( "-->"..outStr.."<--" )
+		end
+	end
+	return outStr
+end
+
+
+
+

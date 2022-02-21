@@ -66,7 +66,7 @@ function RF.SayPartyRaid( msg )
 		end
 	end
 	--if RF_options.
-	SendChatMessage( msg, chat );
+	SendChatMessage( msg, chat )
 end
 function RF.PrintStatus( index )
 	index = index and tonumber(index) or nil

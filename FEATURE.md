@@ -1,5 +1,19 @@
 # Features
 
+## Options
+Move the options to the options panel.
+
+### Delay
+Make the delay field display and take a string with  #<unit> #<unit> format.
+30m 5s   would be valid
+
+5s30m would also be valid, but would convert to 30m 5s when used.
+
+No unit would default to number of seconds, but would still expand to the formatted number when used.
+
+### Commands
+``/rf status`` and ``/rf`` will now open the options panel.
+
 ## ChatInterface
 Allow {RF} and {RF#nnnn} tokens to be expanded to random fortunes in chat.
 Expand to {RF#l} also posts lotto numbers.  {RF#nnn#l} for a specifc one
