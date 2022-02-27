@@ -152,21 +152,20 @@ function RF.ParseCmd(msg)
 end
 function RF.ADDON_LOADED()
 	RFFrame:UnregisterEvent("ADDON_LOADED")
-	RF.Print( "Addon Loaded" )
 	RF.UpdateOptions()
 	RF.InitChat()
-	--RF_options.lastPost = time()+30 - RF_options.delay;
-	RF.Print("Random Fortune every "..SecondsToTime(RF_options.delay)..". Next at "..
-			date("%x %X",RF_options.lastPost+RF_options.delay));
+	--RF.Print("Random Fortune every "..SecondsToTime(RF_options.delay)..". Next at "..
+	--		date("%x %X",RF_options.lastPost+RF_options.delay));
 	RF.oldestPost = time() - (RF_options.delay * #RF_fortunes);
-	RF.Print("I should not post any posted since: "..date("%x %X",RF.oldestPost));
+	--RF.Print("I should not post any posted since: "..date("%x %X",RF.oldestPost));
 	local count = 0;
 	for _,fortune in pairs(RF_fortunes) do
 		if fortune.lastPost <= RF.oldestPost then
 			count = count + 1;
 		end
 	end
-	RF.Print("There are "..count.." / "..#RF_fortunes.." that can be posted.")
+	--RF.Print("There are "..count.." / "..#RF_fortunes.." that can be posted.")
+	RF.Print(count.." / "..#RF_fortunes.." postable fortunes. Posting every "..SecondsToTime(RF_options.delay)..". ")
 end
 function RF.OnUpdate(arg1)
 	if (RF_options.enabled and RF.ShouldPostNow()) then
