@@ -37,7 +37,7 @@ jobs:
         with:
           files: target/reports/*.xml
 
-      - name: Crate Release
+      - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -46,5 +46,12 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body_path: target/working/changelog.txt
-          draft: true
+          draft: false
           prerelease: false
+
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          asset_paths: '["./target/*.zip*"]'
