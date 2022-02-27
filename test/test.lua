@@ -5,6 +5,13 @@ require "wowTest"
 test.outFileName = "testOut.xml"
 
 RFFrame = CreateFrame()
+RFOptionsFrame_EnableBox          = CreateFrame()
+RFOptionsFrame_DelaySlider        = CreateFrame()
+RFOptionsFrame_LottoEnableBox     = CreateFrame()
+RFOptionsFrame_GuildEnableBoxText = CreateFrame()
+RFOptionsFrame_GuildEnableBox     = CreateFrame()
+RFOptionsFrame_BNEnableBox        = CreateFrame()
+RFOptionsFrame_SayEnableBox       = CreateFrame()
 
 ParseTOC( "../src/RF.toc" )
 
@@ -15,6 +22,7 @@ function test.before()
 	RF.OnLoad()
 	RF_fortunes = { { ["fortune"] = "Smile!", ["lastPost"] = 0, } }
 	RF_options.enabled = true -- default to on
+	RF_options.delay = 30
 	RF.ADDON_LOADED()
 end
 function test.after()
@@ -53,7 +61,6 @@ function test.testCommandWorks_delay_invalidDelay()
 	RF.Command( "delay hello" )
 	assertEquals( beforeDelay, RF_options.delay )
 end
---[[
 function test.testCommandWorks_delay_noDelay()
 	-- should quietly do nothing
 	local beforeDelay = RF_options.delay
@@ -66,7 +73,6 @@ function test.testCommandWorks_delay_zeroDelay()
 	RF.Command( "delay 0" ) -- zero is an invalid value really
 	assertEquals( beforeDelay, RF_options.delay )
 end
-]]
 function test.testCommandWorks_delay_validDelay()
 	RF.Command( "delay 1") -- one is the smallest allowed value
 	assertEquals( 60, RF_options.delay, "Should be set to 60 seconds" )
@@ -146,11 +152,9 @@ function test.testDelete_noIndexGiven()
 	RF.Command( "rm" )
 	assertEquals( 1, #RF_fortunes, "This command should not delete a fortune.")
 end
---[[
 function test.testStatus_noOptions()
 	RF.Command( "status" )
 end
-]]
 function test.testStatus_fortuneIndexGiven()
 	RF.Command( "status 1" )
 end
@@ -167,13 +171,11 @@ end
 function test.testList_commandWorks()
 	RF.Command( "list" )
 end
---[[
 function test.testNow_withTextParamter()
 	RF_options["lastPost"] = 0
 	RF.Command( "now Hello" )
 	assertEquals( time(), RF_options.lastPost, "Should be now to show posting" )
 end
-]]
 function test.testNow_withNumberParameter()
 	RF_options["lastPost"] = 0
 	RF.Command( "now 1" )
@@ -236,6 +238,73 @@ end
 function test.testFirst_5()
 	test.last_Setup()
 	assertTrue( RF.Command( "first 5" ) )
+end
+-- Options
+function test.testTimeOptionTextToSeconds_1Week()
+	assertEquals( 604800, RF.TextToSeconds( "1w" ) )
+end
+function test.testTimeOptionTextToSeconds_1Day()
+	assertEquals( 86400, RF.TextToSeconds( "1d" ) )
+end
+function test.testTimeOptionTextToSeconds_1Hour()
+	assertEquals( 3600, RF.TextToSeconds( "1h" ) )
+end
+function test.testTimeOptionTextToSeconds_1Minute()
+	assertEquals( 60, RF.TextToSeconds( "1m" ) )
+end
+function test.testTimeOptionTextToSeconds_1Second()
+	assertEquals( 1, RF.TextToSeconds( "1s" ) )
+	assertEquals( 1, RF.TextToSeconds( "1" ) )
+	assertEquals( 604800, RF.TextToSeconds( "604800" ) )
+end
+function test.testTimeOptionTextToSeconds_Mixed_MinuteSecond()
+	assertEquals( 90, RF.TextToSeconds( "1m 30s" ) )
+	assertEquals( 90, RF.TextToSeconds( "30s 1m" ) )
+end
+function test.testTimeOptionTextToSeconds_Mixed_HourMinute()
+	assertEquals( 5400, RF.TextToSeconds( "1h 30m" ) )
+	assertEquals( 5400, RF.TextToSeconds( "30m 1h" ) )
+end
+function test.testTimeOptionTextToSeconds_Mixed_HourDay()
+	assertEquals( 90000, RF.TextToSeconds( "1d 1h" ) )
+	assertEquals( 90000, RF.TextToSeconds( "1h 1d" ) )
+end
+function test.testTimeOptionTextToSeconds_Mixed_HourMinSec()
+	assertEquals( 5430, RF.TextToSeconds( "1h30m30" ) )
+	assertEquals( 5430, RF.TextToSeconds( "30s 30m 1h" ) )
+end
+function test.testTimeOptionSecondsToTime_1Week()
+	assertEquals( "1w", RF.SecondsToText( 604800 ) )
+end
+function test.testTimeOptionSecondsToText_1Day()
+	assertEquals( "1d", RF.SecondsToText( 86400 ) )
+end
+function test.testTimeOptionSecondsToText_1Hour()
+	assertEquals( "1h", RF.SecondsToText( 3600 ) )
+end
+function test.testTimeOptionSecondsToText_1Minute()
+	assertEquals( "1m", RF.SecondsToText( 60 ) )
+end
+function test.testTimeOptionSecondsToText_1Second()
+	assertEquals( "1s", RF.SecondsToText( 1 ) )
+end
+function test.testTimeOptionSecondsToText_Mixed_MinuteSecond()
+	assertEquals( "1m 30s", RF.SecondsToText( 90 ) )
+end
+function test.testTimeOptionSecondsToText_Mixed_HMS()
+	assertEquals( "1h 30m 30s", RF.SecondsToText( 5430 ) )
+end
+function test.testTimeOptionSecondsToText_Mixed_DHMS()
+	assertEquals( "1d 1h 30m 30s", RF.SecondsToText( 91830 ) )
+end
+function test.testTimeOptionSecondsToText_Mixed_()
+	assertEquals( "1w 3d 13m 20s", RF.SecondsToText( 864800 ) )
+end
+function test.testTimeOptionTextToSeconds_badChars()
+	assertEquals( 4020, RF.TextToSeconds( "1The quick brown fox 7jumps over the lazy dog."))
+end
+function test.testTimeOptionTextToSecondsToText_01()
+	assertEquals( "1h 30m 30s", RF.SecondsToText( RF.TextToSeconds( "30s 90m" ) ) )
 end
 ------------------
 -- Chat
@@ -304,4 +373,5 @@ function test.test_SendChatMessage_Lotto_noHash()
 	RF.Command( "add Legends are born in November" )
 	RF.SendChatMessage( "{RF#2L}")
 end
+
 test.run()
