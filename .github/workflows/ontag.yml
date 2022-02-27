@@ -31,6 +31,12 @@ jobs:
       - name: Build with ant
         run: ant package
 
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: target/reports/*.xml
+
       - name: Crate Release
         id: create_release
         uses: actions/create-release@v1
