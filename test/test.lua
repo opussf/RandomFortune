@@ -355,15 +355,17 @@ end
 function test.test_SendChatMessage_Lotto()
 	-- include lotto numbers
 	RF.SendChatMessage( "{rf#l}" )
-	assertEquals( 6, #chatLog[#chatLog].msg )
+	assertTrue( #chatLog[#chatLog].msg > 6 )
 end
 function test.test_SendChatMessage_Lotto_SpecificFortune()
 	RF.Command( "add Legends are born in November" )
 	RF.SendChatMessage( "{rf#2#l}")
+	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
 end
 function test.test_SendChatMessage_Lotto_SpecificFortune_upper()
 	RF.Command( "add Legends are born in November" )
 	RF.SendChatMessage( "{RF#2#L}")
+	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
 end
 function test.test_SendChatMessage_Lotto_outOfOrder()
 	RF.Command( "add Legends are born in November" )
@@ -371,7 +373,8 @@ function test.test_SendChatMessage_Lotto_outOfOrder()
 end
 function test.test_SendChatMessage_Lotto_noHash()
 	RF.Command( "add Legends are born in November" )
-	RF.SendChatMessage( "{RF#2L}")
+	RF.SendChatMessage( "{RF#2l}")
+	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
 end
 
 test.run()

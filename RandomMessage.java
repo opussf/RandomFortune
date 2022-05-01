@@ -67,7 +67,7 @@ public class RandomMessage {
 		messages.add("Gravity is a habit that is hard to shake off.");
 		messages.add("A horse walks into a bar, bartender looks up and asks, 'So why the long face?'");
 		messages.add("IMAGINATION: USE IT AS A WEAPON!");
-		messages.add("You can't have a light without a dark to stick it in.");
+
 		messages.add("I got 3 words for you...  NO");
 		messages.add("If you can't stand a little bloody nose, why don't you go back home and crawl under your bed. It's not safe out here. It's wonderous, with treasures to satiate appetites both subtle and gross. But it's not for the timid."); // Q, from Star Trek
 		messages.add("Many a small thing has been made large by the right kind of advertising. - Mark Twain");
