@@ -129,10 +129,10 @@ function RF.PrintHelp()
 end
 
 function RF.Command(msg)
-	local cmd, param = RF.ParseCmd(msg);
-	cmd = string.lower(cmd);
-	local cmdFunc = RF.CommandList[cmd];
-	if cmdFunc then
+	local cmd, param = RF.ParseCmd(msg)
+	cmd = string.lower(cmd)
+	local cmdFunc = RF.CommandList[cmd]
+	if cmdFunc and cmdFunc.func then
 		cmdFunc.func(param)
 		return 1
 	else

@@ -34,6 +34,12 @@ function test.testMakeLuckyNumber()
 	local ln = RF.MakeLuckyNumber()
 	assertTrue( ln ~= nil )
 end
+function test.testNoFunction()
+	RF.Command( "" )
+end
+function test.testUnknownFunction()
+	RF.Command( "ThisDoesNotExist" )
+end
 function test.testZeroFortunes_nowDoesNotCrash()
 	RF_fortunes = {}
 	RF_options["lastPost"] = 0
