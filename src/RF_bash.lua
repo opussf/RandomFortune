@@ -116,6 +116,7 @@ function RF.GetFortune( indexIn )
 		end
 		RF_options.lastPost = os.time()
 		RF_fortunes[fortuneIdx].lastPost = RF_options.lastPost
+		RF_fortunes[fortuneIdx].count = RF_fortunes[fortuneIdx].count and RF_fortunes[fortuneIdx].count + 1 or 1
 		fortuneStr = RF_fortunes[fortuneIdx].fortune
 	end
 	return fortuneStr, fortuneIdx
