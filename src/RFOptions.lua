@@ -62,7 +62,7 @@ end
 function RF.OptionsPanel_Refresh()
 	--RF.Print( "OptionsPanel_Refresh()" )
 	RFOptionsFrame_EnableBox:SetChecked( RF_options.enabled )
-	RFOptionsFrame_DelaySlider:SetValue( tonumber(RF_options.delay)/60 )
+	--RFOptionsFrame_DelaySlider:SetValue( tonumber(RF_options.delay)/60 )
 	RFOptionsFrame_LottoEnableBox:SetChecked( RF_options.lotto )
 
 	-- GuildEnableBox
