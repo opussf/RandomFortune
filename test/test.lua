@@ -383,15 +383,6 @@ function test.test_SendChatMessage_Lotto_noHash()
 	RF.SendChatMessage( "{RF#2l}")
 	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
 end
----- Post Count
-function test.test_PostCount_noPreviousValue()
-	RF.Command( "now" )
-	assertEquals( 1, RF_fortunes[1].count )
-end
-function test.test_PostCOunt_withPreviousValue()
-	RF_fortunes[1].count=1
-	RF.Command( "now" )
-	assertEquals( 2, RF_fortunes[1].count )
-end
+
 
 test.run()
