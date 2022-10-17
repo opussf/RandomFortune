@@ -48,11 +48,9 @@ public class RandomMessage {
 		messages.add("'Rex unto my cleeb, and thou shalt have everlasting blort.' - Zorp 3:16");
 		messages.add("Plunk your magic Twanger, Froggy");
 		messages.add("I see F, you see K");
-		messages.add("A conclusion is the place where you got tired of thinking.");
 		messages.add("Atheism is a non-prophet organization.");
 		messages.add("Auntie Em, Hate you, hate Kansas, taking the dog. Dorothy.");
-		messages.add("I don't know what your problem is, but I bet it's hard to pronounce.");
-		messages.add("I'd like to help you out; which way did you come in?");
+
 		messages.add("I have gone to find myself.  If I get back before I return, keep me here.");
 		messages.add("Indecision is the key to flexibility");
 		messages.add("Death is but a doorway.  Here, let me get that for you");
@@ -69,8 +67,7 @@ public class RandomMessage {
 		messages.add("IMAGINATION: USE IT AS A WEAPON!");
 
 		messages.add("I got 3 words for you...  NO");
-		messages.add("If you can't stand a little bloody nose, why don't you go back home and crawl under your bed. It's not safe out here. It's wonderous, with treasures to satiate appetites both subtle and gross. But it's not for the timid."); // Q, from Star Trek
-		messages.add("Many a small thing has been made large by the right kind of advertising. - Mark Twain");
+			messages.add("Many a small thing has been made large by the right kind of advertising. - Mark Twain");
 		messages.add("Let no man pull you low enough to hate him. - Martin Luther King ");
 		messages.add("Give a man a fire and he's warm for the day. But set fire to him and he's warm for the rest of his life.");
 

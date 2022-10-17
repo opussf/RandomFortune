@@ -28,42 +28,79 @@
 						<Anchor point="TOPLEFT" relativeTo="$parent_Title" relativePoint="BOTTOMLEFT"/>
 					</Anchors>
 				</FontString>
+				<FontString name="$parent_PostTo" inherits="GameFontWhite" text="Post to:">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_Title" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-118"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
 			<CheckButton name="$parent_EnableBox" inherits="RFOptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent">
-						<Offset><AbsDimension x="20" y="-100"/></Offset>
+						<Offset><AbsDimension x="20" y="-64"/></Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Enable Timed Posting";</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "enabled", "Timed Posts Enabled" );</OnShow>
-					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "enabled" );</PostClick>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "enabled", "Post every" );</OnShow>
+					<OnClick>RF.OptionsPanel_CheckButton_OnClick( self, "enabled" );</OnClick>
 				</Scripts>
 			</CheckButton>
-			<Slider name="$parent_DelaySlider" inherits="OptionsSlidertemplate" minValue="1" maxValue="60" valueStep="1">
-				<Size x="220" y="16"/>
+
+			<EditBox name="$parent_DelayEditBox" inherits="NumericInputSpinnerTemplate" letters="3" numeric="true" autoFocus="false">
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="-20" y="-100"/></Offset>
+					<Anchor point="LEFT" relativeTo="$parent_EnableBox" relativePoint="RIGHT">
+						<Offset><AbsDimension x="100" y="0"/></Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts>
-					<OnLoad>
-						getglobal( self:GetName().."Text" ):SetText( "DelayTime ()" );
-						getglobal( self:GetName().."High" ):SetText( "60" );
-						getglobal( self:GetName().."Low" ):SetText( "1 Minute" );
-					</OnLoad>
-					<OnValueChanged>RF.OptionsPanel_Slider_OnValueChanged( self, "delay" )</OnValueChanged>
+					<OnShow>self:SetCursorPosition(0)</OnShow>
+					<OnTextChanged>RF.OptionsPanel_DelayEditBox_TextChanged( self )</OnTextChanged>
 				</Scripts>
-			</Slider>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_DelayEditBox_Text" inherits="GameFontWhite" text="minute(s)">
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="60" y="-2"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</EditBox>
+			<EditBox name="$parent_NextPostAt" inherits="InputBoxTemplate" autoFocus="false" letters="17">
+				<Size x="112" y="16"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_DelayEditBox" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-8"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnShow>self:SetCursorPosition(0)</OnShow>
+				</Scripts>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_NextPostAt_PreText" inherits="GameFontWhite" text="Next post at:">
+							<Anchors>
+								<Anchor point="RIGHT" relativePoint="LEFT">
+									<Offset><AbsDimension x="-8" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</EditBox>
+
 			<CheckButton name="$parent_LottoEnableBox" inherits="RFOptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_EnableBox">
 						<Offset>
-							<AbsDimension x="0" y="-30"/>
+							<AbsDimension x="30" y="-56"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -73,18 +110,19 @@
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "lotto" )</PostClick>
 				</Scripts>
 			</CheckButton>
+
 			<CheckButton name="$parent_GuildEnableBox" inherits="RFOptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_LottoEnableBox">
 						<Offset>
-							<AbsDimension x="0" y="-30"/>
+							<AbsDimension x="0" y="-54"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to Guild"</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "Post to Guild" )</OnShow>
-					<PostClick>RF.OptionsPanel_Guild_PostClick( self )</PostClick>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "guild", "This Guild" )</OnShow>
+					<OnClick>RF.OptionsPanel_Guild_OnClick( self )</OnClick>
 				</Scripts>
 			</CheckButton>
 			<CheckButton name="$parent_BNEnableBox" inherits="RFOptionsCheckButtonTemplate">
@@ -97,7 +135,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to BattleNet Status"</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "battleNet", "Post to BN" )</OnShow>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "battleNet", "BattleNet" )</OnShow>
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "battleNet" )</PostClick>
 				</Scripts>
 			</CheckButton>
@@ -111,7 +149,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to Say channel"</OnLoad>
-					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "say", "Post to Say channel" )</OnShow>
+					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "say", "Say channel" )</OnShow>
 					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "say" )</PostClick>
 				</Scripts>
 			</CheckButton>
