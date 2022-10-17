@@ -6,7 +6,8 @@ test.outFileName = "testOut.xml"
 
 RFFrame = CreateFrame()
 RFOptionsFrame_EnableBox          = CreateFrame()
-RFOptionsFrame_DelaySlider        = CreateFrame()
+RFOptionsFrame_DelayEditBox       = CreateFrame()
+RFOptionsFrame_NextPostAt         = CreateFrame()
 RFOptionsFrame_LottoEnableBox     = CreateFrame()
 RFOptionsFrame_GuildEnableBoxText = CreateFrame()
 RFOptionsFrame_GuildEnableBox     = CreateFrame()
@@ -246,72 +247,72 @@ function test.testFirst_5()
 	assertTrue( RF.Command( "first 5" ) )
 end
 -- Options
-function test.testTimeOptionTextToSeconds_1Week()
-	assertEquals( 604800, RF.TextToSeconds( "1w" ) )
-end
-function test.testTimeOptionTextToSeconds_1Day()
-	assertEquals( 86400, RF.TextToSeconds( "1d" ) )
-end
-function test.testTimeOptionTextToSeconds_1Hour()
-	assertEquals( 3600, RF.TextToSeconds( "1h" ) )
-end
-function test.testTimeOptionTextToSeconds_1Minute()
-	assertEquals( 60, RF.TextToSeconds( "1m" ) )
-end
-function test.testTimeOptionTextToSeconds_1Second()
-	assertEquals( 1, RF.TextToSeconds( "1s" ) )
-	assertEquals( 1, RF.TextToSeconds( "1" ) )
-	assertEquals( 604800, RF.TextToSeconds( "604800" ) )
-end
-function test.testTimeOptionTextToSeconds_Mixed_MinuteSecond()
-	assertEquals( 90, RF.TextToSeconds( "1m 30s" ) )
-	assertEquals( 90, RF.TextToSeconds( "30s 1m" ) )
-end
-function test.testTimeOptionTextToSeconds_Mixed_HourMinute()
-	assertEquals( 5400, RF.TextToSeconds( "1h 30m" ) )
-	assertEquals( 5400, RF.TextToSeconds( "30m 1h" ) )
-end
-function test.testTimeOptionTextToSeconds_Mixed_HourDay()
-	assertEquals( 90000, RF.TextToSeconds( "1d 1h" ) )
-	assertEquals( 90000, RF.TextToSeconds( "1h 1d" ) )
-end
-function test.testTimeOptionTextToSeconds_Mixed_HourMinSec()
-	assertEquals( 5430, RF.TextToSeconds( "1h30m30" ) )
-	assertEquals( 5430, RF.TextToSeconds( "30s 30m 1h" ) )
-end
-function test.testTimeOptionSecondsToTime_1Week()
-	assertEquals( "1w", RF.SecondsToText( 604800 ) )
-end
-function test.testTimeOptionSecondsToText_1Day()
-	assertEquals( "1d", RF.SecondsToText( 86400 ) )
-end
-function test.testTimeOptionSecondsToText_1Hour()
-	assertEquals( "1h", RF.SecondsToText( 3600 ) )
-end
-function test.testTimeOptionSecondsToText_1Minute()
-	assertEquals( "1m", RF.SecondsToText( 60 ) )
-end
-function test.testTimeOptionSecondsToText_1Second()
-	assertEquals( "1s", RF.SecondsToText( 1 ) )
-end
-function test.testTimeOptionSecondsToText_Mixed_MinuteSecond()
-	assertEquals( "1m 30s", RF.SecondsToText( 90 ) )
-end
-function test.testTimeOptionSecondsToText_Mixed_HMS()
-	assertEquals( "1h 30m 30s", RF.SecondsToText( 5430 ) )
-end
-function test.testTimeOptionSecondsToText_Mixed_DHMS()
-	assertEquals( "1d 1h 30m 30s", RF.SecondsToText( 91830 ) )
-end
-function test.testTimeOptionSecondsToText_Mixed_()
-	assertEquals( "1w 3d 13m 20s", RF.SecondsToText( 864800 ) )
-end
-function test.testTimeOptionTextToSeconds_badChars()
-	assertEquals( 4020, RF.TextToSeconds( "1The quick brown fox 7jumps over the lazy dog."))
-end
-function test.testTimeOptionTextToSecondsToText_01()
-	assertEquals( "1h 30m 30s", RF.SecondsToText( RF.TextToSeconds( "30s 90m" ) ) )
-end
+-- function test.testTimeOptionTextToSeconds_1Week()
+-- 	assertEquals( 604800, RF.TextToSeconds( "1w" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_1Day()
+-- 	assertEquals( 86400, RF.TextToSeconds( "1d" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_1Hour()
+-- 	assertEquals( 3600, RF.TextToSeconds( "1h" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_1Minute()
+-- 	assertEquals( 60, RF.TextToSeconds( "1m" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_1Second()
+-- 	assertEquals( 1, RF.TextToSeconds( "1s" ) )
+-- 	assertEquals( 1, RF.TextToSeconds( "1" ) )
+-- 	assertEquals( 604800, RF.TextToSeconds( "604800" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_Mixed_MinuteSecond()
+-- 	assertEquals( 90, RF.TextToSeconds( "1m 30s" ) )
+-- 	assertEquals( 90, RF.TextToSeconds( "30s 1m" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_Mixed_HourMinute()
+-- 	assertEquals( 5400, RF.TextToSeconds( "1h 30m" ) )
+-- 	assertEquals( 5400, RF.TextToSeconds( "30m 1h" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_Mixed_HourDay()
+-- 	assertEquals( 90000, RF.TextToSeconds( "1d 1h" ) )
+-- 	assertEquals( 90000, RF.TextToSeconds( "1h 1d" ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_Mixed_HourMinSec()
+-- 	assertEquals( 5430, RF.TextToSeconds( "1h30m30" ) )
+-- 	assertEquals( 5430, RF.TextToSeconds( "30s 30m 1h" ) )
+-- end
+-- function test.testTimeOptionSecondsToTime_1Week()
+-- 	assertEquals( "1w", RF.SecondsToText( 604800 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_1Day()
+-- 	assertEquals( "1d", RF.SecondsToText( 86400 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_1Hour()
+-- 	assertEquals( "1h", RF.SecondsToText( 3600 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_1Minute()
+-- 	assertEquals( "1m", RF.SecondsToText( 60 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_1Second()
+-- 	assertEquals( "1s", RF.SecondsToText( 1 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_Mixed_MinuteSecond()
+-- 	assertEquals( "1m 30s", RF.SecondsToText( 90 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_Mixed_HMS()
+-- 	assertEquals( "1h 30m 30s", RF.SecondsToText( 5430 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_Mixed_DHMS()
+-- 	assertEquals( "1d 1h 30m 30s", RF.SecondsToText( 91830 ) )
+-- end
+-- function test.testTimeOptionSecondsToText_Mixed_()
+-- 	assertEquals( "1w 3d 13m 20s", RF.SecondsToText( 864800 ) )
+-- end
+-- function test.testTimeOptionTextToSeconds_badChars()
+-- 	assertEquals( 4020, RF.TextToSeconds( "1The quick brown fox 7jumps over the lazy dog."))
+-- end
+-- function test.testTimeOptionTextToSecondsToText_01()
+-- 	assertEquals( "1h 30m 30s", RF.SecondsToText( RF.TextToSeconds( "30s 90m" ) ) )
+-- end
 ------------------
 -- Chat
 ------------------
