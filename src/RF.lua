@@ -42,9 +42,9 @@ end
 function RF.IsGuildPostable()
 	-- return true if posting to this guild chat is allowed
 	if( IsInGuild() ) then
-		local guildTestStr = ( GetRealmName() or "none" ).."-"..(  GetGuildInfo( "player" ) or "none" )
+		local guildTestStr = ( GetRealmName() or "none" ).."-"..( GetGuildInfo( "player" ) or "none" )
 		--print( guildTestStr )
-		if not RF_options.guildBlackList or not RF_options.guildBlackList[guildTestStr] then
+		if RF_options.guildAllowList and RF_options.guildAllowList[guildTestStr] then
 			return true, guildTestStr
 		end
 		return false, guildTestStr

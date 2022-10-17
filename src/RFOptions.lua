@@ -57,6 +57,7 @@ function RF.OptionsPanel_Default()
 	for k,v in pairs( RF.defaultOptions ) do
 		RF_options[k] = v
 	end
+	RF.OptionsPanel_Refresh()
 end
 
 function RF.OptionsPanel_Refresh()
@@ -92,16 +93,16 @@ function RF.OptionsPanel_CheckButton_OnClick( self, option )
 	RF_options[option] = self:GetChecked()
 end
 function RF.OptionsPanel_Guild_OnClick( self )
-	if not RF_options.guildBlackList then
-		RF_options.guildBlackList = {}
+	if not RF_options.guildAllowList then
+		RF_options.guildAllowList = {}
 	end
 
 	if( IsInGuild() ) then
 		local guildEnabled, guildTestStr = RF.IsGuildPostable()
-		if RF_options.guildBlackList[guildTestStr] then
-			RF_options.guildBlackList[guildTestStr] = nil
+		if RF_options.guildAllowList[guildTestStr] then
+			RF_options.guildAllowList[guildTestStr] = nil
 		else
-			RF_options.guildBlackList[guildTestStr] = true
+			RF_options.guildAllowList[guildTestStr] = true
 		end
 	end
 end

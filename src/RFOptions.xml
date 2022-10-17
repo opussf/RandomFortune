@@ -73,7 +73,7 @@
 					</Layer>
 				</Layers>
 			</EditBox>
-			<EditBox name="$parent_NextPostAt" inherits="InputBoxTemplate" autoFocus="false" letters="17">
+			<EditBox name="$parent_NextPostAt" inherits="InputBoxTemplate" autoFocus="false" letters="17" enableKeyboard="false">
 				<Size x="112" y="16"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_DelayEditBox" relativePoint="BOTTOMLEFT">
@@ -107,7 +107,7 @@
 				<Scripts>
 					<OnLoad>self.tooltip = "Append Lotto Numbers"</OnLoad>
 					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "lotto", "Append Lotto Numbers" )</OnShow>
-					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "lotto" )</PostClick>
+					<OnClick>RF.OptionsPanel_CheckButton_OnClick( self, "lotto" )</OnClick>
 				</Scripts>
 			</CheckButton>
 
@@ -136,7 +136,7 @@
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to BattleNet Status"</OnLoad>
 					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "battleNet", "BattleNet" )</OnShow>
-					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "battleNet" )</PostClick>
+					<OnClick>RF.OptionsPanel_CheckButton_OnClick( self, "battleNet" )</OnClick>
 				</Scripts>
 			</CheckButton>
 			<CheckButton name="$parent_SayEnableBox" inherits="RFOptionsCheckButtonTemplate">
@@ -150,7 +150,7 @@
 				<Scripts>
 					<OnLoad>self.tooltip = "Post to Say channel"</OnLoad>
 					<OnShow>RF.OptionsPanel_CheckButton_OnShow( self, "say", "Say channel" )</OnShow>
-					<PostClick>RF.OptionsPanel_CheckButton_PostClick( self, "say" )</PostClick>
+					<OnClick>RF.OptionsPanel_CheckButton_OnClick( self, "say" )</OnClick>
 				</Scripts>
 			</CheckButton>
 		</Frames>
