@@ -42,9 +42,9 @@ end
 function RF.IsGuildPostable()
 	-- return true if posting to this guild chat is allowed
 	if( IsInGuild() ) then
-		local guildTestStr = ( GetRealmName() or "none" ).."-"..(  GetGuildInfo( "player" ) or "none" )
+		local guildTestStr = ( GetRealmName() or "none" ).."-"..( GetGuildInfo( "player" ) or "none" )
 		--print( guildTestStr )
-		if not RF_options.guildBlackList or not RF_options.guildBlackList[guildTestStr] then
+		if RF_options.guildAllowList and RF_options.guildAllowList[guildTestStr] then
 			return true, guildTestStr
 		end
 		return false, guildTestStr
@@ -91,7 +91,7 @@ function RF.PrintStatus( index )
 		RF.Print(#RF_fortunes .." fortune"..(#RF_fortunes == 1 and " is " or "s are ").."known.");
 		if RF_options.enabled then
 			RF.Print("Enabled, fortunes every "..SecondsToTime(RF_options.delay));
-			RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay));
+			RF.Print("Next fortune at "..date("%x %X", RF_options.lastPost+RF_options.delay))
 		else
 			RF.Print(RF_MSG_ADDONNAME.." is disabled.");
 		end
