@@ -35,7 +35,6 @@ function RF.OptionsPanel_OnLoad( frame )
 	frame.refresh = RF.OptionsPanel_Refresh
 
 	InterfaceOptions_AddCategory( frame )
-	InterfaceAddOnsList_Update()
 	RF.UpdateOptions()
 end
 function RF.OptionsPanel_Okay()
