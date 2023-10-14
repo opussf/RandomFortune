@@ -4,6 +4,7 @@
 ## Author: opussf
 ## Version: @VERSION@
 ## Description: Posts a random fortune at periodic intervals
+## IconTexture: Interface\Icons\Inv_misc_fortunecookie
 ## SavedVariables: RF_fortunes RF_options
 ## SavedVariablesPerCharacter:
 RF.lua
