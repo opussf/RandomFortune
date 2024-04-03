@@ -20,7 +20,7 @@ function RF.ReplaceMessage( msgIn )
 		--print( "tokenEnd: "..tokenEnd )
 		--print( "index: "..index )
 		msgNew = string.sub( msgIn, 1, tokenStart-1 )..
-				fortuneStr..(useLotto and " "..RF.MakeLuckyNumber().." " or "")..
+				fortuneStr..(useLotto and " "..RF.MakeLuckyNumber() or "")..
 				string.sub( msgIn, tokenEnd+1 )
 	end
 	return( ( msgNew or msgIn ) )
