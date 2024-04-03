@@ -1,20 +1,10 @@
 #!/usr/bin/env lua
 -- Version: @VERSION@
 
-if #arg < 2 then
-	print( "Usage:" )
-	print( arg[0]..": <accountName> <exportType>")
-	os.exit()
-end
-
-
-progPath = arg[0]
-accountName = arg[1]
+accountPath = arg[1]
 exportType = arg[2]
 
 pathSeparator = string.sub(package.config, 1, 1) -- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
-_, _, accountPath = string.find( progPath, "(.*)Interface" )
-
 -- remove 'extra' separators from the end of the given path
 while (string.sub( accountPath, -1, -1 ) == pathSeparator) do
 	accountPath = string.sub( accountPath, 1, -2 )
@@ -22,9 +12,6 @@ end
 -- append the expected location of the datafile
 dataFilePath = {
 	accountPath,
-	"WTF",
-	"Account",
-	accountName,
 	"SavedVariables",
 	"RF.lua"
 }
@@ -39,44 +26,41 @@ function DoFile( filename )
 	return f()
 end
 function ExportXML()
-	strOut = "<?xml version='1.0' encoding='utf-8' ?>\n"
-	strOut = strOut .. "<steps>\n"
+	strOut = "<?xml version='1.0' encoding='utf-8' ?>\n";
+	strOut = strOut .. "<fortunes>\n";
 
-	for realm, chars in sorted_pairs( Steps_data ) do
-		for name, c in sorted_pairs( chars ) do
-			strOut = strOut .. string.format( "<char realm=\"%s\" name=\"%s\" steps=\"%s\">\n", realm, name, math.ceil( c.steps ) )
-			for date, dateStruct in sorted_pairs( c ) do
-				if string.len(date) == 8 then
-					strOut = strOut .. string.format( "\t<day date=\"%s-%s-%s\" steps=\"%s\"/>\n", string.sub(date,1,4), string.sub(date,5,6), string.sub(date,7,8), math.ceil( dateStruct.steps ) )
-				end
-			end
-			strOut = strOut .. "</char>\n"
-		end
+	for _,fortuneStruct in sorted_pairs(RF_fortunes) do
+		strOut = strOut .. string.format('\t<fortune lastPost="%i"><![CDATA[%s]]></fortune>\n',
+				fortuneStruct.lastPost, fortuneStruct.fortune)
 	end
 
-	strOut = strOut .. "</steps>\n"
+	strOut = strOut .. "</fortunes>"
 	return strOut
 end
 function ExportJSON()
-	strOut = "{\"steps\": [\n"
+	strOut = '{"fortunes": [\n'
 
-	charsOut = {}
-	for realm, chars in sorted_pairs( Steps_data ) do
-		for name, c in sorted_pairs( chars ) do
-			charOut = {}
-			table.insert( charOut, string.format( "\t{\"realm\":\"%s\", \"name\":\"%s\", \"steps\":%s, \"days\":[", realm, name, math.ceil( c.steps ) ) )
-			days = {}
-			for date, dateStruct in sorted_pairs( c ) do
-				if string.len(date) == 8 then
-					table.insert( days, string.format( "\t\t{\"date\":\"%s-%s-%s\", \"steps\":%s}", string.sub(date,1,4), string.sub(date,5,6), string.sub(date,7,8), math.ceil( dateStruct.steps ) ) )
-				end
-			end
-			table.insert( charOut, table.concat( days, ",\n" ) .. "]}" )
-			table.insert( charsOut, table.concat( charOut, "\n" ) )
-		end
+	fortunes = {}
+
+	for _,fortuneStruct in sorted_pairs(RF_fortunes) do
+		fortune = string.gsub( fortuneStruct.fortune, '\\', '\\\\')
+		fortune = string.gsub( fortuneStruct.fortune, '\"', '\\\"')
+		table.insert( fortunes, string.format('\t{ "lastPost": %.0f, "fortune": "%s" }', fortuneStruct.lastPost * 1000, fortune ) )
 	end
 
-	strOut = strOut .. table.concat( charsOut, ",\n" ) .. "\n]}"
+	strOut = strOut .. table.concat( fortunes, ",\n" )
+
+	strOut = strOut .. "]}"
+
+	return strOut
+end
+function ExportPHP()
+	strOut = "<?php\n$RFTable = array(\n";
+	for _, RFs in sorted_pairs(RF_fortunes) do
+		strOut = strOut .. string.format("\tarray('fortune'=>\"%s\", 'lastPost'=>\"%s\"),\n",
+				RFs.fortune, RFs.lastPost)
+	end
+	strOut = strOut .. ");\n?>"
 
 	return strOut
 end
@@ -96,7 +80,8 @@ end
 
 functionList = {
 	["xml"] = ExportXML,
-	["json"] = ExportJSON
+	["json"] = ExportJSON,
+	["php"] = ExportPHP
 }
 
 func = functionList[string.lower( exportType )]
