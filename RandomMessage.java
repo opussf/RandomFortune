@@ -56,7 +56,6 @@ public class RandomMessage {
 		messages.add("Death is but a doorway.  Here, let me get that for you");
 		messages.add("Genius is 1 percent inspiration and 99% perspiration, which is why engineers sometimes smell really bad.");
 		messages.add("It could be that the purpose of your life is only to serve as a warning to others.");
-		messages.add("Mediocrity: It takes a lot less time and most people won't notice the difference until it's too late.");
 		messages.add("Always remember that you are unique. Just like everybody else.");
 		messages.add("The secret to success is knowing who to blame for your failures.");
 		messages.add("You aren't being paid to believe in the power of your dreams.");
@@ -71,10 +70,8 @@ public class RandomMessage {
 		messages.add("Let no man pull you low enough to hate him. - Martin Luther King ");
 		messages.add("Give a man a fire and he's warm for the day. But set fire to him and he's warm for the rest of his life.");
 
-		messages.add("There are 10 types of people.  Those that understand binary and those that don't.");
 		messages.add("Everything I ever learned, I learned from Ron Jeremy and the family dog.");
 
-		messages.add("What type of beans are werewolf's favorite?  Human Beings");
 		messages.add("If pest control technicians kill pests, what do quality control technicians do?");
 		messages.add("Basic dimensions: I have no tolerance for them.");
 
