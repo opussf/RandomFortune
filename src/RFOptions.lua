@@ -27,14 +27,18 @@ end
 function RF.OptionsPanel_OnLoad( frame )
 	-- RF.Print( "RF.OptionsPanel_OnLoad()" )
 	frame.name = "Random Fortune"
-	RFOptionsFrame_Title:SetText( RF_MSG_ADDONNAME.." "..RF_MSG_VERSION )
+	RFOptionsFrame_Title:SetText( RF_MSG_ADDONNAME.." v"..RF_MSG_VERSION )
 
-	frame.okay = RF.OptionsPanel_Okay
+	frame.OnCommit = RF.OptionsPanel_Okay
 	frame.cancel = RF.OptionsPanel_Cancel
-	frame.default = RF.OptionsPanel_Default
-	frame.refresh = RF.OptionsPanel_Refresh
+	frame.OnDefault = RF.OptionsPanel_Default
+	frame.OnRefresh = RF.OptionsPanel_Refresh
 
-	InterfaceOptions_AddCategory( frame )
+	-- Register Options frame
+	local category, layout = Settings.RegisterCanvasLayoutCategory( frame, frame.name )
+	frame.category = category
+	Settings.RegisterAddOnCategory(category)
+
 	RF.UpdateOptions()
 end
 function RF.OptionsPanel_Okay()
