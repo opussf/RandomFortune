@@ -4,16 +4,16 @@ RF_MSG_ADDONNAME = GetAddOnMetadata( RF_SLUG, "Title" )
 RF_MSG_AUTHOR = GetAddOnMetadata( RF_SLUG, "Author" )
 
 -- Colours
-COLOR_RED = "|cffff0000";
-COLOR_GREEN = "|cff00ff00";
-COLOR_BLUE = "|cff0000ff";
-COLOR_PURPLE = "|cff700090";
-COLOR_YELLOW = "|cffffff00";
-COLOR_ORANGE = "|cffff6d00";
-COLOR_GREY = "|cff808080";
-COLOR_GOLD = "|cffcfb52b";
-COLOR_NEON_BLUE = "|cff4d4dff";
-COLOR_END = "|r";
+COLOR_RED = "|cffff0000"
+COLOR_GREEN = "|cff00ff00"
+COLOR_BLUE = "|cff0000ff"
+COLOR_PURPLE = "|cff700090"
+COLOR_YELLOW = "|cffffff00"
+COLOR_ORANGE = "|cffff6d00"
+COLOR_GREY = "|cff808080"
+COLOR_GOLD = "|cffcfb52b"
+COLOR_NEON_BLUE = "|cff4d4dff"
+COLOR_END = "|r"
 
 -- seed data
 RF_fortunes = {
@@ -26,7 +26,7 @@ RF_fortunes = {
 -- onload event handler
 function RF.OnLoad()
 	--register slash commands
-	SLASH_RF1 = "/rf";
+	SLASH_RF1 = "/rf"
 	SlashCmdList["RF"] = function(msg) RF.Command(msg); end
 
 	RFFrame:RegisterEvent("ADDON_LOADED")
@@ -35,9 +35,9 @@ function RF.Print( msg, showName)
 	-- print to the chat frame
 	-- set showName to false to suppress the addon name printing
 	if (showName == nil) or (showName) then
-		msg = COLOR_RED..RF_MSG_ADDONNAME.."> "..COLOR_END..msg;
+		msg = COLOR_RED..RF_MSG_ADDONNAME.."> "..COLOR_END..msg
 	end
-	DEFAULT_CHAT_FRAME:AddMessage( msg );
+	DEFAULT_CHAT_FRAME:AddMessage( msg )
 end
 function RF.IsGuildPostable()
 	-- return true if posting to this guild chat is allowed
