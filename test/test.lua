@@ -4,7 +4,10 @@ require "wowTest"
 
 test.outFileName = "testOut.xml"
 
-RFFrame = CreateFrame()
+ParseTOC( "../src/RF.toc" )
+
+-- RFFrame = CreateFrame()
+-- RFOptionsFrame = CreateFrame()
 RFOptionsFrame_EnableBox          = CreateFrame()
 RFOptionsFrame_DelayEditBox       = CreateFrame()
 RFOptionsFrame_NextPostAt         = CreateFrame()
@@ -13,8 +16,7 @@ RFOptionsFrame_GuildEnableBoxText = CreateFrame()
 RFOptionsFrame_GuildEnableBox     = CreateFrame()
 RFOptionsFrame_BNEnableBox        = CreateFrame()
 RFOptionsFrame_SayEnableBox       = CreateFrame()
-
-ParseTOC( "../src/RF.toc" )
+RFOptionsFrame.category           = Settings.RegisterCanvasLayoutCategory( RFOptionsFrame, "RF" )
 
 OriginalSendChatMessage = SendChatMessage
 OriginalBNSendWhisper = BNSendWhisper

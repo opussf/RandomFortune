@@ -136,7 +136,7 @@ function RF.Command(msg)
 		cmdFunc.func(param)
 		return 1
 	else
-		InterfaceOptionsFrame_OpenToCategory("Random Fortune");
+		Settings.OpenToCategory( RFOptionsFrame.category:GetID() )
 		--RF.Print("Use '/rf help' for a list of commands.");
 	end
 end
