@@ -1,7 +1,7 @@
-RF_SLUG, RF = ...
-RF_MSG_VERSION = GetAddOnMetadata( RF_SLUG, "Version" )
-RF_MSG_ADDONNAME = GetAddOnMetadata( RF_SLUG, "Title" )
-RF_MSG_AUTHOR = GetAddOnMetadata( RF_SLUG, "Author" )
+RF_SLUG, RF      = ...
+RF_MSG_VERSION   = C_AddOns.GetAddOnMetadata( RF_SLUG, "Version" )
+RF_MSG_ADDONNAME = C_AddOns.GetAddOnMetadata( RF_SLUG, "Title" )
+RF_MSG_AUTHOR    = C_AddOns.GetAddOnMetadata( RF_SLUG, "Author" )
 
 -- Colours
 COLOR_RED = "|cffff0000"
