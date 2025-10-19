@@ -153,7 +153,7 @@ end
 function RF.ADDON_LOADED()
 	RFFrame:UnregisterEvent("ADDON_LOADED")
 	RF.UpdateOptions()
-	RF.InitChat()
+	-- RF.InitChat()
 	--RF.Print("Random Fortune every "..SecondsToTime(RF_options.delay)..". Next at "..
 	--		date("%x %X",RF_options.lastPost+RF_options.delay));
 	RF.oldestPost = time() - (RF_options.delay * #RF_fortunes);
@@ -161,7 +161,7 @@ function RF.ADDON_LOADED()
 	local count = 0;
 	for _,fortune in pairs(RF_fortunes) do
 		if fortune.lastPost <= RF.oldestPost then
-			count = count + 1;
+			count = count + 1
 		end
 	end
 	--RF.Print("There are "..count.." / "..#RF_fortunes.." that can be posted.")
@@ -169,12 +169,12 @@ function RF.ADDON_LOADED()
 end
 function RF.OnUpdate(arg1)
 	if (RF_options.enabled and RF.ShouldPostNow()) then
-		RF.PostFortune();
+		RF.PostFortune()
 	end
 end
 function RF.ShouldPostNow()
 	if (time() >= RF_options.lastPost + RF_options.delay) then
-		return true;
+		return true
 	end
 end
 function RF.GetFortune( indexIn )
@@ -317,21 +317,21 @@ RF.CommandList = {
 	},
 	["add"] = {
 		["func"] = function(param)
-				RF.AddFortune(param);
+				RF.AddFortune(param)
 			end,
 		["help"] = {"fortune","Adds fortune to the list of fortunes."},
 	},
 	["disable"] = {
 		["func"] = function()
 				RF_options.enabled = nil;
-				RF.Print("Disabled");
+				RF.Print("Disabled")
 			end,
 		["help"] = {"", "Disable output"},
 	},
 	["enable"] = {
 		["func"] = function()
 				RF_options.enabled = true;
-				RF.PrintStatus();
+				RF.PrintStatus()
 			end,
 		["help"] = {"", "Enable periodic publishing"},
 	},
@@ -357,31 +357,31 @@ RF.CommandList = {
 	["lotto"] = {
 		["func"] = function()
 				RF_options.lotto = not RF_options.lotto;
-				RF.PrintStatus();
+				RF.PrintStatus()
 			end,
 		["help"] = {"", "Toggle showing lotto numbers"},
 	},
-	["bn"] = {
-		["func"] = function()
-				RF_options.battleNet = not RF_options.battleNet;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle setting BattleNet status"},
-	},
-	["say"] = {
-		["func"] = function()
-				RF_options.say = not RF_options.say;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle posting to say channel"},
-	},
-	["party"] = {
-		["func"] = function()
-				RF_options.party = not RF_options.party;
-				RF.PrintStatus();
-			end,
-		["help"] = {"", "Toggle posting to party if in party"},
-	},
+	-- ["bn"] = {
+	-- 	["func"] = function()
+	-- 			RF_options.battleNet = not RF_options.battleNet;
+	-- 			RF.PrintStatus();
+	-- 		end,
+	-- 	["help"] = {"", "Toggle setting BattleNet status"},
+	-- },
+	-- ["say"] = {
+	-- 	["func"] = function()
+	-- 			RF_options.say = not RF_options.say;
+	-- 			RF.PrintStatus();
+	-- 		end,
+	-- 	["help"] = {"", "Toggle posting to say channel"},
+	-- },
+	-- ["party"] = {
+	-- 	["func"] = function()
+	-- 			RF_options.party = not RF_options.party;
+	-- 			RF.PrintStatus();
+	-- 		end,
+	-- 	["help"] = {"", "Toggle posting to party if in party"},
+	-- },
 	["find"] = {
 		["func"] = RF.Find,
 		["help"] = {"search", "Find a known fortune containing <search>"},
@@ -392,7 +392,7 @@ RF.CommandList = {
 	},
 	["list"] = {
 		["func"] = function()
-				RF.Find();  -- pass no parameters for the list command
+				RF.Find()  -- pass no parameters for the list command
 			end,
 		["help"] = {"", "List all fortunes."},
 	},
