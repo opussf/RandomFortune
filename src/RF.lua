@@ -153,7 +153,6 @@ end
 function RF.ADDON_LOADED()
 	RFFrame:UnregisterEvent("ADDON_LOADED")
 	RF.UpdateOptions()
-	-- RF.InitChat()
 	--RF.Print("Random Fortune every "..SecondsToTime(RF_options.delay)..". Next at "..
 	--		date("%x %X",RF_options.lastPost+RF_options.delay));
 	RF.oldestPost = time() - (RF_options.delay * #RF_fortunes);
@@ -361,27 +360,6 @@ RF.CommandList = {
 			end,
 		["help"] = {"", "Toggle showing lotto numbers"},
 	},
-	-- ["bn"] = {
-	-- 	["func"] = function()
-	-- 			RF_options.battleNet = not RF_options.battleNet;
-	-- 			RF.PrintStatus();
-	-- 		end,
-	-- 	["help"] = {"", "Toggle setting BattleNet status"},
-	-- },
-	-- ["say"] = {
-	-- 	["func"] = function()
-	-- 			RF_options.say = not RF_options.say;
-	-- 			RF.PrintStatus();
-	-- 		end,
-	-- 	["help"] = {"", "Toggle posting to say channel"},
-	-- },
-	-- ["party"] = {
-	-- 	["func"] = function()
-	-- 			RF_options.party = not RF_options.party;
-	-- 			RF.PrintStatus();
-	-- 		end,
-	-- 	["help"] = {"", "Toggle posting to party if in party"},
-	-- },
 	["find"] = {
 		["func"] = RF.Find,
 		["help"] = {"search", "Find a known fortune containing <search>"},

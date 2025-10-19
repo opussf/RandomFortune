@@ -1,11 +1,5 @@
 -- RFChat.lua
 
--- function RF.InitChat()
--- 	RF.OriginalSendChatMessage = SendChatMessage
--- 	SendChatMessage = RF.SendChatMessage
--- 	RF.OriginalBNSendWhisper = BNSendWhisper
--- 	BNSendWhisper = RF.BNSendWhisper
--- end
 function RF.ReplaceMessage( msgIn )
 	if msgIn then
 		-- search for and replace {RF} or {RF#nnnn} with a Random Fortune
@@ -27,16 +21,6 @@ function RF.ReplaceMessage( msgIn )
 		return( ( msgNew or msgIn ) )
 	end
 end
--- function RF.SendChatMessage( msgIn, system, language, channel )
--- 	RF.OriginalSendChatMessage( RF.ReplaceMessage( msgIn ), system, language, channel )
--- end
--- function RF.BNSendWhisper( id, msgIn )
--- 	RF.OriginalBNSendWhisper( id, RF.ReplaceMessage( msgIn ) )
--- end
-
--- RF.CommandList[""] = {
--- 		["help"] = {"{RF<nnn><L>}","Send to any chat. <nnn> fortune to post. <L> append lotto numbers"},
--- 	}
 function RF.ChatParseMessage( msg )
 	if msg and string.len( msg ) > 0 then
 		msg = RF.ReplaceMessage( msg )
@@ -49,7 +33,6 @@ function RF.ChatParseMessage( msg )
 	return msg
 end
 function RF.SendMessage( channel, msg )
-	-- print( "\t>>>>", channel, msg )
 	msg = RF.ChatParseMessage( msg )
 	SendChatMessage( msg, channel )
 end
