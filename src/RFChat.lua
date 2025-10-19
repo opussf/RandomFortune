@@ -41,7 +41,10 @@ function RF.ChatParseMessage( msg )
 	if msg and string.len( msg ) > 0 then
 		msg = RF.ReplaceMessage( msg )
 	else
-		msg = RF.GetFortune( )
+		msg = RF.GetFortune()
+		if RF_options.lotto then
+			msg = msg.." "..RF.MakeLuckyNumber()
+		end
 	end
 	return msg
 end
@@ -52,22 +55,22 @@ function RF.SendMessage( channel, msg )
 end
 
 RF.CommandList["say"] = {
-	["func"] = function(msg) RF.SendMessage( "say", msg ) end,
+	["func"] = function(msg) RF.SendMessage( "SAY", msg ) end,
 	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
 }
 RF.CommandList["party"] = {
-	["func"] = function(msg) RF.SendMessage( "party", msg ) end,
+	["func"] = function(msg) RF.SendMessage( "PARTY", msg ) end,
 	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
 }
 RF.CommandList["instance"] = {
-	["func"] = function(msg) RF.SendMessage( "instance", msg ) end,
+	["func"] = function(msg) RF.SendMessage( "INSTANCE_CHAT", msg ) end,
 	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
 }
 RF.CommandList["raid"] = {
-	["func"] = function(msg) RF.SendMessage( "raid", msg ) end,
+	["func"] = function(msg) RF.SendMessage( "RAID", msg ) end,
 	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
 }
 RF.CommandList["guild"] = {
-	["func"] = function(msg) RF.SendMessage( "guild", msg ) end,
+	["func"] = function(msg) RF.SendMessage( "GUILD", msg ) end,
 	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
 }
