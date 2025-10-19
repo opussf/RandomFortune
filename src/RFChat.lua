@@ -56,21 +56,30 @@ end
 
 RF.CommandList["say"] = {
 	["func"] = function(msg) RF.SendMessage( "SAY", msg ) end,
-	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
+	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace."},
 }
 RF.CommandList["party"] = {
 	["func"] = function(msg) RF.SendMessage( "PARTY", msg ) end,
-	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
+	["help"] = {"[chatMessage]", "Post \"[chatMessage]\" in party with {} replace."},
 }
 RF.CommandList["instance"] = {
 	["func"] = function(msg) RF.SendMessage( "INSTANCE_CHAT", msg ) end,
-	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
+	["help"] = {"[chatMessage]", "Post \"[chatMessage]\" in instance with {} replace."},
 }
 RF.CommandList["raid"] = {
 	["func"] = function(msg) RF.SendMessage( "RAID", msg ) end,
-	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
+	["help"] = {"[chatMessage]", "Post \"[chatMessage]\" in raid with {} replace."},
 }
 RF.CommandList["guild"] = {
 	["func"] = function(msg) RF.SendMessage( "GUILD", msg ) end,
-	["help"] = {"[chatMessage]", "Say \"[chatMessage]\" with {} replace.  "},
+	["help"] = {"[chatMessage]", "Post \"[chatMessage]\" in guild with {} replace."},
+}
+RF.CommandList["bn"] = {
+	["func"] = function(msg)
+			local msg = RF.GetFortune()
+			if string.len(msg) < 127 then
+				BNSetCustomMessage( msg )
+			end
+		end,
+	["help"] = {"[chatMessage]", "Post \"[chatMessage]\" as BattleNet status with {} replace."},
 }
