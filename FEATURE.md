@@ -1,5 +1,10 @@
 # Features
 
+## noCurly
+Finally remove the wonderful experiment of the {} as it does not work outside of dungeons (thanks bunch Blizzard!)
+
+`/rf <guild|etc.> [msg]` where msg can be {} or a string with an included {}.
+
 ## Options
 Move the options to the options panel.
 
