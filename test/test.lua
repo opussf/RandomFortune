@@ -398,7 +398,6 @@ function test.test_SendCatMessage_raid()
 end
 function test.test_SendCatMessage_guild()
 	RF.Command( "guild" )
-	test.dump(chatLog)
 	assertEquals( "guild", chatLog[2].chatType )
 	assertEquals( "Smile!", chatLog[2].msg )
 end
