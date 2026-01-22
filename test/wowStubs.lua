@@ -1,7 +1,7 @@
 -----------------------------------------
 -- Author  :  Opussf
--- Date    :  September 22 2025
--- Revision:  9.5.1-17-g28f1478
+-- Date    :  January 16 2026
+-- Revision:  9.7.1-8-ge2587c6
 -----------------------------------------
 -- These are functions from wow that have been needed by addons so far
 -- Not a complete list of the functions.
@@ -21,10 +21,10 @@ settings = {
 actionLog = {
 }
 buildInfo = {
-	"1.1.1",       --version
-	"3255",        --build
-	"Sep 12 2025", --date
-	20400          --TOC Version
+	"11.2.5",       -- version
+	"3255",         -- build
+	"Sep 12 2025",  -- date
+	110205          -- TOC Version
 }
 -- append actions to the log to track actions that may not have an other sideeffects.
 -- record the function calls
@@ -81,6 +81,7 @@ myStatistics = {
 }
 myLocale = "enUS"
 myZone = {["Zone"] = "Thing", ["Sub"] = "Sub"}
+isInCombat = false
 
 registeredPrefixes = {}
 
@@ -123,8 +124,8 @@ Sell Price: 32 81 73
 Dropped by: Kargath Bladefist
 Drop Chance: 11.48%
 ]]
-    -- ^^ Need another head item for testing.
-    ["999999"] = {["name"] = "Finger Thing", ["link"] = "|cffffffff|Hitem:999999:0:0:0:0:0:0:0:90:0:0|h[Finger Thing|h|r", ["slotPrefix"] = "Finger", ["texture"] = ""},
+	-- ^^ Need another head item for testing.
+	["999999"] = {["name"] = "Finger Thing", ["link"] = "|cffffffff|Hitem:999999:0:0:0:0:0:0:0:90:0:0|h[Finger Thing|h|r", ["slotPrefix"] = "Finger", ["texture"] = ""},
 }
 
 -- simulate the data structure that is the flight map
@@ -370,6 +371,21 @@ end
 function bit.rshift( x, by )
 	return math.floor( x / 2 ^ by )
 end
+function bit.bxor(a, b)
+	local res = 0
+	local bitval = 1
+	while a > 0 or b > 0 do
+		local abit = a % 2
+		local bbit = b % 2
+		if abit ~= bbit then
+			res = res + bitval
+		end
+		a = math.floor(a / 2)
+		b = math.floor(b / 2)
+		bitval = bitval * 2
+	end
+	return res
+end
 function bit.bor( a, b )  -- bitwise or
 	local p,c=1,0
 	while a+b>0 do
@@ -493,6 +509,15 @@ Frame = {
 		["GetText"] = function(self) return( self.textValue ); end,
 		["SetFrameLevel"] = function(self) end,
 		["SetAlpha"] = function(self, value) end,
+		["GetNumLines"] = function(self)
+				if self.textValue == "" then return 0 end
+				local _, count = self.textValue:gsub("\n", "")
+				if self.textValue:sub(-1) == "\n" then
+					return count
+				else
+					return count + 1
+				end
+			end,
 }
 FrameGameTooltip = {
 		["HookScript"] = function( self, callback ) end,
@@ -508,19 +533,19 @@ FrameGameTooltip = {
 			_G[frameName.."TextLeft4"] = CreateFontString(frameName.."TextLeft4")
 		end,
 }
-        -- None = 0
-        -- Warrior = 1
-        -- Paladin = 2
-        -- Hunter = 3
-        -- Rogue = 4
-        -- Priest = 5
-        -- DeathKnight = 6
-        -- Shaman = 7
-        -- Mage = 8
-        -- Warlock = 9
-        -- Monk = 10
-        -- Druid = 11
-        -- Demon Hunter = 12
+-- None = 0
+-- Warrior = 1
+-- Paladin = 2
+-- Hunter = 3
+-- Rogue = 4
+-- Priest = 5
+-- DeathKnight = 6
+-- Shaman = 7
+-- Mage = 8
+-- Warlock = 9
+-- Monk = 10
+-- Druid = 11
+-- Demon Hunter = 12
 Units = {
 	["player"] = {
 		["class"] = "Warlock",
@@ -534,6 +559,7 @@ Units = {
 		["sex"] = 3,
 		["currentHealth"] = 100000,
 		["maxHealth"] = 123456,
+		["creatureTypeID"] = 7,
 	},
 	["sameRealmUnit"] = {
 		["class"] = "Warrior",
@@ -545,6 +571,7 @@ Units = {
 		["realm"] = "testPlayer",
 		["realmRelationship"] = 1,
 		["sex"] = 2,
+		["creatureTypeID"] = 7,
 	},
 	["coalescedRealmUnit"] = {
 		["class"] = "Monk",
@@ -555,6 +582,7 @@ Units = {
 		["race"] = "Pandarian",
 		["realm"] = "coalescedRealm",
 		["realmRelationship"] = 2,
+		["creatureTypeID"] = 7,
 	},
 	["connectedRealmUnit"] = {
 		["class"] = "Mage",
@@ -564,6 +592,7 @@ Units = {
 		["name"] = "connectedUnit",
 		["realm"] = "connectedRealm",
 		["realmRelationship"] = 3,
+		["creatureTypeID"] = 7,
 	},
 	["mouseover"] = {
 		["class"] = "Priest",
@@ -574,8 +603,12 @@ Units = {
 		["race"] = "Dwarf",
 		["realm"] = "mouserealm",
 		["sex"] = 1,
+		["creatureTypeID"] = 7,
 	},
-
+}
+UnitCreatureTypes = { "Beast", "Dragonkin", "Demon", "Elemental", "Giant",
+		"Undead", "Humanoid", "Critter", "Mechanical", "Not specified",
+		"Totem", "Non-combat Pet", "Gas Cloud", "Wild Pet", "Aberration"
 }
 function CreateFrame( frameType, frameName, parentFrame, inheritFrame )
 --	print("CreateFrame: needing a new frame of type: "..(frameType or "nil"))
@@ -604,8 +637,8 @@ function CreateFontString( name, ... )
 		FontString[k] = v
 	end
 	FontString.text = ""
-	FontString["SetText"] = function(self,text) self.text=text; end
-	FontString["GetText"] = function(self) return(self.text); end
+	FontString["SetText"] = function(self,text) self.textValue=text; end
+	FontString["GetText"] = function(self) return(self.textValue); end
 	FontString.name=name
 	--print("FontString made?")
 	return FontString
@@ -640,15 +673,15 @@ function CreateCheckButton( name, ... )
 	me[name.."Text"] = CreateFontString(name.."Text")
 	return me
 end
-EditBox = {
-		["SetText"] = function(self,text) self.text=text; end,
+FrameEditBox = {
+		["SetText"] = function(self,text) self.textValue=text; end,
 		["SetCursorPosition"] = function(self,pos) self.cursorPosition=pos; end,
 		["HighlightText"] = function(self,start,last) end,
 		["IsNumeric"] = function() end,
 }
 function CreateEditBox( name, ... )
 	me = {}
-	for k,v in pairs(EditBox) do
+	for k,v in pairs(FrameEditBox) do
 		me[k] = v
 	end
 	me.name = name
@@ -879,7 +912,7 @@ function GetAchievementInfo( id, index )
 	-- Returns:
 	-- id: The numeric ID of the achievement or statistic (number)
 	-- name: Name of the achievement or statistic (string)
-    -- points: Amount of achievement points awarded for completing the achievement (number)
+	-- points: Amount of achievement points awarded for completing the achievement (number)
 	-- completed: True if any toon on the account has completed the achievement; otherwise false (boolean)
 	-- month: Month in which the player completed the achievement (number)
 	-- day: Day of the month on which the player completed the achievement (number)
@@ -951,6 +984,13 @@ function GetCategoryNumAchievements( catID )
 	-- numIncomplete: Number of incomplete achievements
 	return 5,0,5
 end
+CVars = { lastCharacterIndex = 2 }
+function GetCVar( cvarName )
+	return CVars[cvarName]
+end
+function SetCVar( cvarName, value )
+	CVars[cvarName] = value
+end
 
 C_AddOns = {}
 function C_AddOns.GetAddOnMetadata( addon, field )
@@ -964,6 +1004,10 @@ end
 function C_AddOns.LoadAddOn( addonName )
 end
 function C_AddOns.DisableAddOn( addonName, playerName )
+end
+function C_AddOns.IsAddOnLoaded( addonName )
+	-- assue it is, modify later
+	return true
 end
 
 C_Container = {}
@@ -1161,7 +1205,7 @@ numRaces = GetNumArchaeologyRaces()
 
 Returns:
 
-    numRaces - The number of Archaeology races in the game (number)
+	numRaces - The number of Archaeology races in the game (number)
 ]]
 end
 function GetArchaeologyRaceInfo( index )
@@ -1171,16 +1215,16 @@ raceName, raceTexture, raceItemID, numFragmentsCollected, numFragmentsRequired, 
 
 Arguments:
 
-    raceIndex - nil (number, GetNumArchaeologyRaces())
+	raceIndex - nil (number, GetNumArchaeologyRaces())
 
 Returns:
 
-    raceName - Name of the race (string)
-    raceTexture - Path to the texture (icon) used by this race in the Archaeology UI (string)
-    raceItemID - The itemID for the Keystone this race uses (number)
-    numFragmentsCollected - Number of collected fragments for this race (number)
-    numFragmentsRequired - Number of fragments required to solve the current artifact (number)
-    maxFragments - Maximum number of fragments that can be carried (number)
+	raceName - Name of the race (string)
+	raceTexture - Path to the texture (icon) used by this race in the Archaeology UI (string)
+	raceItemID - The itemID for the Keystone this race uses (number)
+	numFragmentsCollected - Number of collected fragments for this race (number)
+	numFragmentsRequired - Number of fragments required to solve the current artifact (number)
+	maxFragments - Maximum number of fragments that can be carried (number)
 ]]
 	return "Dwarf", "", 384, 0, 100, 200
 end
@@ -1204,8 +1248,8 @@ ProfessionInfo = {
 function GetProfessionInfo( index )
 	--[[
 	name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset,
-    skillLine, skillModifier, specializationIndex,
-    specializationOffset = GetProfessionInfo(index)
+	skillLine, skillModifier, specializationIndex,
+	specializationOffset = GetProfessionInfo(index)
 	]]
 	return unpack( ProfessionInfo[index] )
 end
@@ -1481,8 +1525,8 @@ end
 function PickupInventoryItem( slotID )
 	-- http://www.wowwiki.com/API_PickupInventoryItem
 	-- If the cursor is empty, then it will attempt to pick up the item in the slotId.
-    -- If the cursor has an item, then it will attempt to equip the item to the slotId and place the previous slotId item (if any) where the item on cursor orginated.
-    -- If the cursor is in repair or spell-casting mode, it will attempt the action on the slotId.
+	-- If the cursor has an item, then it will attempt to equip the item to the slotId and place the previous slotId item (if any) where the item on cursor orginated.
+	-- If the cursor is in repair or spell-casting mode, it will attempt the action on the slotId.
 	if myGear[slotID] then -- There is an item in this slot.
 		onCursor['item'] = myGear[slotID]
 		onCursor['quantity'] = 1
@@ -1611,6 +1655,9 @@ end
 function ClearAchievementComparisonUnit()
 	-- mostly does nothing...
 end
+function SetItemButtonTexture( frame, iconID )
+	frame.iconID = iconID
+end
 function SetRaidTarget( target, iconID )
 	-- sets the raid icon ID on target
 end
@@ -1638,7 +1685,7 @@ function UnitOnTaxi()
 	return settings.unitOnTaxi or false
 end
 function UnitAffectingCombat( unit )
-	return false
+	return isInCombat
 end
 C_UnitAuras = {}
 function C_UnitAuras.GetAuraDataByIndex( unit, index )
@@ -1650,6 +1697,11 @@ function C_UnitAuras.GetAuraDataByIndex( unit, index )
 end
 function UnitClass( who )
 	return Units[who].class, Units[who].classCAPS, Units[who].classIndex
+end
+function UnitCreatureType( who )
+	if Units[who] then
+		return UnitCreatureTypes[Units[who].creatureTypeID], Units[who].creatureTypeID
+	end
 end
 function UnitExists( who )
 	return Units[who] and true or nil
@@ -1664,6 +1716,9 @@ end
 function UnitHealthMax( who )
 	-- http://wowwiki.wikia.com/wiki/API_UnitHealth
 	return Units[who].maxHealth
+end
+function UnitIsPlayer( who )
+	return Units[who] and Units[who].isPlayer or nil
 end
 function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
@@ -1683,7 +1738,9 @@ function UnitLevel( who )
 	return unitLevels[who]
 end
 function UnitName( who )
-	return Units[who].name, Units[who].realm
+	if Units[who] then
+		return Units[who].name, Units[who].realm
+	end
 end
 function UnitPowerMax( who, powerType )
 	-- http://wowwiki.wikia.com/wiki/API_UnitPowerMax
@@ -2051,6 +2108,13 @@ end
 ----------
 C_Item = {}
 C_Item.GetItemCount = GetItemCount
+function C_Item.GetItemID( itemLocation )
+	return 7073
+end
+function C_Item.IsBound( itemLocation )
+	return false
+end
+
 
 ----------
 -- Menu
@@ -2186,12 +2250,6 @@ function C_GossipInfo.GetFriendshipReputation( idIn )
 end
 
 ----------
--- C_Item
-----------
-C_Item = {}
-C_Item.GetItemCount = GetItemCount
-
-----------
 -- Menu
 ----------
 Menu = {}
@@ -2260,6 +2318,96 @@ function C_PlayerInfo.GetPlayerMythicPlusRatingSummary( unitStr )
 	return {["runs"] = {}, ["currentSeasonScore"] = 0 }
 end
 
+----------
+-- C_TooltipInfo
+----------
+C_TooltipInfo = {}
+C_TooltipInfo.data = {
+	["target"] = {
+		["lines"] = {
+			{ ["leftText"] = "LeftText" },
+		}
+	}
+}
+function C_TooltipInfo.GetUnit( target )
+	return C_TooltipInfo.data[target]
+end
+
+----------
+-- C_PetJournal
+----------
+C_PetJournal = {}
+C_PetJournal.data = {
+	["summoned"] = {
+		GUID = 12534
+	},
+}
+function C_PetJournal.GetSummonedPetGUID()
+	return C_PetJournal.data.summoned.GUID
+end
+function C_PetJournal.GetPetInfoByPetID( petID )
+	-- speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique, obtainable = C_PetJournal.GetPetInfoByPetID(petID)
+	-- @TODO: Look this up
+	return 0,"CustomPetName",0,0,0,0,0,"PetName"
+end
+
+----------
+-- C_Calendar
+----------
+C_Calendar = {}
+C_Calendar.monthDays = {31,28,31,30,31,30,31,31,30,31,30,31}  -- no.  this is NOT perfect.... This is for testing only
+function C_Calendar.GetMonthInfo(monthOffset)
+	-- returns info about the current month.
+	-- { firstWeekday, numDays, year, month }
+	local isPos = (monthOffset > 0)
+	local out = {}
+	local today = os.date("*t",os.time())  -- this is date's struct
+	today.month = today.month + monthOffset
+
+	while ( today.month < 1 or today.month > 12 ) do
+		today.month = (isPos and today.month-12 or today.month+12)
+		today.year = (isPos and today.year+1 or today.year-1)
+	end
+
+	-- print(monthOffset)
+	-- test.dump(today)
+	-- print("----")
+
+	out = {firstWeekday=1, numDays=C_Calendar.monthDays[today.month], year=today.year, month=today.month}
+	-- test.dump(out)
+	-- print("=====")
+	return out
+end
+function C_Calendar.GetNumDayEvents(monthOffset, day)
+	return 0
+end
+function C_Calendar.OpenCalendar()
+	--
+end
+
+----------
+-- C_Map
+----------
+C_Map = {}
+function C_Map.GetBestMapForUnit( unitStr )
+	return 5
+end
+function C_Map.GetMapInfo( mapID )
+	return { mapID=5, name="map name", parentMapID=0, mapType=1, flags=2 }
+end
+
+----------
+-- ItemLocation
+----------
+ItemLocation = {}
+function ItemLocation.CreateFromBagAndSlot( self, bagID, slotID )
+	return self
+end
+function ItemLocation.IsValid( self )
+	return true
+end
+
+-----------------------------------------
 -- A SAX parser takes a content handler, which provides these methods:
 --     startDocument()                 -- called at the start of the Document
 --     endDocument()                   -- called at the end of the Document
@@ -2448,12 +2596,18 @@ function ParseTOC( tocFile, useRequire )
 		local tocContents = f:read( "*all" )
 		for line in tocContents:gmatch("([^\n]*)\n?") do
 			if line ~= "" then
-				local luaFile = line:match("([_%a][_%w]*)%.lua")
-				local xmlFile = line:match("([_%a][_%w]*)%.xml")
+				local luaFile = line:match("([%w%._%-\\/]+)%.lua")
+				if luaFile then
+					luaFile = luaFile:gsub("\\", "/") -- normalize to forward slashes
+				end
+				local xmlFile = line:match("([%w%._%-\\/]+)%.xml")
+				if xmlFile then
+					xmlFile = xmlFile:gsub("\\", "/") -- normalize to forward slashes
+				end
 				local hashKey, hashValue = line:match("## ([_%a]*): (.*)")
 
 				if hashKey then
-					addonData[hashKey] = hashValue
+					addonData[hashKey] = string.gsub( hashValue, "[\n\r]", "")
 				elseif luaFile then
 					table.insert(tocFileTable, { "lua", luaFile })
 				elseif xmlFile then
@@ -2501,21 +2655,21 @@ ChatFrame1 = CreateFrame( nil, "ChatFrame1" )
 
 After the addon code has been loaded, the loading process can be followed by registering for various events, listed here in order of firing.
 
-    ADDON_LOADED
-        This event fires whenever an AddOn has finished loading and the SavedVariables for that AddOn have been loaded from their file.
-    SPELLS_CHANGED
-        This event fires shortly before the PLAYER_LOGIN event and signals that information on the user's spells has been loaded and is available to the UI.
-    PLAYER_LOGIN
-        This event fires immediately before PLAYER_ENTERING_WORLD.
-        Most information about the game world should now be available to the UI.
-        All Sizing and Positioning of frames is supposed to be completed before this event fires.
-        AddOns that want to do one-time initialization procedures once the player has "entered the world" should use this event instead of PLAYER_ENTERING_WORLD.
-    PLAYER_ENTERING_WORLD
-        This event fires immediately after PLAYER_LOGIN
-        Most information about the game world should now be available to the UI. If this is an interface reload rather than a fresh log in, talent information should also be available.
-        All Sizing and Positioning of frames is supposed to be completed before this event fires.
-        This event also fires whenever the player enters/leaves an instance and generally whenever the player sees a loading screen
-    PLAYER_ALIVE
-        This event fires after PLAYER_ENTERING_WORLD
-        Quest and Talent information should now be available to the UI
+	ADDON_LOADED
+		This event fires whenever an AddOn has finished loading and the SavedVariables for that AddOn have been loaded from their file.
+	SPELLS_CHANGED
+		This event fires shortly before the PLAYER_LOGIN event and signals that information on the user's spells has been loaded and is available to the UI.
+	PLAYER_LOGIN
+		This event fires immediately before PLAYER_ENTERING_WORLD.
+		Most information about the game world should now be available to the UI.
+		All Sizing and Positioning of frames is supposed to be completed before this event fires.
+		AddOns that want to do one-time initialization procedures once the player has "entered the world" should use this event instead of PLAYER_ENTERING_WORLD.
+	PLAYER_ENTERING_WORLD
+		This event fires immediately after PLAYER_LOGIN
+		Most information about the game world should now be available to the UI. If this is an interface reload rather than a fresh log in, talent information should also be available.
+		All Sizing and Positioning of frames is supposed to be completed before this event fires.
+		This event also fires whenever the player enters/leaves an instance and generally whenever the player sees a loading screen
+	PLAYER_ALIVE
+		This event fires after PLAYER_ENTERING_WORLD
+		Quest and Talent information should now be available to the UI
 ]]
