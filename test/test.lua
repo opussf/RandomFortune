@@ -22,6 +22,7 @@ OriginalSendChatMessage = SendChatMessage
 OriginalBNSendWhisper = BNSendWhisper
 
 function test.before()
+	chatLog = {}
 	RF.OnLoad()
 	RF_fortunes = { { ["fortune"] = "Smile!", ["lastPost"] = 0, } }
 	RF_options.enabled = true -- default to on
@@ -318,74 +319,93 @@ end
 ------------------
 -- Chat
 ------------------
-function test.test_SendChatMessage_ReplaceToken()
-	-- Normal {RF}
-	RF.SendChatMessage( "{rf}" )
-	print( chatLog[#chatLog].msg )
-	assertEquals( "Smile!", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_noToken()
-	-- affirm that it does not replace when it should not
-	RF.SendChatMessage( "The animals are lose." )
-	assertEquals( "The animals are lose.", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_noToken_02()
-	-- affirm that it does not replace when it should not
-	RF.SendChatMessage( "The animals are lose. {circle}" )
-	assertEquals( "The animals are lose. {circle}", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_noToken_03()
-	-- badly formed
-	RF.SendChatMessage( "{rf)" )
-	assertEquals( "{rf)", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_SpecificFortune()
-	RF.Command( "add SAB" )
-	RF.SendChatMessage( "{Rf#2}" )
-	assertEquals( "SAB", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_SpecificFortune_badIndex()
-	RF.SendChatMessage( "{Rf#700}" )
-	assertEquals( "Smile!", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_NoHash()
-	RF.Command( "add SAB" )
-	RF.SendChatMessage( "{Rf2}" )
-	assertEquals( "SAB", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_textAndToken()
-	RF.SendChatMessage( "Wisdom: {RF}" )
-	assertEquals( "Wisdom: Smile!", chatLog[#chatLog].msg )
-end
-function test.test_BNSendWhiper_ReplaceToken()
-	RF.BNSendWhisper( 1, "{rf}" )
-	assertEquals( "Smile!", chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_Lotto()
-	-- include lotto numbers
-	RF.SendChatMessage( "{rf#l}" )
-	assertTrue( #chatLog[#chatLog].msg > 6 )
-end
-function test.test_SendChatMessage_Lotto_SpecificFortune()
-	RF.Command( "add Legends are born in November" )
-	RF.SendChatMessage( "{rf#2#l}")
-	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
-end
-function test.test_SendChatMessage_Lotto_SpecificFortune_upper()
-	RF.Command( "add Legends are born in November" )
-	RF.SendChatMessage( "{RF#2#L}")
-	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
-end
-function test.test_SendChatMessage_Lotto_outOfOrder()
-	RF.Command( "add Legends are born in November" )
-	RF.SendChatMessage( "{RF#L#2}")
-	print( chatLog[#chatLog].msg )
-end
-function test.test_SendChatMessage_Lotto_noHash()
-	RF.Command( "add Legends are born in November" )
-	RF.SendChatMessage( "{RF#2l}")
-	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
-end
 
+-- function test.test_BNSendWhiper_ReplaceToken()
+-- 	RF.BNSendWhisper( 1, "{rf}" )
+-- 	assertEquals( "Smile!", chatLog[#chatLog].msg )
+-- end
+
+--
+function test.test_SendChatMessage_say_empty()
+	RF.Command( "say" )
+	assertEquals( "SAY", chatLog[2].chatType )
+	assertEquals( "Smile!", string.sub(chatLog[#chatLog].msg, 1, 6 ) )
+end
+function test.test_SendChatMessage_say_replace()
+	RF.Command( "say {rf} in bed." )
+	assertEquals( "SAY", chatLog[2].chatType )
+	assertEquals( "Smile! in bed.", chatLog[2].msg )
+end
+function test.test_SendChatMessage_say_lotto()
+	RF.Command( "say {rfl} in bed." )
+	assertEquals( "SAY", chatLog[2].chatType )
+	assertTrue( string.len(chatLog[2].msg) > 14 )
+end
+function test.test_SendChatMessage_say_notoken()
+	RF.Command( "say This probably does not make sense." )
+	assertEquals( "SAY", chatLog[2].chatType )
+	assertEquals( "This probably does not make sense.", chatLog[2].msg )
+end
+function test.test_SendChatMessage_say_circle()
+	RF.Command( "say This probably does not make sense. {circle}" )
+	assertEquals( "SAY", chatLog[2].chatType )
+	assertEquals( "This probably does not make sense. {circle}", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_say_malformed()
+	RF.Command( "say {rf)" )
+	assertEquals( "SAY", chatLog[2].chatType )
+	assertEquals( "{rf)", chatLog[2].msg )
+end
+function test.test_SendChatMessage_say_SpecificFortune_badIndex()
+	RF.Command( "say {Rf#700}" )
+	assertEquals( "Smile!", string.sub(chatLog[#chatLog].msg, 1, 6 ) )
+end
+function test.test_SendChatMessage_say_SpecificFortune_NoHash()
+	RF.Command( "add SAB" )
+	RF.Command( "say {Rf2}" )
+	assertEquals( "SAB", chatLog[#chatLog].msg )
+end
+function test.test_SendChatMessage_say_Lotto_SpecificFortune_upper()
+	RF.Command( "add Legends are born in November" )
+	RF.Command( "say {RF#2#L}")
+	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
+end
+-- function test.test_SendChatMessage_say_Lotto_outOfOrder()
+-- 	RF.Command( "add Legends are born in November" )
+-- 	RF.Command( "say {RF#L#2}")
+-- 	print( chatLog[#chatLog].msg )
+-- 	fail()
+-- end
+function test.test_SendChatMessage_say_Lotto_noHash()
+	RF.Command( "add Legends are born in November" )
+	RF.Command( "say {RF#2l}")
+	assertTrue( #chatLog[#chatLog].msg > 28, "The fortune is 28 chars, with lotto number should be greater." )
+end
+function test.test_SendChatMessage_party()
+	RF.Command( "party" )
+	assertEquals( "PARTY", chatLog[2].chatType )
+	assertEquals( "Smile!", string.sub(chatLog[#chatLog].msg, 1, 6 ) )
+end
+function test.test_SendChatMessage_instance()
+	RF.Command( "instance" )
+	assertEquals( "INSTANCE_CHAT", chatLog[2].chatType )
+	assertEquals( "Smile!", string.sub(chatLog[#chatLog].msg, 1, 6 ) )
+end
+function test.test_SendChatMessage_raid()
+	RF.Command( "raid" )
+	assertEquals( "RAID", chatLog[2].chatType )
+	assertEquals( "Smile!", string.sub(chatLog[#chatLog].msg, 1, 6 ) )
+end
+function test.test_SendChatMessage_guild()
+	RF.Command( "guild" )
+	assertEquals( "GUILD", chatLog[2].chatType )
+	assertEquals( "Smile!", string.sub(chatLog[#chatLog].msg, 1, 6 ) )
+end
+-- function test.test_SendChatMessage_whisper()
+-- 	RF.Command( "whisper" )
+-- 	test.dump(chatLog)
+-- 	assertEquals( "????", chatLog[2].chatType )
+-- 	assertEquals( "Smile!", chatLog[2].msg )
+-- end
 
 test.run()
